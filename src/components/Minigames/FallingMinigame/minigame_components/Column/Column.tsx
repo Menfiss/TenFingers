@@ -1,27 +1,19 @@
 
 import style from "./Column.module.css";
-import { Tile } from "../../FallingMinigame";
+import { ITile } from "../../FallingMinigame";
+import Tile from "../Tile/Tile";
 
 interface props{
-    tiles: Tile[];
+    tiles: ITile[];
     index: number;
 }
 const Column = (props:props) => {
-    let stylee: React.CSSProperties ={
-        position: "relative",
-        top: "-10vh",
-        width: "10vw",
-        height: "10vh",
-        border: "1px solid blue",
-        color: "white",
-    };
+   
     return (
-        <div className={style.coll}>
+        <div className={style.coll} >
             {props.tiles.map((tile, index) => {
                 if (tile.coll === props.index) {
-                    stylee.top = tile.pos;
-                    console.log(stylee.top);
-                    return <div key={index} style={stylee}>{tile.char}</div>;
+                    return <Tile key={index} pos={tile.pos} char={tile.char} />;
                 }
             })}
         </div>

@@ -4,7 +4,7 @@ import TypingText from "../components/Minigames/TypingText/TypingText";
 export default function Home() {
   return (
    <>
-    {/* <TypingText text="array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array array"></TypingText> */}
+    {/* <TypingText text="zivot isnt okay"></TypingText> */}
     <FallingMinigame />
    </>
   );

@@ -4,4 +4,5 @@
     width: 80vw;
     border: 1px solid white;
     object-fit: contain;
+    overflow: hidden;
 }
