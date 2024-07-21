@@ -1,0 +1,7 @@
+.box{
+    display: flex;
+    height: 100vh;
+    width: 80vw;
+    border: 1px solid white;
+    object-fit: contain;
+}

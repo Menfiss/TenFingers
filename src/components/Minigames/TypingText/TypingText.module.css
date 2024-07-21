@@ -1,0 +1,18 @@
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 45vh;
+    /* margin-left: 15vw;
+    margin-right: 15vw; */
+    /* gap: 5px; */
+}
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    
+
+}
