@@ -6,3 +6,18 @@
     object-fit: contain;
     overflow: hidden;
 }
+
+.line{
+    position: absolute;
+    border: 1px solid red;
+    width: 80vw;
+    top: 80vh;
+}
+
+.goodBox{
+    position: absolute;
+    width: 80vw;
+    height: 20vh;
+    top: 70vh;
+    border: 1px solid white;
+}
