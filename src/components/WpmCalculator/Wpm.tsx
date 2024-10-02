@@ -10,7 +10,6 @@ const Wpm = (props:props) => {
 
     const calculateWPM = (startTime:number, endTime:number, words:number) => {
         let timeElapsed = (endTime - startTime) / 60000;
-        console.log(words);
         return Math.round(words / timeElapsed);
       }
     

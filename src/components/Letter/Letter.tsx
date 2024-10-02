@@ -1,5 +1,3 @@
-"use client"
-import { useState } from "react";
 import styles from "./Letter.module.css";
 
 interface props{
