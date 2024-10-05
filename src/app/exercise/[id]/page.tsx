@@ -8,7 +8,7 @@ const exercise = async({params} : any) =>{
     let nextExeStarsCt = 0;
     if(data !== undefined && data[0].section_id !== null){
         nextExerciseID = await NextExercise(data[0].excercise_order, data[0].section_id);
-        nextExeStarsCt = typeof(nextExerciseID) !== "undefined" ?  await GetUserExercise(nextExerciseID):0;
+        nextExeStarsCt = nextExerciseID !== undefined ?  await GetUserExercise(nextExerciseID):0;
         
     }
     

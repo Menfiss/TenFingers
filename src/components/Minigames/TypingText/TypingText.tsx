@@ -6,6 +6,7 @@ import styles from "./TypingText.module.css";
 // backspace limited
 // backwards
 // timer
+// health
 
 //kriteria
 
@@ -14,7 +15,10 @@ import styles from "./TypingText.module.css";
 interface props{
     text:string
     onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number) => void
-    backspace:boolean 
+    backspace:boolean
+    survival:number
+    timer:number //in milliseconds
+    backwards:boolean
 }
 
 const TypingText = (props:props) => {
@@ -118,7 +122,6 @@ const TypingText = (props:props) => {
         setIsStarted(true);
         setStartTime(new Date().getTime());
       }
-
       setTime(new Date().getTime());
 
       if(event.key === currentLetter){
@@ -178,13 +181,11 @@ const TypingText = (props:props) => {
     useEffect(() => {
       if(isFinished){
         window.removeEventListener('keydown', handleKeyDown);
-        console.log(totalMistakes);
-        console.log(letterArray.length);
         props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, ((letterArray.length - totalMistakes)/ letterArray.length) *100, totalTime/consistencyArray.length);
       }
     },[isFinished]);
   
-    return (
+    return (//make render component
       <>
       <div className={styles.box}>
         

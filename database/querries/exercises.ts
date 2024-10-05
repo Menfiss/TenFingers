@@ -49,6 +49,6 @@ export async function GetUserExercise(id:string){
 
     const { data, error } = await supabase.from('user_exercises').select("stars").eq("exercise_id",id);
 
-    if(error || typeof(data) === "undefined") return 0;
+    if(error || typeof(data[0].stars) === "undefined") return 0;
     return data[0].stars;
 }
