@@ -43,7 +43,7 @@ const ExcersiseWrapper = (props:props) => {
 
     return (
         <div>
-            <TypingText key={resetCt} onCompletion={onCompletion} text={props.text} backspace={true}></TypingText>
+            <TypingText key={resetCt} onCompletion={onCompletion} text={props.text} backspace={false} survival={3} timer={100} backwards={true}></TypingText>
 
             {finishTime !== 0 ? 
             <div className="absolute w-1/2 h-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">

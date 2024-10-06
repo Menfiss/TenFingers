@@ -2,29 +2,24 @@
 import { useEffect, useState, useMemo } from "react";
 import Letter from "../../Letter/Letter";
 import styles from "./TypingText.module.css";
-
-// backspace limited
-// backwards
-// timer
-// health
+import Timer from "../../Timer/Timer";
 
 //kriteria
-
-
+//fix raw wpm and accuracy
 
 interface props{
     text:string
     onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number) => void
     backspace:boolean
-    survival:number
-    timer:number //in milliseconds
+    survival:number // health counter
+    timer:number //in seconds
     backwards:boolean
 }
 
 const TypingText = (props:props) => {
     const [letterClasses, setLetterClasses] = useState<string[]>(Array(props.text.length).fill('undiscovered')); //array of classes for each letter
-    const [currentIndex, setCurrentIndex] = useState(0); //current index of the letter that the user is typing
-    const [currentLetter, setCurrentLetter] = useState(props.text[0]); //current letter that the user is typing
+    const [currentIndex, setCurrentIndex] = useState(props.backwards ? props.text.length-1:0); //current index of the letter that the user is typing
+    const [currentLetter, setCurrentLetter] = useState(props.backwards ? props.text[props.text.length-1]:props.text[0]); //current letter that the user is typing
     const [isFinished, setIsFinished] = useState(false);
     const [startTime, setStartTime] = useState(0);
     const [isStarted, setIsStarted] = useState(false);
@@ -34,12 +29,13 @@ const TypingText = (props:props) => {
     const [currentRow, setCurrentRow] = useState(1); 
     const [rowWidth, setRowWidth] = useState(50); // max number of letters in a row
     const [totalMistakes, setTotalMistakes] = useState(0);
+    const [hearts, setHearts] = useState(props.survival);
 
     const letterArray = useMemo(() => props.text.split(''), [props.text]);
     
 
     //switches classes of letters
-    const updateLetterClasses = (newIndex:number, newClass:string, oldIndex:number, oldClass:string) => {
+    const updateLetterClasses = (oldIndex:number, oldClass:string, newIndex:number, newClass:string) => {
       setLetterClasses(prevClasses => {
         const newClasses = [...prevClasses];
         newClasses[newIndex] = newClass;
@@ -53,7 +49,7 @@ const TypingText = (props:props) => {
       let words = 0;
       let wrongCounter = 0;
       for(let i = 0; i < letterArray.length; i++){
-        if(letterClasses[i] === "wrong" && letterArray[i] !== " "){
+        if(letterClasses[i] != "correct" && letterArray[i] !== " "){
           wrongCounter++;
         }
         else if((letterArray[i] === " " || i === letterArray.length -1) && wrongCounter === 0){
@@ -69,11 +65,32 @@ const TypingText = (props:props) => {
     const calculateMistakes = () =>{
       let mistakes = 0;
       for(let i = 0; i < letterArray.length; i++){
-        if(letterClasses[i] === "wrong"){
+        if(letterClasses[i] != "correct"){
           mistakes++;
         }
       }
       return mistakes;
+    }
+
+    const renderHearts = () =>{
+      const prepareHeartsArray = () =>{
+        let heartsArray = [];
+        for(let i = 0; i < hearts; i++){
+          heartsArray.push("♥");
+        }
+        for(let i = 0; i < props.survival - hearts; i++){
+          heartsArray.push("x");
+        }
+        return heartsArray;
+      }
+      let heartsArray = useMemo(() => prepareHeartsArray(),[hearts]);
+      return( 
+        <div className="flex">
+          {heartsArray.map((heart, index) => (
+            <div className="mx-px" key={index}>{heart}</div>
+          ))}
+        </div>
+      );
     }
 
     //prepares the rows of the text
@@ -105,13 +122,18 @@ const TypingText = (props:props) => {
         rows.push(letterArray.length -1);
       }
       rows[rows.length - 1] += 1;
+
+      if (props.backwards && rows.length > 5){
+        setCurrentRow(rows.length - 4);
+      }
+
       return rows;
     }
     const rows:number[] = useMemo(() => prepareRows(),[rowWidth,props.text]) //index array 0-> element1 first row, element1->element2 second row etc.
     
-
     // this runs every time a key is pressed
     const handleKeyDown = (event:KeyboardEvent) => {
+      const addNumber = props.backwards ? -1 : 1;
 
       if(isStarted){
         let timeElapsed = new Date().getTime() - time;
@@ -125,39 +147,46 @@ const TypingText = (props:props) => {
       setTime(new Date().getTime());
 
       if(event.key === currentLetter){
-        updateLetterClasses(currentIndex, "correct", currentIndex + 1, "current");
-        setCurrentLetter(letterArray[currentIndex + 1]);
-        setCurrentIndex(prevIndex => prevIndex + 1);
-        }
-        else if(event.key === "Backspace"){
-          if(currentIndex === 0 || !props.backspace){
-            return;
-          }
-          updateLetterClasses(currentIndex, "undiscovered", currentIndex - 1, "current");
-          setCurrentLetter(letterArray[currentIndex - 1]);
-          setCurrentIndex(prevIndex => prevIndex - 1);
-        }
-        else if(event.key === "Alt" || event.key === "Control" || event.key === "Shift" || event.key === "AltGraph" || event.key === "CapsLock"){
+        updateLetterClasses(currentIndex, "correct", currentIndex + addNumber, "current");
+        setCurrentLetter(letterArray[currentIndex + addNumber]);
+        setCurrentIndex(prevIndex => prevIndex + addNumber);
+      }
+      else if(event.key === "Backspace"){
+        if(currentIndex === 0 || !props.backspace || currentIndex === letterArray.length -1){
           return;
         }
-        else if (event.key !== currentLetter){
-          updateLetterClasses(currentIndex, "wrong", currentIndex + 1, "current");
-          setCurrentLetter(letterArray[currentIndex + 1]);
-          setCurrentIndex(prevIndex => prevIndex + 1);
-          setTotalMistakes(prevMistakes => prevMistakes + 1);
-          console.log("a");
-        }
+        updateLetterClasses(currentIndex, "undiscovered", currentIndex - addNumber, "current");
+        setCurrentLetter(letterArray[currentIndex - addNumber]);
+        setCurrentIndex(prevIndex => prevIndex - addNumber);
+      }
+      else if(event.key === "Alt" || event.key === "Control" || event.key === "Shift" || event.key === "AltGraph" || event.key === "CapsLock"){
+        return;
+      }
+      else if (event.key !== currentLetter){
+        updateLetterClasses(currentIndex, "wrong", currentIndex + addNumber, "current");
+        setCurrentLetter(letterArray[currentIndex + addNumber]);
+        setCurrentIndex(prevIndex => prevIndex + addNumber);
+        setTotalMistakes(prevMistakes => prevMistakes + 1);
+        props.survival > 0 ? setHearts(prevHearts => prevHearts - 1):null;
+        hearts === 1 ? setIsFinished(true):null;
+      }
 
-        if(currentIndex === letterArray.length - 1){
-          setIsFinished(true);         
-        }
+      //check if on end of the excersise
+      if(!props.backwards && currentIndex === letterArray.length - 1){
+        setIsFinished(true);
+      }
+      else if(props.backwards && currentIndex === 0){
+        setIsFinished(true);
+      }
     };
+
+    
   
     // set the first letter to be the current letter on Start
     useEffect(() => {
       setLetterClasses(prevClasses => {
         const newClasses = [...prevClasses];
-        newClasses[0] = "current";
+        props.backwards ? newClasses[newClasses.length-1] = "current":newClasses[0] = "current";
         return newClasses;
       });
     }, []);
@@ -165,12 +194,25 @@ const TypingText = (props:props) => {
     //manages current row and key down event
     useEffect(() => {
       window.addEventListener('keydown', handleKeyDown);
-      if(currentIndex > rows[currentRow] && currentRow+4 < rows.length){
-        setCurrentRow(prevRow => prevRow + 1);
+
+      
+      if(props.backwards){
+        if(currentIndex < rows[currentRow] && currentRow !== 1){
+          setCurrentRow(prevRow => prevRow - 1);
+        }
+        else if(currentIndex >= rows[currentRow + 1] && currentRow < rows.length - 4){
+          setCurrentRow(prevRow => prevRow + 1);
+        }
       }
-      else if(currentIndex <= rows[currentRow - 1] && currentRow !== 1){
-        setCurrentRow(prevRow => prevRow - 1);
+      else{
+        if(currentIndex > rows[currentRow] && currentRow+4 < rows.length){
+          setCurrentRow(prevRow => prevRow + 1);
+        }
+        else if(currentIndex <= rows[currentRow - 1] && currentRow !== 1){
+          setCurrentRow(prevRow => prevRow - 1);
+        }
       }
+      
         
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
@@ -181,13 +223,22 @@ const TypingText = (props:props) => {
     useEffect(() => {
       if(isFinished){
         window.removeEventListener('keydown', handleKeyDown);
-        props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, ((letterArray.length - totalMistakes)/ letterArray.length) *100, totalTime/consistencyArray.length);
+
+        let accuracy = totalMistakes > letterArray.length ? 0 : ((letterArray.length - totalMistakes)/ letterArray.length) *100;
+
+        props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length);
       }
     },[isFinished]);
   
     return (//make render component
       <>
       <div className={styles.box}>
+        <div className="flex w-6/12 justify-around">
+          {props.survival > 0 ? renderHearts():null}
+          {props.timer > 0 ? <Timer time={props.timer} start={isStarted} setFinish={setIsFinished}/> : null}
+          {props.backspace ? null : <div>No Backspace</div>}
+
+        </div>
         
         <div className={styles.row}>
           {letterArray.slice(rows[currentRow - 1], rows[currentRow]).map((letter, index) => ( 
