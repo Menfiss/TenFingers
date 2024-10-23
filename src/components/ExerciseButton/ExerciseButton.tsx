@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import path from "path/posix";
+
 
 interface props{
     unlocked: boolean;

@@ -34,28 +34,138 @@ export type Database = {
   }
   public: {
     Tables: {
+      backspace_type_exe: {
+        Row: {
+          backspace: boolean
+          id: string
+        }
+        Insert: {
+          backspace: boolean
+          id?: string
+        }
+        Update: {
+          backspace?: boolean
+          id?: string
+        }
+        Relationships: []
+      }
+      backwards_type_exe: {
+        Row: {
+          backwards: boolean
+          id: string
+        }
+        Insert: {
+          backwards: boolean
+          id?: string
+        }
+        Update: {
+          backwards?: boolean
+          id?: string
+        }
+        Relationships: []
+      }
+      exercise_types: {
+        Row: {
+          backspace_id: string | null
+          backwards_id: string | null
+          exercise_id: string
+          id: string
+          survival_id: string | null
+          timer_id: string | null
+        }
+        Insert: {
+          backspace_id?: string | null
+          backwards_id?: string | null
+          exercise_id?: string
+          id?: string
+          survival_id?: string | null
+          timer_id?: string | null
+        }
+        Update: {
+          backspace_id?: string | null
+          backwards_id?: string | null
+          exercise_id?: string
+          id?: string
+          survival_id?: string | null
+          timer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercise_types_backspace_id_fkey"
+            columns: ["backspace_id"]
+            isOneToOne: false
+            referencedRelation: "backspace_type_exe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercise_types_backwards_id_fkey"
+            columns: ["backwards_id"]
+            isOneToOne: false
+            referencedRelation: "backwards_type_exe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercise_types_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercise_types_survival_id_fkey"
+            columns: ["survival_id"]
+            isOneToOne: false
+            referencedRelation: "survival_type_exe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercise_types_timer_id_fkey"
+            columns: ["timer_id"]
+            isOneToOne: false
+            referencedRelation: "timer_type_exe"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       exercises: {
         Row: {
           content: string
-          excercise_order: number
           id: string
+          next_exercise: string | null
+          prev_exercise: string | null
           section_id: string | null
         }
         Insert: {
           content: string
-          excercise_order: number
           id?: string
+          next_exercise?: string | null
+          prev_exercise?: string | null
           section_id?: string | null
         }
         Update: {
           content?: string
-          excercise_order?: number
           id?: string
+          next_exercise?: string | null
+          prev_exercise?: string | null
           section_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "exercises_section_id_fkey"
+            foreignKeyName: "exercises_next_exercise_fkey"
+            columns: ["next_exercise"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercises_prev_exercise_fkey"
+            columns: ["prev_exercise"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercises_section_id_fkey1"
             columns: ["section_id"]
             isOneToOne: false
             referencedRelation: "sections"
@@ -67,17 +177,65 @@ export type Database = {
         Row: {
           id: string
           name: string
-          section_order: number
+          next_section: string | null
+          prev_section: string | null
         }
         Insert: {
           id?: string
           name: string
-          section_order: number
+          next_section?: string | null
+          prev_section?: string | null
         }
         Update: {
           id?: string
           name?: string
-          section_order?: number
+          next_section?: string | null
+          prev_section?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sections_next_section_fkey"
+            columns: ["next_section"]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sections_prev_section_fkey"
+            columns: ["prev_section"]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      survival_type_exe: {
+        Row: {
+          health: number
+          id: string
+        }
+        Insert: {
+          health: number
+          id?: string
+        }
+        Update: {
+          health?: number
+          id?: string
+        }
+        Relationships: []
+      }
+      timer_type_exe: {
+        Row: {
+          id: string
+          time_sec: number
+        }
+        Insert: {
+          id?: string
+          time_sec: number
+        }
+        Update: {
+          id?: string
+          time_sec?: number
         }
         Relationships: []
       }
@@ -148,15 +306,7 @@ export type Database = {
           nickname?: string | null
           role?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -254,4 +404,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

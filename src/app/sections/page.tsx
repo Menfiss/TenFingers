@@ -1,79 +1,79 @@
 
-import Link from "next/link";
 import { ExercisesQuerry, GetUserExercises } from "../../../database/querries/exercises";
-import ExerciseButton from "@/components/ExerciseButton/ExerciseButton";
+import ExerciseSection from "@/components/ExerciseSection/ExerciseSection";
 
-
-export const revalidate = 300;
-export default async function Sections() {
+// export const revalidate = 300;
+export default async function Sections() {    
     const data = await ExercisesQuerry();
     const userExcersiseData = await GetUserExercises();
 
     const renderPage = () =>{
         if(!data) return;
-
-        let unlocked = true;
-        let prevUnlocked = true;
-        //make a excercice component
-        // make a function that will find the number of stars in the userExcersiseData by excersise id --DONE--
-        // possible optimization make a variable so that you dont have to check each excercise with each completed excercise two times something like [[],[],[]] where each sub array is a section and each element is a number of stars and id
-
-        function getStarsForExc(id:string) : number{
-            // get the number of stars for a excercise by id
-            if(!userExcersiseData) return 0;
-            for(let i = 0; i < userExcersiseData.length; i++){
-                if(userExcersiseData[i].exercise_id === id){
-                    return userExcersiseData[i].stars;
-                }
-            }
-            return 0;
-        }
-
-        function getStarsForSection(index:number){
-            //iterate exc in section and get the number of stars for each completed exc
-            if(!data) return;
-            let totalStars = 0;
-            for(let i = 0; i < data[index].exercises.length; i++){
-                totalStars += getStarsForExc(data[index].exercises[i].id);
-            }
-            return totalStars;
-        }
-
-        function checkIfUnlocked(stars:number){
-            //check if the excercise is unlocked
-            if(stars <= 1){
-                if(prevUnlocked){
-                    unlocked = true;
-                    prevUnlocked = false;
-                }
-                else{
-                    unlocked = false;
-                }
-            }
-            else{
-                prevUnlocked = true;
-                unlocked = true;
-            }
-        }
         
+        function getuserExercisesSubArray(section_id:string){
+            if(!userExcersiseData) return [];
+            let subArray:{stars:number, exercise_id:string}[] = [];
+            for(let i = 0; i < userExcersiseData.length; i++){
+                if(userExcersiseData[i].exercises?.section_id === section_id){
+                    subArray.push(userExcersiseData[i]);
+                }
+            }
+            return subArray;
+        }
+        function checkIfLastExerciseCompleted(prevSectionIndex:number,subArray:{stars:number, exercise_id:string}[]){
+            if(!data) return false;
+            for(let i = 0; i < data[prevSectionIndex].exercises.length; i++){
+                if(data[prevSectionIndex].exercises[i].next_exercise === null){
+                    for(let j = 0; j < subArray.length; j++){
+                        if(subArray[j].exercise_id === data[prevSectionIndex].exercises[i].id && subArray[j].stars > 1){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        function getSectionIndex(section_id:string | null){
+            if(!data) return -1;
+            for(let i = 0; i < data.length; i++){
+                if(data[i].id === section_id){
+                    return i;
+                }
+            }
+            return -1;
+        }
+        function getOrderedSections(){
+            if(!data) return [-1];
+            let orderedSections:number[] = [];
+            for(let i = 0; i < data.length; i++){
+                if(data[i].prev_section === null){
+                    orderedSections.push(i);
+                    break;
+                }
+            } 
+
+            for(let i = 0; i < data.length; i++){
+                if(data[orderedSections[i]].next_section === null){
+                    break;
+                }else{
+                    orderedSections.push(getSectionIndex(data[orderedSections[i]!].next_section));
+                }
+            }
+            return orderedSections;
+
+            
+            
+        }
+        const orderedSections = getOrderedSections();
+
+        let subArray = [];
         return(
             <div>
-                {data.map((section,index) => {
+                {orderedSections.map((section_index:number,index) => {
+                    subArray.push(getuserExercisesSubArray(data[section_index].id));
                     return(
                         <div key={index}>
-                            <div>
-                                <div>{section.name}</div>
-                                <div>{getStarsForSection(index)}</div>
-                            </div>
-                            {section.exercises.map((exc,index) => {
-                                let stars = getStarsForExc(exc.id);
-                               checkIfUnlocked(stars);
-                                return(
-                                    <div key={index}>
-                                        <ExerciseButton unlocked={unlocked} stars={stars} id={exc.id}/>
-                                    </div>
-                                );
-                            })}
+                            <ExerciseSection section={data[section_index]} userExercises={subArray[index]} firstExerciseUnlocked={section_index === 0 ? true : checkIfLastExerciseCompleted(orderedSections[index-1],subArray[index-1])}></ExerciseSection>
                         </div>
                     );
                 })}

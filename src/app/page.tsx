@@ -2,7 +2,6 @@ import FallingMinigame from "@/components/Minigames/FallingMinigame/FallingMinig
 import IdleMinigame from "../components/Minigames/IdleMinigame/IdleMinigame";
 
 export default function Home() {
-
   return (
    <>
     {/* <FallingMinigame /> */}

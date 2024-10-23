@@ -9,7 +9,7 @@ import Timer from "../../Timer/Timer";
 
 interface props{
     text:string
-    onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number) => void
+    onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) => void
     backspace:boolean
     survival:number // health counter
     timer:number //in seconds
@@ -224,9 +224,10 @@ const TypingText = (props:props) => {
       if(isFinished){
         window.removeEventListener('keydown', handleKeyDown);
 
-        let accuracy = totalMistakes > letterArray.length ? 0 : ((letterArray.length - totalMistakes)/ letterArray.length) *100;
+        let unfinishedWords = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
+        let accuracy = totalMistakes > letterArray.length ? 0 : ((letterArray.length - (totalMistakes + unfinishedWords))/ letterArray.length) *100;
 
-        props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length);
+        props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
       }
     },[isFinished]);
   
