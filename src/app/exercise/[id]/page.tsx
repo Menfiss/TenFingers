@@ -1,23 +1,17 @@
 import ExcersiseWrapper from "@/components/ExcersiseWrapper/ExcersiseWrapper";
-import {ExerciseContentQuerry, GetUserExercise, NextExercise} from "../../../../database/querries/exercises";
+import {ExerciseContentQuerry, ExerciseCriteriaQuerry, GetStars, GetUserExercise} from "../../../../database/querries/exercises";
 
 const exercise = async({params} : any) =>{
     const data = await ExerciseContentQuerry(params.id); //get excersise by id in url
+    const exerciseCriteria = await ExerciseCriteriaQuerry(params.id); //get excersise criteria by id in url
+    let userExercise = await GetUserExercise(params.id); //get user excersise by id in url
+    const prevExeStars = data && data[0].exercises?.next_exercise ? await GetStars(data[0].exercises?.next_exercise):null; //get stars of previous excersise
+    
+    
 
-    // let nextExerciseID; // try to get another excersise id in the same section
-    // let nextExeStarsCt = 0;
-    // if(data !== undefined && data[0].section_id !== null){
-    //     nextExerciseID = await NextExercise(data[0].excercise_order, data[0].section_id);
-    //     nextExeStarsCt = nextExerciseID !== undefined ?  await GetUserExercise(nextExerciseID):0;
-        
-    // }
-    
-    
     return(
         <div>
-            {/* <ExcersiseWrapper text={data !== undefined ? data[0].content: "Loading..."} nextExerciseID={nextExerciseID !== undefined ? nextExerciseID:""} nextExerciseStarsCt={nextExeStarsCt}></ExcersiseWrapper> */}
-            <ExcersiseWrapper data={data? data[0]:null}></ExcersiseWrapper>
-
+            <ExcersiseWrapper exerciseID={params.id} data={data? data[0]:null} exerciseCriteria={exerciseCriteria} userExercise={userExercise} nextExerciseStars={prevExeStars && prevExeStars[0] ? prevExeStars[0].stars:0} ></ExcersiseWrapper>
         </div>
     )
 }

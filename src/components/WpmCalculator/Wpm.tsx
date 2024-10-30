@@ -8,12 +8,6 @@ interface props{
 }
 const Wpm = (props:props) => {
 
-    const calculateWPM = (startTime:number, endTime:number, words:number) => {
-        let timeElapsed = (endTime - startTime) / 60000;
-        return Math.round(words / timeElapsed);
-      }
-    
-    
     return (
         <div>
             {calculateWPM(props.startTime, props.endTime, props.numOfWords)}
@@ -22,3 +16,7 @@ const Wpm = (props:props) => {
 }
 
 export default Wpm;
+
+export function calculateWPM(startTime:number, endTime:number, words:number){
+    return Math.round(words / ((endTime - startTime) / 60000));
+}

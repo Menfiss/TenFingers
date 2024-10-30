@@ -1,8 +1,10 @@
 
 import { ExercisesQuerry, GetUserExercises } from "../../../database/querries/exercises";
 import ExerciseSection from "@/components/ExerciseSection/ExerciseSection";
+import { revalidatePath } from 'next/cache'
+revalidatePath('/blog/[slug]', 'page')
 
-// export const revalidate = 300;
+export const revalidate = 0;
 export default async function Sections() {    
     const data = await ExercisesQuerry();
     const userExcersiseData = await GetUserExercises();

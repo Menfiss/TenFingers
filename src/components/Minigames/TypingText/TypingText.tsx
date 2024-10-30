@@ -152,12 +152,13 @@ const TypingText = (props:props) => {
         setCurrentIndex(prevIndex => prevIndex + addNumber);
       }
       else if(event.key === "Backspace"){
-        if(currentIndex === 0 || !props.backspace || currentIndex === letterArray.length -1){
+        if((currentIndex === 0 && !props.backwards) || !props.backspace || (currentIndex === letterArray.length-1 && props.backwards)){
           return;
         }
         updateLetterClasses(currentIndex, "undiscovered", currentIndex - addNumber, "current");
         setCurrentLetter(letterArray[currentIndex - addNumber]);
         setCurrentIndex(prevIndex => prevIndex - addNumber);
+        return;
       }
       else if(event.key === "Alt" || event.key === "Control" || event.key === "Shift" || event.key === "AltGraph" || event.key === "CapsLock"){
         return;
@@ -225,7 +226,7 @@ const TypingText = (props:props) => {
         window.removeEventListener('keydown', handleKeyDown);
 
         let unfinishedWords = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
-        let accuracy = totalMistakes > letterArray.length ? 0 : ((letterArray.length - (totalMistakes + unfinishedWords))/ letterArray.length) *100;
+        let accuracy = totalMistakes > letterArray.length ? 0 : Math.round(((letterArray.length - (totalMistakes + unfinishedWords))/ letterArray.length) *100);
 
         props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
       }
