@@ -3,23 +3,27 @@ import { useEffect, useState, useRef } from "react";
 import Column from "./minigame_components/Column/Column";
 import style from "./FallingMinigame.module.css";
 
+interface props{
+  onCompletion: (score:number) => void;
+}
+
 export interface ITile {
     char: string;
     coll: number;
     pos: number;
-    spawnTime: number;
 }
-const FallingMinigame = () => {
+const FallingMinigame = (props:props) => {
     const [tiles, setTiles] = useState<ITile[]>([]);
     const tilesRef = useRef(tiles);
-    const [speed, setSpeed] = useState<number>(1);
-    const [spawnRate, setSpawnRate] = useState<number>(750);
+    const [speed, setSpeed] = useState<number>(10);
+    const [speedIncrease, setSpeedIncrease] = useState<number>(10000); //time after which the speed increases
+    const [spawnRate, setSpawnRate] = useState<number>(1000);
     const [gameEnded, setGameEnded] = useState<boolean>(false);
     const [score, setScore] = useState<number>(0);
     const [combo, setCombo] = useState<number>(1);
     const requestRef = useRef<number>();
-
     
+
     // figures out the collumn number based on the key pressed
     const getCollNum = (key:string) => {
 
@@ -45,7 +49,6 @@ const FallingMinigame = () => {
       }
   }
 
-  const level:ITile[] = [{char: "a", coll:getCollNum("a"), pos:1, spawnTime:0.4}, {char: "s", coll:getCollNum("s"), pos:1, spawnTime:1}, {char: "d", coll:getCollNum("d"), pos:1, spawnTime:2}, {char: "f", coll:getCollNum("f"), pos:1, spawnTime:4}, {char: "g", coll:getCollNum("g"), pos:1, spawnTime:5}, {char: "h", coll:getCollNum("h"), pos:1, spawnTime:6}, {char: "j", coll:getCollNum("j"), pos:1, spawnTime:7}, {char: "k", coll:getCollNum("k"), pos:1, spawnTime:8}, {char: "l", coll:getCollNum("l"), pos:1, spawnTime:9}, {char: "p", coll:getCollNum("p"), pos:1, spawnTime:10}];
 
     //sets the tilesRef to the current tiles
     useEffect(() => {
@@ -54,11 +57,16 @@ const FallingMinigame = () => {
     
     //updates the position of the tiles
       useEffect(() => {
-        const updateTiles = () => {
+        let lastTime = performance.now();
+
+        const updateTiles = (time:number) => {
+          const deltaTime = (time - lastTime) / 1000; // Calculate time difference in seconds
+          lastTime = time;
+
           setTiles((prevTiles) => {
             const newTiles = [...prevTiles];
             newTiles.map((tile, index) => {
-                tile.pos += (speed * 0.1);
+                tile.pos += (speed * deltaTime);
                 if (tile.pos >= 100) {
                     newTiles.splice(index, 1);
                     setGameEnded(true);
@@ -74,100 +82,52 @@ const FallingMinigame = () => {
       }, [speed]);
 
     //increases the speed every 10 seconds
-    useEffect(() => {
-        const speedInterval = setInterval(() => {
-          setSpeed((prevSpeed) => prevSpeed + 0.1);
-        }, 10000); 
+    const speedInterval =() => {
+      setSpeed((prevSpeed) => prevSpeed + 0.1);
+    }; 
     
-        return () => clearInterval(speedInterval);
-      }, []);
+    // spawns a new tile every spawnRate ms
+    const spawnInterval = () => {
+      let rand = Math.floor(Math.random() * 8) + 1;
+      let randChar = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 
-    //spawn tiles in level
-    const currTile = useRef(0);
-    const currTime = useRef(0);
-    const SpawnLevelInterval = () => {
-      currTime.current = currTime.current + 0.1;
-      while(true){
-        if (level[currTile.current].spawnTime <= currTime.current) 
-        {
-          console.log(currTile.current)
-
-          setTiles(prevTiles => {
-            const newTiles = [...prevTiles];
-            newTiles.push({char: level[currTile.current].char, coll: level[currTile.current].coll, pos: -10, spawnTime: level[currTile.current].spawnTime});
-            return newTiles;
-          });
-          currTile.current++;
-        }
-        else{
-          break;
-        }
-        if (currTile.current >= level.length) {
-          currTile.current = 0;
-          currTime.current = 0;
-          break;
-        }
-      }
+      setTiles(prevTiles => {
+          const newTiles = [...prevTiles];
+          newTiles.push({char: randChar, coll: getCollNum(randChar), pos: -10});
+          return newTiles;
+      });
     }
 
-    //spawns a new tile every spawnRate ms
-    // const SpawnInterval = () => {
-    //   let rand = Math.floor(Math.random() * 8) + 1;
-    //         let randChar = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-
-    //         setTiles(prevTiles => {
-    //             const newTiles = [...prevTiles];
-    //             newTiles.push({char: randChar, coll: getCollNum(randChar), pos: -10});
-    //             return newTiles;
-    //         });
-    // }
-
-    //--------------------------------------------------------------------------------
-    // const intervalIdRef = useRef(null);
-
-    // const startSpawnInterval = () => {
-    //   if (!intervalIdRef.current) {
-    //     intervalIdRef.current = setInterval(() => SpawnInterval, spawnRate);
-    //   }
-    // }
-
-    // const stopSpawnInterval = () => {
-    //   if (intervalIdRef.current) {
-    //     clearInterval(intervalIdRef.current);
-    //     intervalIdRef.current = null;
-    //   }
-    // }
-
-
-
+    // handles the spawn and speed intervals
     useEffect(() => {
 
-        // const Interval = setInterval( SpawnInterval, spawnRate);
-        const Interval = setInterval( SpawnLevelInterval, 100);
+        const SpawnInterval = setInterval( spawnInterval, spawnRate);
+        const SpeedInterval = setInterval( speedInterval, speedIncrease);
 
         const handleVisibilityChange = () => {
           if (document.hidden) {
-            clearInterval(Interval);
+            clearInterval(SpawnInterval);
+            clearInterval(SpeedInterval);
           }
           else {
-            // setInterval(SpawnInterval, spawnRate);
-            setInterval(SpawnLevelInterval, 100);
+            setInterval(spawnInterval, spawnRate);
+            setInterval(speedInterval, speedIncrease);
           }
         }
         
         document.addEventListener('visibilitychange', handleVisibilityChange);
 
         return () => {
-          clearInterval(Interval);
+          clearInterval(SpawnInterval);
+          clearInterval(SpeedInterval);
           document.removeEventListener('visibilitychange', handleVisibilityChange);
         }
         
-    },[]);
+    },[spawnRate,speed]);
     
     const handleScore = (position:number) => {
       if (position >= 70 && position <= 80) {
         //perfect
-        console.log("perfect");
         setCombo((combo) => combo + 1);
         setScore((score) => score + 100 * combo);
         
@@ -216,6 +176,15 @@ const FallingMinigame = () => {
           };
       },[combo]);
 
+
+    //run when the game ends
+    useEffect(() => {
+      if(gameEnded){
+        props.onCompletion(score);
+      }
+        
+    },[gameEnded]);
+
     return (
       <div>
         <div className={style.box}>
@@ -237,13 +206,6 @@ const FallingMinigame = () => {
         </div>
     );
 }
-
-
-// add a score
-// pre do the level with music
-// stop when out of focus
-// game ending
-// when there are two same tiles there is a bug where two tiles are removed (maybe fixed)
 
 export default FallingMinigame;
 

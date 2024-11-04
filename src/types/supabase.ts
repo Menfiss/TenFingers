@@ -251,6 +251,35 @@ export type Database = {
           },
         ]
       }
+      minigame_drop_tiles: {
+        Row: {
+          created_at: string
+          highscore: number
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          highscore: number
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          highscore?: number
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minigame_drop_tiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mistake_criteria_exe: {
         Row: {
           id: string

@@ -4,7 +4,6 @@ import IdleMinigame from "../components/Minigames/IdleMinigame/IdleMinigame";
 export default function Home() {
   return (
    <>
-    <FallingMinigame />
     {/* <IdleMinigame /> */}
    </>
   );
