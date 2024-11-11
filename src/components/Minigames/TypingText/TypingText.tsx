@@ -1,11 +1,9 @@
 "use client"
 import { useEffect, useState, useMemo } from "react";
-import Letter from "../../Letter/Letter";
+import Letter from "./minigame_components/Letter/Letter";
 import styles from "./TypingText.module.css";
-import Timer from "../../Timer/Timer";
-
-//kriteria
-//fix raw wpm and accuracy
+import Timer from "./minigame_components/Timer/Timer";
+import Health from "@/components/Minigames/TypingText/minigame_components/Health/Health";
 
 interface props{
     text:string
@@ -29,7 +27,6 @@ const TypingText = (props:props) => {
     const [currentRow, setCurrentRow] = useState(1); 
     const [rowWidth, setRowWidth] = useState(50); // max number of letters in a row
     const [totalMistakes, setTotalMistakes] = useState(0);
-    const [hearts, setHearts] = useState(props.survival);
 
     const letterArray = useMemo(() => props.text.split(''), [props.text]);
     
@@ -70,27 +67,6 @@ const TypingText = (props:props) => {
         }
       }
       return mistakes;
-    }
-
-    const renderHearts = () =>{
-      const prepareHeartsArray = () =>{
-        let heartsArray = [];
-        for(let i = 0; i < hearts; i++){
-          heartsArray.push("♥");
-        }
-        for(let i = 0; i < props.survival - hearts; i++){
-          heartsArray.push("x");
-        }
-        return heartsArray;
-      }
-      let heartsArray = useMemo(() => prepareHeartsArray(),[hearts]);
-      return( 
-        <div className="flex">
-          {heartsArray.map((heart, index) => (
-            <div className="mx-px" key={index}>{heart}</div>
-          ))}
-        </div>
-      );
     }
 
     //prepares the rows of the text
@@ -168,8 +144,6 @@ const TypingText = (props:props) => {
         setCurrentLetter(letterArray[currentIndex + addNumber]);
         setCurrentIndex(prevIndex => prevIndex + addNumber);
         setTotalMistakes(prevMistakes => prevMistakes + 1);
-        props.survival > 0 ? setHearts(prevHearts => prevHearts - 1):null;
-        hearts === 1 ? setIsFinished(true):null;
       }
 
       //check if on end of the excersise
@@ -234,9 +208,9 @@ const TypingText = (props:props) => {
   
     return (//make render component
       <>
-      <div className={styles.box}>
+      <div onBlur={() =>console.log("a")} className={styles.box}>
         <div className="flex w-6/12 justify-around">
-          {props.survival > 0 ? renderHearts():null}
+          {props.survival > 0 ? <Health health={props.survival} totalMistakes={totalMistakes} setFinish={setIsFinished}/>:null}
           {props.timer > 0 ? <Timer time={props.timer} start={isStarted} setFinish={setIsFinished}/> : null}
           {props.backspace ? null : <div>No Backspace</div>}
 

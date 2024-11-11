@@ -7,6 +7,8 @@ const DropTilesPage = () => {
     const [gameStarted, setGameStarted] = useState(false);
     const [highscore,setHighScore] = useState(0);
     const [highscoreExists, setHighScoreExists] = useState(true);
+
+
     const GetHighScore = async() => {
         let data = await getHighScore();
         if(data === undefined || data.length === 0){
@@ -33,6 +35,9 @@ const DropTilesPage = () => {
             if(score > highscore){
                 UpdateHighScore(score);
             }
+        }
+        if(score > highscore){
+            setHighScore(score);
         }
         setGameStarted(false);
     }
@@ -63,4 +68,3 @@ const DropTilesPage = () => {
 };
 
 export default DropTilesPage;
-  

@@ -1,5 +1,4 @@
 "use server"
-import { timeStamp } from "console";
 import { createClient } from "../../utils/supabase/server";
 
 export const updateHighScore = async(highscore:number) => {

@@ -75,6 +75,8 @@ const ExcersiseWrapper = (props:props) => {
         setMean(mean);
         setUnfinishedWords(unfinishedWords);
         
+        if (unfinishedWords !== 0) return;
+
         let stars = onCompletionStars(accuracy,mistakes,finishTime,startTime,completeWordsCt);
         props.userExercise ? updateUserExercise(props.userExercise,stars, finishTime, startTime, completeWordsCt, accuracy):insertUserExercise(props.exerciseID,stars, finishTime, startTime, completeWordsCt, accuracy);
     }
@@ -121,8 +123,8 @@ const ExcersiseWrapper = (props:props) => {
             <div className="absolute w-1/2 h-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">
                 <div className="bg-gray-700  flex items-center justify-center flex-col h-full w-full">
                     <div>
-                        raw wpm <Wpm startTime={startTime} endTime={finishTime} numOfWords={props.data?.exercises?.content.substring(0,props.data?.exercises?.content.length - unfinishedWords).split(' ').length}/>
-                        wpm <Wpm startTime={startTime} endTime={finishTime} numOfWords={completeWordsCt}/>
+                        <div>raw wpm <Wpm startTime={startTime} endTime={finishTime} numOfWords={props.data?.exercises?.content.substring(0,props.data?.exercises?.content.length - unfinishedWords).split(' ').length}/> </div>
+                        <div>wpm <Wpm startTime={startTime} endTime={finishTime} numOfWords={completeWordsCt}/></div>
                         <div>{accuracy.toString()+"%"}</div>
                     </div>
                     <div className="flex justify-around w-1/2">
