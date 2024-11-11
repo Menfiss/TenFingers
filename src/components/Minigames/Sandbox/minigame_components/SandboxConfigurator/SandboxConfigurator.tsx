@@ -31,6 +31,7 @@ const SandboxConfigurator = (props:props) => {
     const [textMode, setTextMode] = useState<textCreationMode>(textCreationMode.json);
     const [jsonData, setJsonData] = useState<Language>({name:"", words:[]});
     const [customData, setCustomData] = useState<string[]>([]);
+    const [activeCustomSettings, setActiveCustomSettings] = useState<boolean>(false);
     const [wordCt, setWordCt] = useState<number>(100);
     const [time, setTime] = useState<number>(0);
     const [backwards, setBackwards] = useState<boolean>(false);
@@ -47,19 +48,19 @@ const SandboxConfigurator = (props:props) => {
     const handleCustomData = (data: string[]) => {
         setCustomData(data);
         data.length > 0 ? setTextMode(textCreationMode.custom) : setTextMode(textCreationMode.json);
-        
     };
 
+    //handle text generation
     useEffect(() => {
+
+        const punctuationChars = ['.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '"', "'"];
+        const numberChars = '0123456789';
+
+        const getRandomItem = (array: string[]): string => array[Math.floor(Math.random() * array.length)]; // Helper function to get a random item from an array
+
         function generateStringJson(punctuation: boolean, numbers: boolean, words: string[], n: number): string {
-            // Define possible punctuation characters and digits
-            const punctuationChars = ['.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '"', "'"];
-            const numberChars = '0123456789';
           
             const resultWords: string[] = [];
-          
-            // Helper function to get a random item from an array
-            const getRandomItem = (array: string[]): string => array[Math.floor(Math.random() * array.length)];
           
             for (let i = 0; i < n; i++) {
               let word = getRandomItem(words);
@@ -81,13 +82,33 @@ const SandboxConfigurator = (props:props) => {
             return resultWords.join(' ');
         }
 
-        function generateStringCustom(){
+        function generateStringCustom(punctuation: boolean, numbers: boolean, letters: string[], n: number): string{
+            const resultWords: string[] = [];
 
+            for (let i = 0; i < n; i++){
+
+                let wordLength = Math.floor(Math.random() * 10) + 1;
+                let word = "";
+                for(let j = 0; j < wordLength; j++){
+                    word += getRandomItem(letters);
+                }
+                if (numbers && Math.random() > 0.7) {
+                    word += getRandomItem(numberChars.split(''));
+                }
+        
+                // Randomly add punctuation to the word if punctuation is enabled
+                if (punctuation && Math.random() > 0.7) {
+                    word += getRandomItem(punctuationChars);
+                }
+
+                resultWords.push(word);
+            }
+            return resultWords.join(' ');
         };
         
-        let a = generateStringJson(punctuation, numbers, jsonData.words,wordCt);
+        let a = textMode === textCreationMode.json ? generateStringJson(punctuation, numbers, jsonData.words,wordCt): generateStringCustom(punctuation, numbers, customData, wordCt);
         props.setConfiguratorChanges(a, backspace, backwards, survival, time);
-    }, [jsonData, wordCt, time, backwards, backspace, survival, punctuation, numbers, textMode]);
+    }, [jsonData, wordCt, time, backwards, backspace, survival, punctuation, numbers, textMode, customData]);
 
 
     const WordsSettings = () => {
@@ -133,7 +154,7 @@ const SandboxConfigurator = (props:props) => {
                 <button className={settingsMode === settings.wordsMode ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.wordsMode)}>Words</button>
                 <button className={settingsMode === settings.timeMode ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.timeMode)}>Time</button>
                 <button className={settingsMode === settings.survivalMode ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.survivalMode)}>Survival</button>
-                <button className={settingsMode === settings.customMode || textMode === textCreationMode.custom ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.customMode)}>Custom</button>
+                <button className={settingsMode === settings.customMode || textMode === textCreationMode.custom ? "text-orange-500": ""} onClick={() => {setSettingsMode(settings.customMode); setActiveCustomSettings(true)}}>Custom</button>
                 <>|</>
                 <button className= {backspace ? "text-orange-500":""} onClick={() => setBackspace(!backspace)}>No Backspace</button>
                 <button className= {backwards ? "text-orange-500":""} onClick={() => setBackwards(!backwards)}>Backwards</button>
@@ -144,7 +165,7 @@ const SandboxConfigurator = (props:props) => {
                 {settingsMode === settings.wordsMode ? WordsSettings() : null}
                 {settingsMode === settings.timeMode ? TimeSettings() : null}
                 {settingsMode === settings.survivalMode ? SurvivalSettings() : null}
-                {settingsMode === settings.customMode ? <CustomSettings customData={customData} setCustomData={handleCustomData}/> : null}
+                {settingsMode === settings.customMode && activeCustomSettings ? <CustomSettings setAction={setActiveCustomSettings} customData={customData} setCustomData={handleCustomData}/> : null}
             </div>
         </div>
     );
