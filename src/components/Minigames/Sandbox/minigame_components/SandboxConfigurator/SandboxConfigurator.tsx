@@ -148,18 +148,18 @@ const SandboxConfigurator = (props:props) => {
 
 
     return (
-        <div onBlur={() => console.log("s")}>
+        <div onClick={(e) => e.currentTarget.blur()}>
             <div className="flex justify-evenly">
                 <JsonFilePicker onFileSelect={handleFileSelect} jsonFilePaths={LanguagePaths} />
-                <button className={settingsMode === settings.wordsMode ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.wordsMode)}>Words</button>
-                <button className={settingsMode === settings.timeMode ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.timeMode)}>Time</button>
-                <button className={settingsMode === settings.survivalMode ? "text-orange-500": ""} onClick={() => setSettingsMode(settings.survivalMode)}>Survival</button>
-                <button className={settingsMode === settings.customMode || textMode === textCreationMode.custom ? "text-orange-500": ""} onClick={() => {setSettingsMode(settings.customMode); setActiveCustomSettings(true)}}>Custom</button>
+                <button className={settingsMode === settings.wordsMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.wordsMode); e.currentTarget.blur()}}>Words</button>
+                <button className={settingsMode === settings.timeMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.timeMode); e.currentTarget.blur()}}>Time</button>
+                <button className={settingsMode === settings.survivalMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.survivalMode); e.currentTarget.blur()}}>Survival</button>
+                <button className={settingsMode === settings.customMode || textMode === textCreationMode.custom ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.customMode); setActiveCustomSettings(true); e.currentTarget.blur()}}>Custom</button>
                 <>|</>
-                <button className= {backspace ? "text-orange-500":""} onClick={() => setBackspace(!backspace)}>No Backspace</button>
-                <button className= {backwards ? "text-orange-500":""} onClick={() => setBackwards(!backwards)}>Backwards</button>
-                <button className= {punctuation ? "text-orange-500":""} onClick={() => setPunctuation(!punctuation)}>Punctuation</button>
-                <button className= {numbers ? "text-orange-500":""} onClick={() => setNumbers(!numbers)}>Numbers</button>
+                <button className= {!backspace ? "text-orange-500":""} onClick={(e) => {setBackspace(!backspace); e.currentTarget.blur()}}>No Backspace</button>
+                <button className= {backwards ? "text-orange-500":""} onClick={(e) => {setBackwards(!backwards); e.currentTarget.blur()}}>Backwards</button>
+                <button className= {punctuation ? "text-orange-500":""} onClick={(e) => {setPunctuation(!punctuation); e.currentTarget.blur()}}>Punctuation</button>
+                <button className= {numbers ? "text-orange-500":""} onClick={(e) => {setNumbers(!numbers); e.currentTarget.blur()}}>Numbers</button>
             </div>
             <div className="ml-[400px]">
                 {settingsMode === settings.wordsMode ? WordsSettings() : null}

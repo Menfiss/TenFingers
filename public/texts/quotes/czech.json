@@ -1,11 +1,5 @@
 {
   "language": "czech",
-  "groups": [
-    [0, 100],
-    [101, 300],
-    [301, 600],
-    [601, 9999]
-  ],
   "quotes": [
     {
       "text": "Představte si to ticho, kdyby lidé říkali jen to, co vědí.",

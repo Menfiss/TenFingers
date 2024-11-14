@@ -12,6 +12,7 @@ interface props{
     survival:number // health counter
     timer:number //in seconds
     backwards:boolean
+    onStart?: () => void
 }
 
 const TypingText = (props:props) => {
@@ -42,7 +43,7 @@ const TypingText = (props:props) => {
     };
 
     //calculates the number of words that are without mistakes
-    const calculateCompleteWords = () =>{
+    const calculateCorrectWords = () =>{
       let words = 0;
       let wrongCounter = 0;
       for(let i = 0; i < letterArray.length; i++){
@@ -59,7 +60,7 @@ const TypingText = (props:props) => {
       return words;
     }
     
-    const calculateMistakes = () =>{
+    const calculateCurrentMistakes = () =>{
       let mistakes = 0;
       for(let i = 0; i < letterArray.length; i++){
         if(letterClasses[i] != "correct"){
@@ -199,14 +200,15 @@ const TypingText = (props:props) => {
       if(isFinished){
         window.removeEventListener('keydown', handleKeyDown);
 
-        let unfinishedWords = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
-        let accuracy = totalMistakes > letterArray.length ? 0 : Math.round(((letterArray.length - (totalMistakes + unfinishedWords))/ letterArray.length) *100);
+        let unfinishedWords = props.backwards ? props.text.substring(0,currentIndex + 1).split(" ").length : props.text.substring(currentIndex,letterArray.length).split(" ").length;
+        let unfinishedLetters = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
+        let accuracy = totalMistakes > letterArray.length ? 0 : Math.round(((letterArray.length - (totalMistakes + unfinishedLetters))/ letterArray.length) *100);
 
-        props.onCompletion(startTime,new Date().getTime(),calculateCompleteWords(),calculateMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
+        props.onCompletion(startTime,new Date().getTime(),calculateCorrectWords(),calculateCurrentMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
       }
     },[isFinished]);
   
-    return (//make render component
+    return (
       <>
       <div onBlur={() =>console.log("a")} className={styles.box}>
         <div className="flex w-6/12 justify-around">

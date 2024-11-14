@@ -8,6 +8,7 @@ const Minigames = () => {
         <>
             <Link href={"minigames/drop_tiles"}>Drop Tiles</Link>
             <Link href={"minigames/sandbox"}>Sandbox</Link>
+            <Link href={"minigames/quotes"}>Quotes</Link>
         </>
     );
 }

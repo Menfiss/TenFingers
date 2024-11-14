@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { Tables } from "@/types/supabase";
 import TypingText from "../Minigames/TypingText/TypingText";
-import Wpm from "../WpmCalculator/Wpm";
 import { calculateWPM } from "../WpmCalculator/Wpm";
 import ConsistencyCalculator from "../ConsistencyCalculator/ConsistencyCalculator";
 import { GetUserExercise } from "../../../database/querries/exercises";
 import { updateUserExercise, insertUserExercise } from "../../../server-actions/exercise-actions/actions";
-import Link from "next/link";
+import TypingTextStats from "../TypingTextStats/TypingTextStats";
 
 
 
@@ -58,17 +57,17 @@ const ExcersiseWrapper = (props:props) => {
     const [startTime, setStartTime] = useState(0);
     const [mistakes, setMistakes] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
-    const [completeWordsCt, setCompleteWordsCt] = useState(0);
+    const [correctWordsCt, setCorrectWordsCt] = useState(0);
     const [consistencyArray, setConsistencyArray] = useState<number[]>([]);
     const [mean, setMean] = useState(0);
     const [unfinishedWords, setUnfinishedWords] = useState(0);
     
 
 
-    const onCompletion = (startTime:number, finishTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) =>{
+    const onCompletion = (startTime:number, finishTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) =>{
         setFinishTime(finishTime);
         setStartTime(startTime);
-        setCompleteWordsCt(completeWordsCt);  
+        setCorrectWordsCt(correctWordsCt);  
         setMistakes(mistakes);
         setConsistencyArray(consistencyArray);
         setAccuracy(Math.ceil(accuracy));
@@ -77,8 +76,8 @@ const ExcersiseWrapper = (props:props) => {
         
         if (unfinishedWords !== 0) return;
 
-        let stars = onCompletionStars(accuracy,mistakes,finishTime,startTime,completeWordsCt);
-        props.userExercise ? updateUserExercise(props.userExercise,stars, finishTime, startTime, completeWordsCt, accuracy):insertUserExercise(props.exerciseID,stars, finishTime, startTime, completeWordsCt, accuracy);
+        let stars = onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt);
+        props.userExercise ? updateUserExercise(props.userExercise,stars, finishTime, startTime, correctWordsCt, accuracy):insertUserExercise(props.exerciseID,stars, finishTime, startTime, correctWordsCt, accuracy);
     }
 
     const onCompletionStars = (accuracy:number, mistakes:number, finishTime:number, startTime:number, completeWordsCt:number) =>{
@@ -120,20 +119,19 @@ const ExcersiseWrapper = (props:props) => {
             backwards={props.data?.backwards_type_exe?.backwards ? props.data?.backwards_type_exe?.backwards:false}></TypingText>
 
             {finishTime !== 0 ? 
-            <div className="absolute w-1/2 h-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">
-                <div className="bg-gray-700  flex items-center justify-center flex-col h-full w-full">
-                    <div>
-                        <div>raw wpm <Wpm startTime={startTime} endTime={finishTime} numOfWords={props.data?.exercises?.content.substring(0,props.data?.exercises?.content.length - unfinishedWords).split(' ').length}/> </div>
-                        <div>wpm <Wpm startTime={startTime} endTime={finishTime} numOfWords={completeWordsCt}/></div>
-                        <div>{accuracy.toString()+"%"}</div>
-                    </div>
-                    <div className="flex justify-around w-1/2">
-                        <button onClick={onReset}>Restart</button>
-                        { props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || onCompletionStars(accuracy,mistakes,finishTime,startTime,completeWordsCt) >= 2) ? <Link href={{pathname:`/exercise/${props.data.exercises.next_exercise}`}}>Next</Link>: null}
-                    </div>
-                </div>
-                
-            </div>
+                <TypingTextStats 
+                    startTime={startTime} 
+                    finishTime={finishTime} 
+                    correctWordsCt={correctWordsCt} 
+                    mistakes={mistakes} 
+                    consistencyArray={consistencyArray} 
+                    accuracy={accuracy} 
+                    mean={mean} 
+                    unfinishedWords={unfinishedWords} 
+                    wordCount={props.data?.exercises?.content.split(" ").length}
+                    onReset={onReset}
+                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
+                />
             
              : null}
     
