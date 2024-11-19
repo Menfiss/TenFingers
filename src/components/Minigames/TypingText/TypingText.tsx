@@ -5,6 +5,7 @@ import styles from "./TypingText.module.css";
 import Timer from "./minigame_components/Timer/Timer";
 import Health from "@/components/Minigames/TypingText/minigame_components/Health/Health";
 
+
 interface props{
     text:string
     onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) => void
@@ -42,32 +43,25 @@ const TypingText = (props:props) => {
       });
     };
 
-    //calculates the number of words that are without mistakes
-    const calculateCorrectWords = () =>{
-      let words = 0;
-      let wrongCounter = 0;
+    //calculates the number of correct words, incorrect words and mistakes
+    const calculateTextStats = () =>{
+      // 0-> correct words, 1-> incorrect words, 2-> mistakes
+      let stats: [number,number,number] = [0,0,0];
+      let mistakesCounter = 0;
       for(let i = 0; i < letterArray.length; i++){
         if(letterClasses[i] != "correct" && letterArray[i] !== " "){
-          wrongCounter++;
+          mistakesCounter++;
         }
-        else if((letterArray[i] === " " || i === letterArray.length -1) && wrongCounter === 0){
-          words++;
+        if((letterArray[i] === " " || i === letterArray.length -1) && mistakesCounter === 0){
+          stats[0]++;
         }
-        else if(letterArray[i] === " "){
-          wrongCounter = 0;
-        }
-      }
-      return words;
-    }
-    
-    const calculateCurrentMistakes = () =>{
-      let mistakes = 0;
-      for(let i = 0; i < letterArray.length; i++){
-        if(letterClasses[i] != "correct"){
-          mistakes++;
+        else if(letterArray[i] === " " || i === letterArray.length -1){
+          stats[1]++;
+          stats[2] += mistakesCounter;
+          mistakesCounter = 0;
         }
       }
-      return mistakes;
+      return stats;
     }
 
     //prepares the rows of the text
@@ -106,7 +100,7 @@ const TypingText = (props:props) => {
 
       return rows;
     }
-    const rows:number[] = useMemo(() => prepareRows(),[rowWidth,props.text]) //index array 0-> element1 first row, element1->element2 second row etc.
+    let rows:number[] = useMemo(() => prepareRows(),[rowWidth,props.text]) //index array 0-> element1 first row, element1->element2 second row etc.
     
     // this runs every time a key is pressed
     const handleKeyDown = (event:KeyboardEvent) => {
@@ -119,6 +113,7 @@ const TypingText = (props:props) => {
       }
       else{
         setIsStarted(true);
+        props.onStart ? props.onStart() : null;
         setStartTime(new Date().getTime());
       }
       setTime(new Date().getTime());
@@ -200,17 +195,18 @@ const TypingText = (props:props) => {
       if(isFinished){
         window.removeEventListener('keydown', handleKeyDown);
 
-        let unfinishedWords = props.backwards ? props.text.substring(0,currentIndex + 1).split(" ").length : props.text.substring(currentIndex,letterArray.length).split(" ").length;
+        let [correctWords, incorrectWords, currMistakes] = calculateTextStats();
         let unfinishedLetters = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
+        let unfinishedWords = unfinishedLetters > 0 ? props.text.substring(0, unfinishedLetters).split(" ").length : 0;
         let accuracy = totalMistakes > letterArray.length ? 0 : Math.round(((letterArray.length - (totalMistakes + unfinishedLetters))/ letterArray.length) *100);
-
-        props.onCompletion(startTime,new Date().getTime(),calculateCorrectWords(),calculateCurrentMistakes(),consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
+        console.log(props.text.length,unfinishedLetters, unfinishedWords);
+        props.onCompletion(startTime,new Date().getTime(),correctWords,currMistakes,consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
       }
     },[isFinished]);
   
     return (
       <>
-      <div onBlur={() =>console.log("a")} className={styles.box}>
+      <div className={styles.box}>
         <div className="flex w-6/12 justify-around">
           {props.survival > 0 ? <Health health={props.survival} totalMistakes={totalMistakes} setFinish={setIsFinished}/>:null}
           {props.timer > 0 ? <Timer time={props.timer} start={isStarted} setFinish={setIsFinished}/> : null}

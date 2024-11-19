@@ -1,11 +1,10 @@
-import FallingMinigame from "@/components/Minigames/FallingMinigame/FallingMinigame";
-import IdleMinigame from "../components/Minigames/IdleMinigame/IdleMinigame";
-
+"use client";
+import UnityMinigame from "@/components/Minigames/UnityMinigame/UnityMinigame";
 export default function Home() {
   return (
-   <>
-    {/* <IdleMinigame /> */}
-   </>
+   <div>
+      <UnityMinigame />
+   </div>
   );
 }
 

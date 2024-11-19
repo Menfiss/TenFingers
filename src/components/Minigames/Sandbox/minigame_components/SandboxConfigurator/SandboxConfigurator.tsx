@@ -32,7 +32,7 @@ const SandboxConfigurator = (props:props) => {
     const [jsonData, setJsonData] = useState<Language>({name:"", words:[]});
     const [customData, setCustomData] = useState<string[]>([]);
     const [activeCustomSettings, setActiveCustomSettings] = useState<boolean>(false);
-    const [wordCt, setWordCt] = useState<number>(100);
+    const [wordCt, setWordCt] = useState<number>(50);
     const [time, setTime] = useState<number>(0);
     const [backwards, setBackwards] = useState<boolean>(false);
     const [backspace, setBackspace] = useState<boolean>(true);
@@ -112,6 +112,7 @@ const SandboxConfigurator = (props:props) => {
 
 
     const WordsSettings = () => {
+        let a;
         return (
             <div>
                 <button className={wordCt === 10 ? "mx-1 text-orange-500": "mx-1"} onClick={() => setWordCt(10)}>10</button>
