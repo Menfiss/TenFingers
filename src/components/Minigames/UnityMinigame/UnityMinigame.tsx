@@ -5,10 +5,11 @@ import { Unity, useUnityContext } from "react-unity-webgl";
 
 function UnityMinigame() {
     const { unityProvider } = useUnityContext({
-      loaderUrl: "../../build/webgl/Minigame.loader.js",
-      dataUrl: "../../build/webgl/Minigame.data",
-      frameworkUrl: "../../build/webgl/Minigame.framework.js",
-      codeUrl: "../../build/webgl/Minigame.wasm",
+      loaderUrl: "../../WebGL/MinigameA/Build/Minigame.loader.js",
+      dataUrl: "../../WebGL/MinigameA/Build/Minigame.data",
+      frameworkUrl: "../../WebGL/MinigameA/Build/Minigame.framework.js",
+      codeUrl: "../../WebGL/MinigameA/Build/Minigame.wasm",
+      streamingAssetsUrl: "../../WebGL/MinigameA/StreamingAssets",
     });
   
     return <Unity unityProvider={unityProvider} className="h-1/2 w-1/2"/>;
