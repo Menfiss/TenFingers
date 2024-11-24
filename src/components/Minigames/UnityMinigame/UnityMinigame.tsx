@@ -12,7 +12,7 @@ function UnityMinigame() {
       streamingAssetsUrl: "../../WebGL/MinigameA/StreamingAssets",
     });
   
-    return <Unity unityProvider={unityProvider} className="h-1/2 w-1/2"/>;
+    return <Unity unityProvider={unityProvider} className="h-screen w-screen"/>;
   }
 
 export default UnityMinigame;
