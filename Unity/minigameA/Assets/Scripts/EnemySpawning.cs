@@ -12,6 +12,7 @@ public class EnemySpawning : MonoBehaviour
     [SerializeField] private EnemySO[] enemySO;
 
     private List<EnemySO> currWave;
+    private GameObject lastUsedSpawnpoint;
 
     int wave = 0;
 
@@ -41,7 +42,7 @@ public class EnemySpawning : MonoBehaviour
         if(time >= spawnTimer && currWave.Count != 0 && textLoaded)
         {
             time = 0;
-            spawnTimer = Random.Range(1f, 3f);
+            spawnTimer = Random.Range(.5f, 3f);
             SpawnEnemy(currWave[0]);
             currWave.RemoveAt(0);
         }
@@ -138,7 +139,13 @@ public class EnemySpawning : MonoBehaviour
         }
         else
         {
-            enemyObj = Instantiate(enemySO.enemyPrefab, spawnpoints[Random.Range(0, 3)].transform, false);
+            GameObject spawnpoint = spawnpoints[Random.Range(0, spawnpoints.Length)];
+            while(spawnpoint == lastUsedSpawnpoint)
+            {
+                spawnpoint = spawnpoints[Random.Range(0, spawnpoints.Length)];
+            }
+            enemyObj = Instantiate(enemySO.enemyPrefab, spawnpoint.transform, false);
+            lastUsedSpawnpoint = spawnpoint;
         }
 
         BaseEnemy baseEnemy = enemyObj.GetComponent<BaseEnemy>();

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba1b315349793c41a928b9601dc86e2, type: 3}
   m_Name: shootingEnemy
   m_EditorClassIdentifier: 
-  cost: 3
-  availableAtWave: 5
+  cost: 1
+  availableAtWave: 1
   enemyPrefab: {fileID: 1277086954116094612, guid: ddcc1e9f6e1ba7344bb9e11adfb48628, type: 3}
   speed: 2
   difficulty: 3

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealingEnemy : BaseEnemy
 {
-    public float timer = 5;
+    public float timer = 3;
     private float time = 0;
 
     private new void Update()

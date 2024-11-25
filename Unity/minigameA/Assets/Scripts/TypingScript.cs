@@ -42,6 +42,8 @@ public class TypingScript : MonoBehaviour
         {
             enemies[currentEnemyIndex].text = str.Substring(1, str.Length - 1);
             enemies[currentEnemyIndex].enemy.transform.Find("Canvas").transform.Find("Text").GetComponent<TMP_Text>().text = enemies[currentEnemyIndex].text.PadLeft(enemies[currentEnemyIndex].defaultText.Length);
+            
+
         }
         if (enemies[currentEnemyIndex].text == "")
         {
