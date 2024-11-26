@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ExplodingEnemy : BaseEnemy
 {
-    private void OnDestroy()
+    public new void OnDestroy()
     {
+        base.OnDestroy();
         // get colliders
         LayerMask mask = LayerMask.GetMask("Enemy");
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 4f,mask);

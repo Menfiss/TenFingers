@@ -435,6 +435,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79f8b1fd8bfb26541a1812c5b15cabc5, type: 2}
   - {fileID: 11400000, guid: 285884d0156afc64aac8b396b18019ac, type: 2}
   - {fileID: 11400000, guid: d9557c392e32e3f48b62d2efcbeb7fd1, type: 2}
+  waveText: {fileID: 6373720220615719465, guid: bbedafd981742ae4ebe09f621f7721d7, type: 3}
+  lettersInUse: 
 --- !u!114 &908576424
 MonoBehaviour:
   m_ObjectHideFlags: 0

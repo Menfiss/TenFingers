@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BaseEnemy : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class BaseEnemy : MonoBehaviour
     public EnemySpawning enemySpawning;
     public Transform CanvasPrefab;
     public bool canMove = true; 
+    public string text;
 
     public void Update()
     {
@@ -20,5 +22,11 @@ public class BaseEnemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Destroy(gameObject);
+        SceneManager.LoadScene("GameEnd");
+    }
+
+    public void OnDestroy()
+    {
+        enemySpawning.lettersInUse[(text[0] - 'a')] = 0;
     }
 }

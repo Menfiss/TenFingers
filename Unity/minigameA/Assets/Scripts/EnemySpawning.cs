@@ -10,6 +10,8 @@ public class EnemySpawning : MonoBehaviour
     public TypingScript typingScript;
     [SerializeField] private GameObject[] spawnpoints;
     [SerializeField] private EnemySO[] enemySO;
+    [SerializeField] private GameObject waveText;
+    public int[] lettersInUse;
 
     private List<EnemySO> currWave;
     private GameObject lastUsedSpawnpoint;
@@ -31,6 +33,7 @@ public class EnemySpawning : MonoBehaviour
     {
         StartCoroutine(LoadJson(simplePath, normalPath,advancedPath, expertPath));
         currWave = new List<EnemySO>();
+        lettersInUse = new int[26];
     }
 
     float spawnTimer = 1f;
@@ -116,6 +119,11 @@ public class EnemySpawning : MonoBehaviour
         if (currWave.Count != 0 || typingScript.enemies.Count != 0) return;
         
         wave++;
+
+        GameObject waveTx = Instantiate(waveText, new Vector3(0, 0, 0), Quaternion.identity);
+        waveTx.transform.GetChild(0).GetComponent<TMP_Text>().text = "Wave " + wave;
+        Destroy(waveTx, 1.5f);
+
         List<EnemySO> unlockedEnemies = getUnlockedEnemies();
         int value = 5 * wave;
 
@@ -133,6 +141,12 @@ public class EnemySpawning : MonoBehaviour
     public void SpawnEnemy(EnemySO enemySO, Transform pos = null)
     {
         GameObject enemyObj;
+        string textik = getText(enemySO);
+        if(textik == "")
+        {
+            spawnTimer = 0;
+            return;
+        }
         if (pos)
         {
             enemyObj = Instantiate(enemySO.enemyPrefab, pos.position,Quaternion.identity);
@@ -151,8 +165,8 @@ public class EnemySpawning : MonoBehaviour
         BaseEnemy baseEnemy = enemyObj.GetComponent<BaseEnemy>();
         baseEnemy.enemySO = enemySO;
         baseEnemy.enemySpawning = this;
+        baseEnemy.text = textik;
 
-        string textik = getText(enemySO);
         baseEnemy.CanvasPrefab.Find("Text").GetComponent<TMP_Text>().text = textik;
         baseEnemy.CanvasPrefab.Find("Text Highlighted").GetComponent<TMP_Text>().text = textik;
 
@@ -161,21 +175,39 @@ public class EnemySpawning : MonoBehaviour
 
     private string getText(EnemySO enemySO)
     {
-        switch(enemySO.difficulty)
+        string txt;
+        switch (enemySO.difficulty)
         {
             case wordDifficulty.Letter:
-                return ((char)('a' + Random.Range(0, 26))).ToString();
+                txt = ((char)('a' + Random.Range(0, 26))).ToString();
+                break;
             case wordDifficulty.Simple:
-                return simpleEnglish.words[Random.Range(0, simpleEnglish.words.Length - 1)];
+                txt = simpleEnglish.words[Random.Range(0, simpleEnglish.words.Length - 1)];
+                break;
             case wordDifficulty.Normal:
-                return normalEnglish.words[Random.Range(0, normalEnglish.words.Length - 1)];
+                txt = normalEnglish.words[Random.Range(0, normalEnglish.words.Length - 1)];
+                break;
             case wordDifficulty.Advanced:
-                return advancedEnglish.words[Random.Range(0, advancedEnglish.words.Length - 1)];
+                txt = advancedEnglish.words[Random.Range(0, advancedEnglish.words.Length - 1)];
+                break;
             case wordDifficulty.Expert:
-                return expertEnglish.words[Random.Range(0, expertEnglish.words.Length - 1)];
+                txt = expertEnglish.words[Random.Range(0, expertEnglish.words.Length - 1)];
+                break;
             default:
-                return simpleEnglish.words[Random.Range(0, simpleEnglish.words.Length - 1)];
+                txt = "";
+                break;
         }
+        
+        if (lettersInUse[(txt[0] - 'a')] == 1)
+        {
+            txt = "";
+        }
+        else
+        {
+            lettersInUse[(txt[0] - 'a')] = 1;
+        }
+
+        return txt;
     }
 
 
