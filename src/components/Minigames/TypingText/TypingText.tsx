@@ -105,7 +105,7 @@ const TypingText = (props:props) => {
     // this runs every time a key is pressed
     const handleKeyDown = (event:KeyboardEvent) => {
       const addNumber = props.backwards ? -1 : 1;
-
+      
       if(isStarted){
         let timeElapsed = new Date().getTime() - time;
         setTotalTime(prevTime => prevTime + timeElapsed);
@@ -132,7 +132,7 @@ const TypingText = (props:props) => {
         setCurrentIndex(prevIndex => prevIndex - addNumber);
         return;
       }
-      else if(event.key === "Alt" || event.key === "Control" || event.key === "Shift" || event.key === "AltGraph" || event.key === "CapsLock"){
+      else if(event.key === "Alt" || event.key === "Control" || event.key === "Shift" || event.key === "AltGraph" || event.key === "CapsLock" || event.key === "Dead"){
         return;
       }
       else if (event.key !== currentLetter){

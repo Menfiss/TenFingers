@@ -66,7 +66,7 @@ const QuotesMinigame = () => {
     return (
         <div>
             <JsonFilePicker jsonFilePaths={QuotesPaths} onFileSelect={handleFileSelect}/>
-            <button onClick={getNewQuote}>New Quote</button>
+            <button onClick={(e) => {getNewQuote(); e.currentTarget.blur()}}>New Quote</button>
             <TypingText key={rerender} text={text} backspace={true} backwards={false} survival={0} timer={0} onCompletion={onCompletion} />
             {finishTime !== 0 ? <TypingTextStats
                 startTime={startTime}

@@ -10,6 +10,7 @@ function UnityMinigame() {
       frameworkUrl: "../../WebGL/MinigameA/Build/Minigame.framework.js",
       codeUrl: "../../WebGL/MinigameA/Build/Minigame.wasm",
       streamingAssetsUrl: "../../WebGL/MinigameA/StreamingAssets",
+      
     });
   
     return <Unity unityProvider={unityProvider} className="h-screen w-screen"/>;
