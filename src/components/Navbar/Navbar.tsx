@@ -8,9 +8,9 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="bg-gray-800">
+      <nav className="bg-[#00224D]">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-          <div className="relative flex h-16 items-center justify-between">
+          <div className="relative flex h-[4.5rem] items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <button
                 type="button"
@@ -68,24 +68,26 @@ const Navbar = () => {
                 </a>
               </div>
               <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-4">
+                <div className="flex space-x-6">
+
                   <a
                     href="/"
-                    // className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white "
+                    // className="px-4 mb-1 py-2 uppercase text-sm font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_8px_0px_4px_rgba(255,32,78,1)] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_4px_0px_4px_rgba(255,32,78,1)] cursor-pointer"
                   >
                     Home
                   </a>
                   <a
                     href="/sections"
-                    // className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    // className="px-4 mb-1 py-2 uppercase text-sm font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_8px_0px_4px_rgba(255,32,78,1)] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_4px_0px_4px_rgba(255,32,78,1)] cursor-pointer"
                   >
                     Exercises
                   </a>
                   <a
                     href="/minigames"
                     className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    // className="px-4 mb-1 py-2 uppercase text-sm font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_8px_0px_4px_rgba(255,32,78,1)] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_4px_0px_4px_rgba(255,32,78,1)] cursor-pointer"
                   >
                     Minigames
                   </a>
