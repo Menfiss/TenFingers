@@ -70,7 +70,7 @@ export default async function Sections() {
 
         let subArray = [];
         return(
-            <div>
+            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 {orderedSections.map((section_index:number,index) => {
                     subArray.push(getuserExercisesSubArray(data[section_index].id));
                     return(
@@ -85,9 +85,9 @@ export default async function Sections() {
 
     return (
         <div>
-            
+        
            { data ? renderPage() : null}
-            
+        
         </div>
     );
 }

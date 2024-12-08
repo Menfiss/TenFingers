@@ -1,14 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import { createClient } from "../../../utils/supabase/client";
+import { signout } from "../../../server-actions/login-actions/actions";
 
 const Navbar = () => {
   const [profileBoxVisible, setProfileBoxVisible] = useState(false);
   const [mobileBoxContentVisible, setMobileBoxContentVisible] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const isSignedInVerification = async () => {
+    const supabase = createClient();
+    let user = await supabase.auth.getUser();
+    
+    if (user.data.user) {
+      setIsSignedIn(true);
+    } else {
+      setIsSignedIn(false);
+    }
+  }
+  isSignedInVerification();
 
   return (
     <div>
-      <nav className="bg-[#00224D]">
+      <nav className="bg-[#171725]">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-[4.5rem] items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -72,22 +87,22 @@ const Navbar = () => {
 
                   <a
                     href="/"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white "
-                    // className="px-4 mb-1 py-2 uppercase text-sm font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_8px_0px_4px_rgba(255,32,78,1)] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_4px_0px_4px_rgba(255,32,78,1)] cursor-pointer"
+                    // className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white "
+                    className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer"
                   >
                     Home
                   </a>
                   <a
                     href="/sections"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                    // className="px-4 mb-1 py-2 uppercase text-sm font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_8px_0px_4px_rgba(255,32,78,1)] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_4px_0px_4px_rgba(255,32,78,1)] cursor-pointer"
+                    // className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer"
                   >
                     Exercises
                   </a>
                   <a
                     href="/minigames"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                    // className="px-4 mb-1 py-2 uppercase text-sm font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_8px_0px_4px_rgba(255,32,78,1)] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_4px_0px_4px_rgba(255,32,78,1)] cursor-pointer"
+                    // className="block rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer"
                   >
                     Minigames
                   </a>
@@ -119,7 +134,14 @@ const Navbar = () => {
               </button> */}
 
               <div className="relative ml-3">
-                <div>
+                {isSignedIn ? <form>
+                                <button className="ml-5 px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer" formAction={signout}>Sign out</button>
+                              </form>:
+                <div className="flex ">
+                  <a href="/login" ><div className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer">Login</div></a>
+                  <a href="/signup" ><div className="ml-5 px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer">Signup</div></a>
+                </div>}
+                {/* <div>
                   <button
                     type="button"
                     className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -130,11 +152,9 @@ const Navbar = () => {
                   >
                     <span className="absolute -inset-1.5"></span>
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="size-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    ></img>
+                    <svg className="h-8 w-8 text-[#6dffe7]"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
                   </button>
                 </div>
                 {profileBoxVisible ? (
@@ -173,7 +193,7 @@ const Navbar = () => {
                       Sign out
                     </a>
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
           </div>
@@ -185,7 +205,9 @@ const Navbar = () => {
               <a
                 href="/"
                 //   className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                // className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                className="px-4 mb-1 py-2 ml-3 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer"
+
               >
                 Home
               </a>
