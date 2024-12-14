@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "../../../utils/supabase/client";
 import { signout } from "../../../server-actions/login-actions/actions";
 
+
 const Navbar = () => {
   const [profileBoxVisible, setProfileBoxVisible] = useState(false);
   const [mobileBoxContentVisible, setMobileBoxContentVisible] = useState(false);
@@ -11,9 +12,9 @@ const Navbar = () => {
 
   const isSignedInVerification = async () => {
     const supabase = createClient();
-    let user = await supabase.auth.getUser();
+    let user = await supabase.auth.getSession();
     
-    if (user.data.user) {
+    if (user.data.session) {
       setIsSignedIn(true);
     } else {
       setIsSignedIn(false);

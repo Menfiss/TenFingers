@@ -1,10 +1,10 @@
 
 import { ExercisesQuerry, GetUserExercises } from "../../../database/querries/exercises";
 import ExerciseSection from "@/components/ExerciseSection/ExerciseSection";
-import { revalidatePath } from 'next/cache'
-revalidatePath('/blog/[slug]', 'page')
+// import { revalidatePath } from 'next/cache'
+// revalidatePath('/blog/[slug]', 'page')
 
-export const revalidate = 0;
+
 export default async function Sections() {    
     const data = await ExercisesQuerry();
     const userExcersiseData = await GetUserExercises();
@@ -85,9 +85,13 @@ export default async function Sections() {
 
     return (
         <div>
-        
-           { data ? renderPage() : null}
-        
+            <div className="py-10 my-20 ">
+                <h1 className="text-5xl font-bold text-center pb-3">Exercises</h1>
+                <h2 className="text-2xl font-bold text-center">Start your journey Today!</h2>
+            </div>
+
+            <div>{ data ? renderPage() : null}</div>
+           
         </div>
     );
 }

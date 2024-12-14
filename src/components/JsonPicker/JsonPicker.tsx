@@ -55,7 +55,7 @@ const JsonFilePicker = (props:props) => {
 
     useEffect(() => {
         setDefaultFile(Object.keys(props.jsonFilePaths)[0]);
-    } ,[]);
+    });
     
     return (
     <>
