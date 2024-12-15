@@ -29,9 +29,10 @@ const TypingText = (props:props) => {
     const [currentRow, setCurrentRow] = useState(1); 
     const [rowWidth, setRowWidth] = useState(50); // max number of letters in a row
     const [totalMistakes, setTotalMistakes] = useState(0);
+    const [finishedWords, setFinishedWords] = useState(0);
 
     const letterArray = useMemo(() => props.text.split(''), [props.text]);
-    
+    const totalWords = useMemo(() => props.text.split(' ').length, [props.text]);
 
     //switches classes of letters
     const updateLetterClasses = (oldIndex:number, oldClass:string, newIndex:number, newClass:string) => {
@@ -119,6 +120,7 @@ const TypingText = (props:props) => {
       setTime(new Date().getTime());
 
       if(event.key === currentLetter){
+        currentLetter === " " ? setFinishedWords(prevWords => prevWords + 1) : null;
         updateLetterClasses(currentIndex, "correct", currentIndex + addNumber, "current");
         setCurrentLetter(letterArray[currentIndex + addNumber]);
         setCurrentIndex(prevIndex => prevIndex + addNumber);
@@ -127,6 +129,7 @@ const TypingText = (props:props) => {
         if((currentIndex === 0 && !props.backwards) || !props.backspace || (currentIndex === letterArray.length-1 && props.backwards)){
           return;
         }
+        letterArray[currentIndex - addNumber] === " " ? setFinishedWords(prevWords => prevWords - 1) : null;
         updateLetterClasses(currentIndex, "undiscovered", currentIndex - addNumber, "current");
         setCurrentLetter(letterArray[currentIndex - addNumber]);
         setCurrentIndex(prevIndex => prevIndex - addNumber);
@@ -136,6 +139,7 @@ const TypingText = (props:props) => {
         return;
       }
       else if (event.key !== currentLetter){
+        currentLetter === " " ? setFinishedWords(prevWords => prevWords + 1) : null;
         updateLetterClasses(currentIndex, "wrong", currentIndex + addNumber, "current");
         setCurrentLetter(letterArray[currentIndex + addNumber]);
         setCurrentIndex(prevIndex => prevIndex + addNumber);
@@ -199,46 +203,53 @@ const TypingText = (props:props) => {
         let unfinishedLetters = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
         let unfinishedWords = unfinishedLetters > 0 ? props.text.substring(0, unfinishedLetters).split(" ").length : 0;
         let accuracy = totalMistakes > letterArray.length ? 0 : Math.round(((letterArray.length - (totalMistakes + unfinishedLetters))/ letterArray.length) *100);
-        console.log(props.text.length,unfinishedLetters, unfinishedWords);
         props.onCompletion(startTime,new Date().getTime(),correctWords,currMistakes,consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
       }
     },[isFinished]);
   
     return (
       <>
-      <div className={styles.box}>
-        <div className="flex w-6/12 justify-around">
-          {props.survival > 0 ? <Health health={props.survival} totalMistakes={totalMistakes} setFinish={setIsFinished}/>:null}
-          {props.timer > 0 ? <Timer time={props.timer} start={isStarted} setFinish={setIsFinished}/> : null}
-          {props.backspace ? null : <div>No Backspace</div>}
-
-        </div>
         
-        <div className={styles.row}>
-          {letterArray.slice(rows[currentRow - 1], rows[currentRow]).map((letter, index) => ( 
-            <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow - 1]]}/>
-          ))}
-        </div>
+        <div className="flex justify-center items-center flex-col mx-auto mt-[35vh]">
+          
+          
+          <div className="flex flex-col justify-start items-start gap-1">
+            <div className="flex flex-row justify-between items-center w-full">
+              <div className="items-start text-3xl pb-2">
+                {finishedWords}/{totalWords}
+              </div>
+              <div className="flex flex-row gap-10 text-xl mr-4">
+                {props.survival > 0 ? <Health health={props.survival} totalMistakes={totalMistakes} setFinish={setIsFinished}/>:null}
+                {props.timer > 0 ? <Timer time={props.timer} start={isStarted} setFinish={setIsFinished}/> : null}
+                {props.backspace ? null : <div>No Backspace</div>}
+              </div>
+            </div>
+            <div className="flex justify-center items-center gap-1">
+              {letterArray.slice(rows[currentRow - 1], rows[currentRow]).map((letter, index) => ( 
+                <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow - 1]]}/>
+              ))}
+            </div>
+          </div>
 
-        <div className={styles.row}>
-          {rows.length >= 2 ? letterArray.slice(rows[currentRow], rows[currentRow + 1]).map((letter, index) => (
-            <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow]]}/>
-          )) : null}
-        </div>
+          <div className="flex justify-center items-center gap-1">
+            {rows.length >= 2 ? letterArray.slice(rows[currentRow], rows[currentRow + 1]).map((letter, index) => (
+              <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow]]}/>
+            )) : null}
+          </div>
 
-        <div className={styles.row}>
-          {rows.length >= 3 ?letterArray.slice(rows[currentRow + 1], rows[currentRow + 2]).map((letter, index) => (
-            <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow + 1]]}/>
-          )) : null}
-        </div>
+          <div className="flex justify-center items-center gap-1">
+            {rows.length >= 3 ?letterArray.slice(rows[currentRow + 1], rows[currentRow + 2]).map((letter, index) => (
+              <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow + 1]]}/>
+            )) : null}
+          </div>
 
-        <div className={styles.row}>
-          {rows.length >= 4 ? letterArray.slice(rows[currentRow + 2], rows[currentRow + 3]).map((letter, index) => (
-            <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow + 2]]}/>
-          )) : null}
+          <div className="flex justify-center items-center gap-1">
+            {rows.length >= 4 ? letterArray.slice(rows[currentRow + 2], rows[currentRow + 3]).map((letter, index) => (
+              <Letter key={index} letter={letter} className={letterClasses[index + rows[currentRow + 2]]}/>
+            )) : null}
+          </div>
+        
         </div>
-       
-      </div>
       </>
     );
 };

@@ -26,7 +26,7 @@ export default function Home() {
           <p className="text-xl pb-3"> to typing full sentences in no time.</p>
         </div>
         <div className=" m-20 text-center">
-          thing two
+          second thing
         </div>
       </div>
 
