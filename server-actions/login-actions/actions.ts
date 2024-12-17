@@ -4,13 +4,10 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from "../../utils/supabase/server"
-import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -19,8 +16,7 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    console.log(error)
-    redirect('/error')
+    return error.message;
   }
 
   revalidatePath('/', 'layout')
@@ -28,10 +24,30 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+
+  let pass = formData.get('password') as string;
+  let confirmPass = formData.get('confirm-password') as string;
+
+  if (pass !== confirmPass) {
+    return "Passwords do not match";
+  }
+  if (pass.length < 8) {
+    return "Password must be at least 8 characters long";
+  }
+  if(!(/[A-Z]/.test(pass))){
+    return "Password must contain at least one uppercase letter";
+  }
+  if(!(/[a-z]/.test(pass))){
+    return "Password must contain at least one lowercase letter";
+  }
+  if(!(/[0-9]/.test(pass))){
+    return "Password must contain at least one number";
+  }
+  
+
+
   const supabase = createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -45,8 +61,8 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data)
 
   if (error) {
-    console.log(error)
-    redirect('/error')
+    revalidatePath('/', 'layout')
+    return error.message;
   }
 
  
@@ -58,8 +74,5 @@ export async function signup(formData: FormData) {
 
 export async function signout(){
   const supabase = createClient()
-  const { error } = await supabase.auth.signOut()
-  if (error) {
-    redirect('/error')
-  }
+  const { error } = await supabase.auth.signOut();
 }

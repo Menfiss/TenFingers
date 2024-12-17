@@ -81,6 +81,7 @@ const ExcersiseWrapper = (props:props) => {
     }
 
     const onCompletionStars = (accuracy:number, mistakes:number, finishTime:number, startTime:number, completeWordsCt:number) =>{
+        if (unfinishedWords !== 0) return 0;
         let stars = 0;
         if( props.exerciseCriteria?.accuracy_criteria_exe ?  props.exerciseCriteria.accuracy_criteria_exe.accuracy_percentage <= accuracy:false)
             stars++;
@@ -130,7 +131,7 @@ const ExcersiseWrapper = (props:props) => {
                     unfinishedWords={unfinishedWords} 
                     wordCount={props.data?.exercises?.content.split(" ").length}
                     onReset={onReset}
-                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
+                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
                 />
             
              : null}
