@@ -55,11 +55,11 @@ const JsonFilePicker = (props:props) => {
 
     useEffect(() => {
         setDefaultFile(Object.keys(props.jsonFilePaths)[0]);
-    });
+    },[]);
     
     return (
     <>
-        <select value={selectedFile} onChange={handleSelectChange} >
+        <select className='text-black' value={selectedFile} onChange={handleSelectChange} >
         <option value="" disabled>Select language</option>
         {Object.keys(props.jsonFilePaths).map((fileName) => (
             <option key={fileName} value={fileName}>

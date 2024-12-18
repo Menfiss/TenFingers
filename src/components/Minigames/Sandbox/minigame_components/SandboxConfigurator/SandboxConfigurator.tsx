@@ -105,14 +105,12 @@ const SandboxConfigurator = (props:props) => {
             }
             return resultWords.join(' ');
         };
-        
         let a = textMode === textCreationMode.json ? generateStringJson(punctuation, numbers, jsonData.words,wordCt): generateStringCustom(punctuation, numbers, customData, wordCt);
         props.setConfiguratorChanges(a, backspace, backwards, survival, time);
     }, [jsonData, wordCt, time, backwards, backspace, survival, punctuation, numbers, textMode, customData]);
 
 
     const WordsSettings = () => {
-        let a;
         return (
             <div>
                 <button className={wordCt === 10 ? "mx-1 text-orange-500": "mx-1"} onClick={() => setWordCt(10)}>10</button>
