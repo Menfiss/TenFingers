@@ -1,26 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "../../../utils/supabase/client";
 import { signout } from "../../../server-actions/login-actions/actions";
+import { User } from "@supabase/supabase-js";
 
-
-const Navbar = () => {
+interface props{
+  user: User|null;
+}
+const Navbar = (props:props) => {
   const [profileBoxVisible, setProfileBoxVisible] = useState(false);
   const [mobileBoxContentVisible, setMobileBoxContentVisible] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
-
-  const isSignedInVerification = async () => {
-    const supabase = createClient();
-    let user = await supabase.auth.getSession();
-    
-    if (user.data.session) {
-      setIsSignedIn(true);
-    } else {
-      setIsSignedIn(false);
-    }
-  }
-  isSignedInVerification();
+  
 
   return (
     <div>
@@ -135,7 +125,7 @@ const Navbar = () => {
               </button> */}
 
               <div className="relative ml-3">
-                {isSignedIn ? <form>
+                {props.user ? <form>
                                 <button className="ml-5 px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer" formAction={signout}>Sign out</button>
                               </form>:
                 <div className="flex ">
