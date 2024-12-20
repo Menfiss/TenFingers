@@ -20,7 +20,7 @@ interface props{
 const TypingTextStats = (props:props) => {
 
     return(
-        <div className="absolute w-1/2 h-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">
+        <div className="absolute w-1/2 h-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="bg-gray-700  flex items-center justify-center flex-col h-full w-full">
             <div>
                 <div>raw wpm <Wpm startTime={props.startTime} endTime={props.finishTime} numOfWords={props.wordCount - props.unfinishedWords}/> </div>

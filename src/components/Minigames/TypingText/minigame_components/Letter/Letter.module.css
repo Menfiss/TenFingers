@@ -1,37 +1,117 @@
-
-.undiscovered{
-    font-size: 2.5em;
-    color: gray;
-    white-space: pre-wrap;
-    font-family: sans-serif;
+.undiscovered {
+  font-size: 2.5em;
+  color: gray;
+  white-space: pre-wrap;
+  font-family: sans-serif;
 }
+
+/* .wrong {
+  font-size: 2.5em;
+  color: red;
+  text-decoration: underline red;
+  text-decoration-skip-ink: none;
+  white-space: pre-wrap;
+  font-family: sans-serif;
+} */
 
 .wrong{
-    font-size: 2.5em;
-    color: red;
-    text-decoration: underline red;
-    text-decoration-skip-ink: none;
-    white-space: pre-wrap;
-    font-family: sans-serif;
-
+    position: relative;
+  display: inline-block;
+  color: red;
+  font-size: 2.5em;
+  font-family: sans-serif;
+  overflow: hidden;
+  white-space: pre-wrap;
 }
 
-.current{
+.wrong::after {
+    content: '';
+    position: absolute;
+    margin-bottom: 9px;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: red;
+    animation: underline-in 0.3s forwards;
+}
+
+/* .current{
     color: gray;
     font-size: 2.5em;
     text-decoration: underline orange;
     text-decoration-skip-ink: none;
     white-space: pre-wrap;
     font-family: sans-serif;
+} */
 
+.current {
+  position: relative;
+  display: inline-block;
+  color: gray;
+  font-size: 2.5em;
+  font-family: sans-serif;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.current::after {
+    content: '';
+    position: absolute;
+    margin-bottom: 9px;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: orange;
+    animation: underline-in 0.3s forwards;
+}
+
+/* .correct {
+  font-size: 2.5em;
+  color: white;
+  white-space: pre-wrap;
+  font-family: sans-serif;
+} */
+
+.correct {
+    position: relative;
+  display: inline-block;
+  color: white;
+  font-size: 2.5em;
+  font-family: sans-serif;
+  overflow: hidden;
+  white-space: pre-wrap;
+  }
+
+.correct::after {
+    content: '';
+    position: absolute;
+    margin-bottom: 9px;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: orange;
+    animation: underline-out 0.3s forwards;
 }
 
 
-.correct{
-    font-size: 2.5em;
-    color: white;
-    white-space: pre-wrap;
-    font-family: sans-serif;
-
-}
-
+@keyframes underline-in {
+    from { 
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes underline-out {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+      transform: translateX(100%);
+    }
+  }
