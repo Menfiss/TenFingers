@@ -65,21 +65,25 @@ const QuotesMinigame = () => {
 
     return (
         <div>
-            <JsonFilePicker jsonFilePaths={QuotesPaths} onFileSelect={handleFileSelect}/>
-            <button onClick={(e) => {getNewQuote(); e.currentTarget.blur()}}>New Quote</button>
-            <TypingText key={rerender} text={text} backspace={true} backwards={false} survival={0} timer={0} onCompletion={onCompletion} />
-            {finishTime !== 0 ? <TypingTextStats
-                startTime={startTime}
-                finishTime={finishTime}
-                correctWordsCt={correctWordsCt}
-                mistakes={mistakes}
-                consistencyArray={consistencyArray}
-                accuracy={accuracy}
-                mean={mean}
-                unfinishedWords={unfinishedWords}
-                wordCount={text.split(' ').length}
-                onReset={onReset}
-            /> : null}
+            <div className="flex justify-center items-center mt-[10vh]">
+                <JsonFilePicker jsonFilePaths={QuotesPaths} onFileSelect={handleFileSelect}/>
+                <button onClick={(e) => {getNewQuote(); e.currentTarget.blur()}}><svg className="h-8 w-8 text-white hover:text-orange-500 transition duration-300"  width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" /></svg></button>
+            </div>
+            <div className="mt-[20vh]">
+                <TypingText key={rerender} text={text} backspace={true} backwards={false} survival={0} timer={0} onCompletion={onCompletion} />
+                {finishTime !== 0 ? <TypingTextStats
+                    startTime={startTime}
+                    finishTime={finishTime}
+                    correctWordsCt={correctWordsCt}
+                    mistakes={mistakes}
+                    consistencyArray={consistencyArray}
+                    accuracy={accuracy}
+                    mean={mean}
+                    unfinishedWords={unfinishedWords}
+                    wordCount={text.split(' ').length}
+                    onReset={onReset}
+                /> : null}
+            </div>
         </div>
     );
 };

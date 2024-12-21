@@ -37,10 +37,10 @@ const JsonFilePicker = (props: props) => {
     <div className="flex flex-col items-center ">
         <button onClick={(e) => {setShowDropdown(!showDropdown); e.currentTarget.blur()}}>
             <div className="group flex items-center">
-                <svg className="h-8 w-8 text-white group-hover:text-orange-500 transition duration-300"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className= {!showDropdown ? "h-8 w-8 text-white group-hover:text-orange-500 transition duration-300" : "h-8 w-8 text-orange-500"}   fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                 </svg>
-                <div className="ml-3 mr-6 group-hover:text-orange-500 transition duration-300">{loading ? "Loading":selectedFile}</div>
+                <div className= {!showDropdown ? "ml-3 mr-6 group-hover:text-orange-500 transition duration-300": "ml-3 mr-6 text-orange-500"}>{loading ? "Loading":selectedFile}</div>
             </div>
         </button>
         {showDropdown ? 
