@@ -39,6 +39,7 @@ const SandboxConfigurator = (props:props) => {
     const [survival, setSurvival] = useState<number>(0);
     const [punctuation, setPunctuation] = useState<boolean>(false);
     const [numbers, setNumbers] = useState<boolean>(false);
+    const [restartFlag, setRestartFlag] = useState<boolean>(false);
 
     const handleFileSelect = (data: any) => {
         setJsonData(data);
@@ -107,7 +108,7 @@ const SandboxConfigurator = (props:props) => {
         };
         let a = textMode === textCreationMode.json ? generateStringJson(punctuation, numbers, jsonData.words,wordCt): generateStringCustom(punctuation, numbers, customData, wordCt);
         props.setConfiguratorChanges(a, backspace, backwards, survival, time);
-    }, [jsonData, wordCt, time, backwards, backspace, survival, punctuation, numbers, textMode, customData]);
+    }, [jsonData, wordCt, time, backwards, backspace, survival, punctuation, numbers, textMode, customData, restartFlag]);
 
 
     const WordsSettings = () => {
@@ -147,33 +148,34 @@ const SandboxConfigurator = (props:props) => {
 
 
     return (
-        <div onClick={(e) => e.currentTarget.blur()} className="mt-4">
-            <div className="flex justify-center">
+        <div onClick={(e) => e.currentTarget.blur()} className="mt-6">
+            <div>
                 <div className="flex flex-col items-center">
-                    <div className="flex gap-8 mb-3">
+                    <div className="flex gap-8 px-4 py-1 bg-gray-700 rounded-full">
                         <button className={settingsMode === settings.wordsMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.wordsMode); e.currentTarget.blur()}}>Words</button>
                         <button className={settingsMode === settings.timeMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.timeMode); e.currentTarget.blur()}}>Time</button>
                         <button className={settingsMode === settings.survivalMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.survivalMode); e.currentTarget.blur()}}>Survival</button>
                         <button className={settingsMode === settings.customMode || textMode === textCreationMode.custom ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.customMode); setActiveCustomSettings(true); e.currentTarget.blur()}}>Custom</button>
+                        <div>
+                            {settingsMode === settings.wordsMode ? WordsSettings() : null}
+                            {settingsMode === settings.timeMode ? TimeSettings() : null}
+                            {settingsMode === settings.survivalMode ? SurvivalSettings() : null}
+                            {settingsMode === settings.customMode && activeCustomSettings ? <CustomSettings setAction={setActiveCustomSettings} customData={customData} setCustomData={handleCustomData}/> : null}
+                        </div>
+                        <div className="bg-gray-700">|</div>
+                        <button className= {!backspace ? "text-orange-500":""} onClick={(e) => {setBackspace(!backspace); e.currentTarget.blur()}}>No Backspace</button>
+                        <button className= {backwards ? "text-orange-500":""} onClick={(e) => {setBackwards(!backwards); e.currentTarget.blur()}}>Backwards</button>
+                        <button className= {punctuation ? "text-orange-500":""} onClick={(e) => {setPunctuation(!punctuation); e.currentTarget.blur()}}>Punctuation</button>
+                        <button className= {numbers ? "text-orange-500":""} onClick={(e) => {setNumbers(!numbers); e.currentTarget.blur()}}>Numbers</button>
                     </div>
-                    <div>
-                        {settingsMode === settings.wordsMode ? WordsSettings() : null}
-                        {settingsMode === settings.timeMode ? TimeSettings() : null}
-                        {settingsMode === settings.survivalMode ? SurvivalSettings() : null}
-                        {settingsMode === settings.customMode && activeCustomSettings ? <CustomSettings setAction={setActiveCustomSettings} customData={customData} setCustomData={handleCustomData}/> : null}
+                    <div className="flex gap-4 mt-48 mb-16">
+                        <JsonFilePicker onFileSelect={handleFileSelect} jsonFilePaths={LanguagePaths} />
+                        <button onClick={(e) => {setRestartFlag(!restartFlag);e.currentTarget.blur()} }><svg className="h-8 w-8 text-white hover:text-orange-500 transition duration-300"  width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" /></svg></button>
                     </div>
-                </div>
-                <div className="mx-8">|</div>
-                <div className="flex gap-8 items-start">
-                    <button className= {!backspace ? "text-orange-500":""} onClick={(e) => {setBackspace(!backspace); e.currentTarget.blur()}}>No Backspace</button>
-                    <button className= {backwards ? "text-orange-500":""} onClick={(e) => {setBackwards(!backwards); e.currentTarget.blur()}}>Backwards</button>
-                    <button className= {punctuation ? "text-orange-500":""} onClick={(e) => {setPunctuation(!punctuation); e.currentTarget.blur()}}>Punctuation</button>
-                    <button className= {numbers ? "text-orange-500":""} onClick={(e) => {setNumbers(!numbers); e.currentTarget.blur()}}>Numbers</button>
+                    
                 </div>
             </div>
-            <div>
-                <JsonFilePicker onFileSelect={handleFileSelect} jsonFilePaths={LanguagePaths} />
-            </div>
+            
         </div>
     );
 };

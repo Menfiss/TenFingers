@@ -28,8 +28,8 @@ const CustomSettings = (props:props) => {
 
     return(
         <div>
-            <button onClick={() => setCustomData([])}>clear</button>
-            <button onClick={() => props.setAction(false)}>ok</button>
+            <button className="pr-3" onClick={() => setCustomData([])}>Clear</button>
+            <button className="pr-3" onClick={() => props.setAction(false)}>Ok</button>
             {customData.length > 0 ? customData.map((letter, index) => {
                 return <span key={index}>{letter +" "}</span>
             }): <span> Press any key</span>}

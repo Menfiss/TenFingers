@@ -210,7 +210,7 @@ const TypingText = (props:props) => {
     return (
       <>
         
-        <div className="flex justify-center items-center flex-col mx-auto mt-[35vh]">
+        <div className="flex justify-center items-center flex-col mx-auto">
           
           
           <div className="flex flex-col justify-start items-start gap-1">
