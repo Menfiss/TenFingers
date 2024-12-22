@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react";
+import {  useEffect, useMemo } from "react";
 
 interface props{
     health:number,
@@ -17,11 +17,13 @@ const Health = (props:props) => {
         for(let i = 0; i < props.totalMistakes; i++){
           heartsArray.push("x");
         }
-        if(props.health - props.totalMistakes <= 0){
-          props.setFinish(true);
-        }
         return heartsArray;
     }
+    useEffect(() => {
+      if(props.health - props.totalMistakes <= 0){
+        props.setFinish(true);
+      }
+    }, [props.totalMistakes,props.health]);
     
 
     let heartsArray = useMemo(() => prepareHeartsArray(),[props.totalMistakes]);

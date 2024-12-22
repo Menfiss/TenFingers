@@ -170,7 +170,7 @@ const SandboxConfigurator = (props:props) => {
                     </div>
                     <div className="flex gap-4 mt-48 mb-16">
                         <JsonFilePicker onFileSelect={handleFileSelect} jsonFilePaths={LanguagePaths} />
-                        <button onClick={(e) => {setRestartFlag(!restartFlag);e.currentTarget.blur()} }><svg className="h-8 w-8 text-white hover:text-orange-500 transition duration-300"  width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" /></svg></button>
+                        <button onClick={(e) => {setRestartFlag(!restartFlag);e.currentTarget.blur()} }><svg className="h-8 w-8 text-white hover:text-orange-500 transition duration-300"  width="16" height="16" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" /></svg></button>
                     </div>
                     
                 </div>

@@ -35,6 +35,7 @@ const TypingText = (props:props) => {
     const letterArray = useMemo(() => props.text.split(''), [props.text]);
     const totalWords = useMemo(() => props.text.split(' ').length, [props.text]);
 
+    
     //switches classes of letters
     const updateLetterClasses = (oldIndex:number, oldClass:string, newIndex:number, newClass:string) => {
       setLetterClasses(prevClasses => {
@@ -230,7 +231,7 @@ const TypingText = (props:props) => {
                 {finishedWords}/{totalWords}
               </div>
               <div className="flex flex-row gap-10 text-xl mr-4">
-                {props.survival > 0 ? <Health health={props.survival} totalMistakes={totalMistakes} setFinish={setIsFinished}/>:null}
+                {props.survival > 0 && !isFinished ? <Health health={props.survival} totalMistakes={totalMistakes} setFinish={setIsFinished}/>:null}
                 {props.timer > 0 ? <Timer time={props.timer} start={isStarted} setFinish={setIsFinished}/> : null}
                 {props.backspace ? null : <div>No Backspace</div>}
               </div>

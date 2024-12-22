@@ -52,9 +52,14 @@ const Sandbox = () => {
 
     return (
         <div>
-            <SandboxConfigurator setConfiguratorChanges={handleConfiguratorChange}/>
-            <TypingText key={rerender} onCompletion={onCompletion} text={text} survival={survival} backspace={backspace} backwards={backwards} timer={time}></TypingText>
-            {finishTime !== 0 ? 
+            
+            {finishTime === 0 ? 
+            <>
+                <SandboxConfigurator setConfiguratorChanges={handleConfiguratorChange}/>
+                <TypingText key={rerender} onCompletion={onCompletion} text={text} survival={survival} backspace={backspace} backwards={backwards} timer={time}></TypingText>
+            </>
+            :
+
             <TypingTextStats 
                 onReset={onReset}
                 startTime={startTime}
@@ -66,7 +71,7 @@ const Sandbox = () => {
                 mean={mean}
                 unfinishedWords={unfinishedWords}
                 wordCount={text.split(" ").length}
-            /> : null}
+            />}
         </div>
     );
 };

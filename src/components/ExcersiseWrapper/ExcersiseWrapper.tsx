@@ -113,28 +113,33 @@ const ExcersiseWrapper = (props:props) => {
     }
     return (
         <div>
-            <TypingText key={resetCt} onCompletion={onCompletion} text={props.data?.exercises?.content} 
-            backspace={props.data?.backspace_type_exe?.backspace ? props.data?.backspace_type_exe?.backspace:true} 
-            survival={props.data?.survival_type_exe?.health ? props.data?.survival_type_exe.health:-1} 
-            timer={props.data?.timer_type_exe?.time_sec ? props.data?.timer_type_exe.time_sec:-1} 
-            backwards={props.data?.backwards_type_exe?.backwards ? props.data?.backwards_type_exe?.backwards:false}></TypingText>
+           
 
-            {finishTime !== 0 ? 
-                <TypingTextStats 
-                    startTime={startTime} 
-                    finishTime={finishTime} 
-                    correctWordsCt={correctWordsCt} 
-                    mistakes={mistakes} 
-                    consistencyArray={consistencyArray} 
-                    accuracy={accuracy} 
-                    mean={mean} 
-                    unfinishedWords={unfinishedWords} 
-                    wordCount={props.data?.exercises?.content.split(" ").length}
-                    onReset={onReset}
-                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
-                />
-            
-             : null}
+            {finishTime === 0 ? 
+            <div className="mt-72">
+                <TypingText key={resetCt} onCompletion={onCompletion} text={props.data?.exercises?.content} 
+                backspace={props.data?.backspace_type_exe?.backspace ? props.data?.backspace_type_exe?.backspace:true} 
+                survival={props.data?.survival_type_exe?.health ? props.data?.survival_type_exe.health:-1} 
+                timer={props.data?.timer_type_exe?.time_sec ? props.data?.timer_type_exe.time_sec:-1} 
+                backwards={props.data?.backwards_type_exe?.backwards ? props.data?.backwards_type_exe?.backwards:false}></TypingText>
+            </div>
+            :
+
+            <TypingTextStats 
+                stars={onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt)}
+                startTime={startTime} 
+                finishTime={finishTime} 
+                correctWordsCt={correctWordsCt} 
+                mistakes={mistakes} 
+                consistencyArray={consistencyArray} 
+                accuracy={accuracy} 
+                mean={mean} 
+                unfinishedWords={unfinishedWords} 
+                wordCount={props.data?.exercises?.content.split(" ").length}
+                onReset={onReset}
+                nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
+            />
+            }
     
         </div>
         
