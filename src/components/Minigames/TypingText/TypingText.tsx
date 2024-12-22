@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useState, useMemo } from "react";
 import Letter from "./minigame_components/Letter/Letter";
-import styles from "./TypingText.module.css";
 import Timer from "./minigame_components/Timer/Timer";
 import Health from "@/components/Minigames/TypingText/minigame_components/Health/Health";
 
@@ -15,6 +14,8 @@ interface props{
     backwards:boolean
     onStart?: () => void
 }
+
+//Sphegetti code READ AT YOUR OWN RISK !!!!!!!!! I dont take responsibility for any mental or physical damage caused by this code.
 
 const TypingText = (props:props) => {
     const [letterClasses, setLetterClasses] = useState<string[]>(Array(props.text.length).fill('undiscovered')); //array of classes for each letter
@@ -44,13 +45,23 @@ const TypingText = (props:props) => {
       });
     };
 
+    //if the text is backwards, the class is changed to backwards for style compatibility
+    const IsBackwardsClassChanger = (className:string) =>{
+      if(props.backwards){
+        return className + "backwards";
+      }
+      return className;
+    }
+
     //calculates the number of correct words, incorrect words and mistakes
     const calculateTextStats = () =>{
-      // 0-> correct words, 1-> incorrect words, 2-> mistakes
-      let stats: [number,number,number] = [0,0,0];
+
+      let correctClass = props.backwards ? "correctbackwards" : "correct";
+      let stats: [number,number,number] = [0,0,0]; // 0-> correct words, 1-> incorrect words, 2-> mistakes
       let mistakesCounter = 0;
+
       for(let i = 0; i < letterArray.length; i++){
-        if(letterClasses[i] != "correct" && letterArray[i] !== " "){
+        if(letterClasses[i] != correctClass && letterArray[i] !== " "){
           mistakesCounter++;
         }
         if((letterArray[i] === " " || i === letterArray.length -1) && mistakesCounter === 0){
@@ -121,7 +132,7 @@ const TypingText = (props:props) => {
 
       if(event.key === currentLetter){
         currentLetter === " " ? setFinishedWords(prevWords => prevWords + 1) : null;
-        updateLetterClasses(currentIndex, "correct", currentIndex + addNumber, "current");
+        updateLetterClasses(currentIndex, IsBackwardsClassChanger("correct"), currentIndex + addNumber, IsBackwardsClassChanger("current"));
         setCurrentLetter(letterArray[currentIndex + addNumber]);
         setCurrentIndex(prevIndex => prevIndex + addNumber);
       }
@@ -130,7 +141,7 @@ const TypingText = (props:props) => {
           return;
         }
         letterArray[currentIndex - addNumber] === " " ? setFinishedWords(prevWords => prevWords - 1) : null;
-        updateLetterClasses(currentIndex, "undiscovered", currentIndex - addNumber, "current");
+        updateLetterClasses(currentIndex, "undiscovered", currentIndex - addNumber, IsBackwardsClassChanger("current"));
         setCurrentLetter(letterArray[currentIndex - addNumber]);
         setCurrentIndex(prevIndex => prevIndex - addNumber);
         return;
@@ -140,7 +151,7 @@ const TypingText = (props:props) => {
       }
       else if (event.key !== currentLetter){
         currentLetter === " " ? setFinishedWords(prevWords => prevWords + 1) : null;
-        updateLetterClasses(currentIndex, "wrong", currentIndex + addNumber, "current");
+        updateLetterClasses(currentIndex, IsBackwardsClassChanger("wrong"), currentIndex + addNumber, IsBackwardsClassChanger("current"));
         setCurrentLetter(letterArray[currentIndex + addNumber]);
         setCurrentIndex(prevIndex => prevIndex + addNumber);
         setTotalMistakes(prevMistakes => prevMistakes + 1);
@@ -161,7 +172,7 @@ const TypingText = (props:props) => {
     useEffect(() => {
       setLetterClasses(prevClasses => {
         const newClasses = [...prevClasses];
-        props.backwards ? newClasses[newClasses.length-1] = "current":newClasses[0] = "current";
+        props.backwards ? newClasses[newClasses.length-1] = "currentbackwards":newClasses[0] = "current";
         return newClasses;
       });
     }, []);

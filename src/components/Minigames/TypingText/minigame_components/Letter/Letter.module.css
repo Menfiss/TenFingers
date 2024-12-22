@@ -27,16 +27,40 @@
 }
 
 .wrong::after {
-    user-select: none;
-    content: '';
-    position: absolute;
-    margin-bottom: 9px;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 4px;
-    background: red;
-    animation: underline-in 0.3s forwards;
+  user-select: none;
+  content: '';
+  position: absolute;
+  margin-bottom: 9px;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background: red;
+  animation: underline-out 0.3s forwards;
+}
+
+.wrongbackwards{
+  user-select: none;
+  position: relative;
+  display: inline-block;
+  color: red;
+  font-size: 2.5em;
+  font-family: sans-serif;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.wrongbackwards::after{
+  user-select: none;
+  content: '';
+  position: absolute;
+  margin-bottom: 9px;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 4px;
+  background: red;
+  animation: underline-out 0.3s forwards;
 }
 
 /* .current{
@@ -60,16 +84,40 @@
 }
 
 .current::after {
-    user-select: none;
-    content: '';
-    position: absolute;
-    margin-bottom: 9px;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 4px;
-    background: orange;
-    animation: underline-in 0.3s forwards;
+  user-select: none;
+  content: '';
+  position: absolute;
+  margin-bottom: 9px;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background: orange;
+  animation: underline-in 0.3s forwards;
+}
+
+.currentbackwards{
+  user-select: none;
+  position: relative;
+  display: inline-block;
+  color: gray;
+  font-size: 2.5em;
+  font-family: sans-serif;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.currentbackwards::after{
+  user-select: none;
+  content: '';
+  position: absolute;
+  margin-bottom: 9px;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 4px;
+  background: orange;
+  animation: underline-in 0.3s forwards;
 }
 
 /* .correct {
@@ -79,7 +127,7 @@
   font-family: sans-serif;
 } */
 
-.correct {
+.correct{
   user-select: none;
   position: relative;
   display: inline-block;
@@ -91,16 +139,40 @@
   }
 
 .correct::after {
-    user-select: none;
-    content: '';
-    position: absolute;
-    margin-bottom: 9px;
-    bottom: 0;
-    right: 0;
-    width: 0;
-    height: 2px;
-    background: orange;
-    animation: underline-out 0.3s forwards;
+  user-select: none;
+  content: '';
+  position: absolute;
+  margin-bottom: 9px;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background: orange;
+  animation: underline-out 0.3s forwards;
+}
+
+.correctbackwards{
+  user-select: none;
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-size: 2.5em;
+  font-family: sans-serif;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.correctbackwards::after{
+  user-select: none;
+  content: '';
+  position: absolute;
+  margin-bottom: 9px;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: orange;
+  animation: underline-out 0.3s forwards;
 }
 
 
