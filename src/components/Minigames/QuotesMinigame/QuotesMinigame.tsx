@@ -5,6 +5,7 @@ import { QuotesPaths } from "../../../../public/texts/quotes/QuotePaths";
 import { useEffect, useState } from "react";
 import TypingText from "../TypingText/TypingText";
 import TypingTextStats from "@/components/TypingTextStats/TypingTextStats";
+import NotMobile from "@/components/NotMobile/NotMobile";
 
 interface Quotes{
     language: string;
@@ -30,6 +31,7 @@ const QuotesMinigame = () => {
     const [unfinishedWords, setUnfinishedWords] = useState(0);
 
     const [rerender, setRerender] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
 
     const handleFileSelect = (data: any) => {
         setQuotes(data);
@@ -65,11 +67,22 @@ const QuotesMinigame = () => {
         setUnfinishedWords(unfinishedWords);
     }
 
+    useEffect(() => {
+        const handleResize = () => {
+          setIsMobile(window.innerWidth <= 768);
+        };
+    
+        handleResize();
+        window.addEventListener('resize', handleResize);
+    
+        return () => window.removeEventListener('resize', handleResize);
+      }, []);
+      
     return (
         <div>
-           
-            
-               
+
+            {isMobile ? <NotMobile /> : 
+            <div>  
                 {finishTime === 0 ? 
                 <>
                     <div className="flex justify-center items-center flex-col mt-[10vh] mb-20">
@@ -94,8 +107,8 @@ const QuotesMinigame = () => {
                     wordCount={text.split(' ').length}
                     onReset={onReset}
                 />}
-                
-            
+            </div>}
+
         </div>
     );
 };

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tables } from "@/types/supabase";
 import TypingText from "../Minigames/TypingText/TypingText";
 import { calculateWPM } from "../WpmCalculator/Wpm";
@@ -8,6 +8,7 @@ import ConsistencyCalculator from "../ConsistencyCalculator/ConsistencyCalculato
 import { GetUserExercise } from "../../../database/querries/exercises";
 import { updateUserExercise, insertUserExercise } from "../../../server-actions/exercise-actions/actions";
 import TypingTextStats from "../TypingTextStats/TypingTextStats";
+import NotMobile from "../NotMobile/NotMobile";
 
 
 
@@ -62,6 +63,8 @@ const ExcersiseWrapper = (props:props) => {
     const [mean, setMean] = useState(0);
     const [unfinishedWords, setUnfinishedWords] = useState(0);
     
+    const [isMobile, setIsMobile] = useState(false);
+
 
 
     const onCompletion = (startTime:number, finishTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) =>{
@@ -111,38 +114,50 @@ const ExcersiseWrapper = (props:props) => {
     if(props.data?.exercises?.content === undefined){
         return(<>Something went wrong</>);
     }
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
     return (
         <div>
-           
+            {isMobile ? <NotMobile/>:
+            <div>
+                {finishTime === 0 ? 
+                <div className="mt-72">
+                    <TypingText key={resetCt} onCompletion={onCompletion} text={props.data?.exercises?.content} 
+                    backspace={props.data?.backspace_type_exe?.backspace ? props.data?.backspace_type_exe?.backspace:true} 
+                    survival={props.data?.survival_type_exe?.health ? props.data?.survival_type_exe.health:-1} 
+                    timer={props.data?.timer_type_exe?.time_sec ? props.data?.timer_type_exe.time_sec:-1} 
+                    backwards={props.data?.backwards_type_exe?.backwards ? props.data?.backwards_type_exe?.backwards:false}></TypingText>
+                </div>
+                :
 
-            {finishTime === 0 ? 
-            <div className="mt-72">
-                <TypingText key={resetCt} onCompletion={onCompletion} text={props.data?.exercises?.content} 
-                backspace={props.data?.backspace_type_exe?.backspace ? props.data?.backspace_type_exe?.backspace:true} 
-                survival={props.data?.survival_type_exe?.health ? props.data?.survival_type_exe.health:-1} 
-                timer={props.data?.timer_type_exe?.time_sec ? props.data?.timer_type_exe.time_sec:-1} 
-                backwards={props.data?.backwards_type_exe?.backwards ? props.data?.backwards_type_exe?.backwards:false}></TypingText>
-            </div>
-            :
-
-            <TypingTextStats 
-                stars={onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt)}
-                startTime={startTime} 
-                finishTime={finishTime} 
-                correctWordsCt={correctWordsCt} 
-                mistakes={mistakes} 
-                consistencyArray={consistencyArray} 
-                accuracy={accuracy} 
-                mean={mean} 
-                unfinishedWords={unfinishedWords} 
-                wordCount={props.data?.exercises?.content.split(" ").length}
-                onReset={onReset}
-                nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
-            />
-            }
-    
+                <TypingTextStats 
+                    stars={onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt)}
+                    startTime={startTime} 
+                    finishTime={finishTime} 
+                    correctWordsCt={correctWordsCt} 
+                    mistakes={mistakes} 
+                    consistencyArray={consistencyArray} 
+                    accuracy={accuracy} 
+                    mean={mean} 
+                    unfinishedWords={unfinishedWords} 
+                    wordCount={props.data?.exercises?.content.split(" ").length}
+                    onReset={onReset}
+                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
+                />
+                }
+            </div>}
         </div>
-        
     );
 }
 
