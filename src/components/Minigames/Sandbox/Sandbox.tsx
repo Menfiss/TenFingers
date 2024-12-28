@@ -51,22 +51,11 @@ const Sandbox = () => {
         setRerender(rerender+1);
         setFinishTime(0);
     };
-
-     useEffect(() => {
-        const handleResize = () => {
-          setIsMobile(window.innerWidth <= 768);
-        };
-    
-        handleResize();
-        window.addEventListener('resize', handleResize);
-    
-        return () => window.removeEventListener('resize', handleResize);
-      }, []);
       
     return (
         <div>
-            {isMobile ? <NotMobile/> : 
-            
+            <NotMobile setIsMobile={setIsMobile}/>
+            {!isMobile ?
             <div>
                 {finishTime === 0 ? 
                 <>
@@ -87,7 +76,7 @@ const Sandbox = () => {
                     unfinishedWords={unfinishedWords}
                     wordCount={text.split(" ").length}
                 />}
-            </div>}
+            </div> :null}
         </div>
     );
 };

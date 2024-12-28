@@ -2,6 +2,7 @@
 import {updateHighScore, insertHighScore } from "@/../database/querries/drop_tiles";
 import { useEffect, useState } from "react";
 import FallingMinigame from "../Minigames/FallingMinigame/FallingMinigame";
+import NotMobile from "../NotMobile/NotMobile";
 
 interface props{
     highscore: number;
@@ -19,6 +20,8 @@ const FallingMinigameWrapper = (props:props) => {
     const [highscoreExists, setHighScoreExists] = useState<boolean>(props.highscore !== 0 ? true : false);
     const [swappedZ, setSwappedZ] = useState<boolean>(false); //false = qwerty
     const [difficulty, setDifficulty] = useState<GameDifficulty>(GameDifficulty.EASY);
+
+    const [isMobile, setIsMobile] = useState<boolean>(false);
 
     const UpdateHighScore = async(score:number) => {
         let data = await updateHighScore(score);
@@ -57,6 +60,9 @@ const FallingMinigameWrapper = (props:props) => {
 
     return(
         <div>
+
+            <NotMobile setIsMobile={setIsMobile}/>
+            {!isMobile ? <div>
             {!gameStarted ? <div className="flex flex-col items-center h-[calc(100vh-4.5rem)] justify-around">
             <div className="text-2xl flex flex-col items-center"><div>{highscore}</div><div>highscore</div></div>
             <div className="flex flex-row gap-8">
@@ -81,7 +87,7 @@ const FallingMinigameWrapper = (props:props) => {
             <FallingMinigame onCompletion={OnCompletion} swappedZ={swappedZ} difficulty={difficulty}/>
 
             </div>
-            }
+            }</div>:null}
         </div>
     );
 };

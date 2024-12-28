@@ -115,21 +115,11 @@ const ExcersiseWrapper = (props:props) => {
         return(<>Something went wrong</>);
     }
 
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
     return (
         <div>
-            {isMobile ? <NotMobile/>:
+            <NotMobile setIsMobile={setIsMobile}/>
+
+            {!isMobile ?
             <div>
                 {finishTime === 0 ? 
                 <div className="mt-72">
@@ -156,7 +146,7 @@ const ExcersiseWrapper = (props:props) => {
                     nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
                 />
                 }
-            </div>}
+            </div>:null}
         </div>
     );
 }

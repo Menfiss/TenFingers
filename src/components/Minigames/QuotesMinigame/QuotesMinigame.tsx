@@ -66,22 +66,12 @@ const QuotesMinigame = () => {
         setMean(mean);
         setUnfinishedWords(unfinishedWords);
     }
-
-    useEffect(() => {
-        const handleResize = () => {
-          setIsMobile(window.innerWidth <= 768);
-        };
-    
-        handleResize();
-        window.addEventListener('resize', handleResize);
-    
-        return () => window.removeEventListener('resize', handleResize);
-      }, []);
       
     return (
         <div>
+            <NotMobile setIsMobile={setIsMobile} /> 
 
-            {isMobile ? <NotMobile /> : 
+            {!isMobile ?
             <div>  
                 {finishTime === 0 ? 
                 <>
@@ -107,7 +97,7 @@ const QuotesMinigame = () => {
                     wordCount={text.split(' ').length}
                     onReset={onReset}
                 />}
-            </div>}
+            </div> : null}
 
         </div>
     );
