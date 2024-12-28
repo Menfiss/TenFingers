@@ -16,6 +16,7 @@ const Tile = (props:props) => {
         justifyContent: 'center',
         fontSize: '2em',
         border: '1px solid blue',
+        borderWidth: '1px 0px 1px 0px',
     };
 
 

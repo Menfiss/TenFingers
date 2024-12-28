@@ -1,10 +1,14 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Column from "./minigame_components/Column/Column";
-import style from "./FallingMinigame.module.css";
+import PopUpText from "./minigame_components/PopUpText/PopUpText";
+import { GameDifficulty } from "@/components/FallingMinigameWrapper/FallingMinigameWrapper";
+
 
 interface props{
   onCompletion: (score:number) => void;
+  swappedZ: boolean;
+  difficulty: GameDifficulty;
 }
 
 export interface ITile {
@@ -15,12 +19,14 @@ export interface ITile {
 const FallingMinigame = (props:props) => {
     const [tiles, setTiles] = useState<ITile[]>([]);
     const tilesRef = useRef(tiles);
-    const [speed, setSpeed] = useState<number>(10);
+    const [speed, setSpeed] = useState<number>(10 * props.difficulty);
     const [speedIncrease, setSpeedIncrease] = useState<number>(10000); //time after which the speed increases
     const [spawnRate, setSpawnRate] = useState<number>(1000);
     const [gameEnded, setGameEnded] = useState<boolean>(false);
     const [score, setScore] = useState<number>(0);
     const [combo, setCombo] = useState<number>(1);
+    const [popUp, setPopUp] = useState<string>("");
+    const [rerenderPopUp, setRerenderPopUp] = useState<boolean>(false);
     const requestRef = useRef<number>();
     
 
@@ -28,7 +34,7 @@ const FallingMinigame = (props:props) => {
     const getCollNum = (key:string) => {
 
       switch (key) {
-          case "a": case "q": case "y":
+          case "a": case "q": case props.swappedZ ? "y" : "z":
               return 1;
           case "s": case "w": case "x":
               return 2;
@@ -36,7 +42,7 @@ const FallingMinigame = (props:props) => {
               return 3;
           case "f": case "r": case "v": case "t": case "g": case "b":
               return 4;
-          case "h": case "n": case "u": case "j": case "m": case "z":
+          case "h": case "n": case "u": case "j": case "m": case props.swappedZ ? "z" : "y":
               return 5;
           case "k": case "i":
               return 6;
@@ -69,6 +75,7 @@ const FallingMinigame = (props:props) => {
                 tile.pos += (speed * deltaTime);
                 if (tile.pos >= 100) {
                     newTiles.splice(index, 1);
+                    console.log(tile.char);
                     setGameEnded(true);
                 }
             });
@@ -126,20 +133,28 @@ const FallingMinigame = (props:props) => {
     },[spawnRate,speed]);
     
     const handleScore = (position:number) => {
-      if (position >= 70 && position <= 80) {
+      if (position >= 60 && position <= 71) {
         //perfect
         setCombo((combo) => combo + 1);
-        setScore((score) => score + 100 * combo);
+        setScore((score) => score + 100 * combo * props.difficulty);
+        setPopUp("Perfect!");
+        setRerenderPopUp((rerenderPopUp) => !rerenderPopUp);
         
       }
-      else if (position >= 60 && position <= 90){
+      else if (position >= 50 && position <= 80){
         //good
         setCombo((combo) => combo + 1);
-        setScore((score) => score + 50 * combo);
+        setScore((score) => score + 50 * combo * props.difficulty);
+        setPopUp("OK");
+        setRerenderPopUp((rerenderPopUp) => !rerenderPopUp);
+
       }
       else{
         //ok...
         setCombo(1);
+        setPopUp("Meh");
+        setRerenderPopUp((rerenderPopUp) => !rerenderPopUp);
+
         	
       }
 
@@ -176,6 +191,14 @@ const FallingMinigame = (props:props) => {
           };
       },[combo]);
 
+    //scrolls to the game on render
+      useEffect(() => {
+        const targetElement = document.getElementById("game");
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "instant" });
+        }
+      }, [])
+
 
     //run when the game ends
     useEffect(() => {
@@ -185,9 +208,12 @@ const FallingMinigame = (props:props) => {
         
     },[gameEnded]);
 
+    
     return (
-      <div>
-        <div className={style.box}>
+      <div id="game" className="flex justify-center overflow-clip">
+        <div className="absolute z-10 text-4xl mt-10">{score}</div>
+        <div className="absolute z-10 text-4xl mt-24"><PopUpText text={popUp} rerender={rerenderPopUp}/></div>
+        <div className="flex justify-center h-screen w-[80vw] object-contain overflow-hidden">
             
              <Column tiles={tiles} index={1}/>
              <Column tiles={tiles} index={2}/>
@@ -198,12 +224,10 @@ const FallingMinigame = (props:props) => {
              <Column tiles={tiles} index={7}/>
              <Column tiles={tiles} index={8}/>
             
-             <div className={style.line}></div>
-             <div className={style.goodBox}></div>
-             
+             <div className="absolute border-red-600 border-[1px] top-[80vh] w-[80vw]"></div>
+             <div className="absolute top-[70vh] w-[80vw] h-[20vh] border-white border-y-[1px]"></div>
         </div>
-          <div>{score}</div>
-        </div>
+      </div>
     );
 }
 

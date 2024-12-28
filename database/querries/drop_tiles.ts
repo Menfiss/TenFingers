@@ -21,7 +21,7 @@ export const getHighScore = async() => {
     const { data, error } = await supabase.from('minigame_drop_tiles').select("highscore");
 
     if(error) return;
-    return data;
+    return data[0];
 }
 
 export const insertHighScore = async(score:number) => {

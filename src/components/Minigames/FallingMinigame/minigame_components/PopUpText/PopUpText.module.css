@@ -1,0 +1,39 @@
+.ok{
+    color: rgb(39, 250, 39);
+    animation: growTilt 1.5s ease-in-out forwards;
+
+}
+
+.perfect{
+    color: cyan;
+    animation: growTilt 1.5s ease-in-out forwards;
+
+}
+
+.meh{
+    color: rgb(167, 167, 167);
+    animation: growTilt 1.5s ease-in-out forwards;
+}
+
+@keyframes growTilt {
+    0% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    25% {
+      transform: scale(1.5) rotate(-10deg);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.5) rotate(10deg);
+      opacity: 1;
+    }
+    75% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0.1) rotate(0deg);
+      opacity: 0;
+    }
+  }
