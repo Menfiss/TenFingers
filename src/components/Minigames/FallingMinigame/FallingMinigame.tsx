@@ -5,6 +5,7 @@ import PopUpText from "./minigame_components/PopUpText/PopUpText";
 import { GameDifficulty } from "@/components/FallingMinigameWrapper/FallingMinigameWrapper";
 
 
+
 interface props{
   onCompletion: (score:number) => void;
   swappedZ: boolean;

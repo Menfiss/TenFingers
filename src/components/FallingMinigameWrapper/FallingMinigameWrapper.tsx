@@ -3,6 +3,7 @@ import {updateHighScore, insertHighScore } from "@/../database/querries/drop_til
 import { useEffect, useState } from "react";
 import FallingMinigame from "../Minigames/FallingMinigame/FallingMinigame";
 import NotMobile from "../NotMobile/NotMobile";
+import FallingStatistics from "../Minigames/FallingMinigame/minigame_components/FallingStatistics/FallingStatistics";
 
 interface props{
     highscore: number;
@@ -16,7 +17,9 @@ export enum GameDifficulty {
 
 const FallingMinigameWrapper = (props:props) => {
     const [gameStarted, setGameStarted] = useState<boolean>(false);
+    const [renderStats, setRenderStats] = useState<boolean>(false);
     const [highscore, setHighScore] = useState<number>(props.highscore);
+    const [prevScore, setPrevScore] = useState<number>(0);
     const [highscoreExists, setHighScoreExists] = useState<boolean>(props.highscore !== 0 ? true : false);
     const [swappedZ, setSwappedZ] = useState<boolean>(false); //false = qwerty
     const [difficulty, setDifficulty] = useState<GameDifficulty>(GameDifficulty.EASY);
@@ -32,6 +35,8 @@ const FallingMinigameWrapper = (props:props) => {
     }
 
     const OnCompletion = (score:number) => {
+        setPrevScore(score);
+        setRenderStats(true);
         if(!highscoreExists){
             InsertHighScore(score);
             setHighScoreExists(true);
@@ -42,7 +47,6 @@ const FallingMinigameWrapper = (props:props) => {
         if(score > highscore){
             setHighScore(score);
         }
-        setGameStarted(false);
     }
 
     const handleCheckboxChange = (event:any) => {
@@ -84,7 +88,8 @@ const FallingMinigameWrapper = (props:props) => {
             :
             <div>
 
-            <FallingMinigame onCompletion={OnCompletion} swappedZ={swappedZ} difficulty={difficulty}/>
+            {renderStats ? <FallingStatistics score={prevScore} highscore={highscore} setGameStarted={setGameStarted} setRenderStats={setRenderStats}/> 
+            :<FallingMinigame onCompletion={OnCompletion} swappedZ={swappedZ} difficulty={difficulty}/>}
 
             </div>
             }</div>:null}
