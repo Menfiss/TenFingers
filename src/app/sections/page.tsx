@@ -12,6 +12,7 @@ export default async function Sections() {
     const renderPage = () =>{
         if(!data) return;
         
+        // gets a array of user completed exercises for a specific section
         function getuserExercisesSubArray(section_id:string){
             if(!userExcersiseData) return [];
             let subArray:{stars:number, exercise_id:string}[] = [];
@@ -22,12 +23,14 @@ export default async function Sections() {
             }
             return subArray;
         }
+
+        // checks if the last exercise of a previous section is completed
         function checkIfLastExerciseCompleted(prevSectionIndex:number,subArray:{stars:number, exercise_id:string}[]){
             if(!data) return false;
             for(let i = 0; i < data[prevSectionIndex].exercises.length; i++){
                 if(data[prevSectionIndex].exercises[i].next_exercise === null){
                     for(let j = 0; j < subArray.length; j++){
-                        if(subArray[j].exercise_id === data[prevSectionIndex].exercises[i].id && subArray[j].stars > 1){
+                        if(subArray[j].exercise_id === data[prevSectionIndex].exercises[i].id && subArray[j].stars > 0){
                             return true;
                         }
                     }
@@ -35,6 +38,8 @@ export default async function Sections() {
             }
             return false;
         }
+
+        // gets the index of a section in the data array
         function getSectionIndex(section_id:string | null){
             if(!data) return -1;
             for(let i = 0; i < data.length; i++){
@@ -44,16 +49,19 @@ export default async function Sections() {
             }
             return -1;
         }
+
+        // returns an array of ordered sections
         function getOrderedSections(){
             if(!data) return [-1];
             let orderedSections:number[] = [];
+            // first for loop finds the first section
             for(let i = 0; i < data.length; i++){
                 if(data[i].prev_section === null){
                     orderedSections.push(i);
                     break;
                 }
             } 
-
+            // second for loop finds the rest of the sections
             for(let i = 0; i < data.length; i++){
                 if(data[orderedSections[i]].next_section === null){
                     break;

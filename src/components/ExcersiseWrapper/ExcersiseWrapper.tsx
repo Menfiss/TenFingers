@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Tables } from "@/types/supabase";
 import TypingText from "../Minigames/TypingText/TypingText";
-import { calculateWPM } from "../WpmCalculator/Wpm";
 import ConsistencyCalculator from "../ConsistencyCalculator/ConsistencyCalculator";
 import { GetUserExercise } from "../../../database/querries/exercises";
 import { updateUserExercise, insertUserExercise } from "../../../server-actions/exercise-actions/actions";
@@ -32,20 +31,6 @@ interface props{
         } | null;
     } | null
 
-    exerciseCriteria : {
-        time_criteria_exe: {
-            time_sec: number;
-        } | null;
-        wpm_criteria_exe: {
-            wpm: number;
-        } | null;
-        accuracy_criteria_exe: {
-            accuracy_percentage: number;
-        } | null;
-        mistake_criteria_exe: {
-            mistakes_allowed: number;
-        } | null;
-    } | null;
     exerciseID: string;
     userExercise: Tables<"user_exercises"> | null;
     nextExerciseStars:number;  
@@ -79,25 +64,7 @@ const ExcersiseWrapper = (props:props) => {
         
         if (unfinishedWords !== 0) return;
 
-        let stars = onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt);
-        props.userExercise ? updateUserExercise(props.userExercise,stars, finishTime, startTime, correctWordsCt, accuracy):insertUserExercise(props.exerciseID,stars, finishTime, startTime, correctWordsCt, accuracy);
-    }
-
-    const onCompletionStars = (accuracy:number, mistakes:number, finishTime:number, startTime:number, completeWordsCt:number) =>{
-        if (unfinishedWords !== 0) return 0;
-        let stars = 0;
-        if( props.exerciseCriteria?.accuracy_criteria_exe ?  props.exerciseCriteria.accuracy_criteria_exe.accuracy_percentage <= accuracy:false)
-            stars++;
-        if( props.exerciseCriteria?.mistake_criteria_exe ?  props.exerciseCriteria.mistake_criteria_exe.mistakes_allowed >= mistakes:false)
-            stars++;
-        if( props.exerciseCriteria?.time_criteria_exe ? props.exerciseCriteria.time_criteria_exe.time_sec >= (finishTime-startTime)/1000:false)
-            stars++;
-        if(props.exerciseCriteria?.wpm_criteria_exe ? props.exerciseCriteria.wpm_criteria_exe.wpm <= calculateWPM(startTime,finishTime,completeWordsCt):false)
-            stars++;
-            
-        //add condition if another criteria is added
-        return stars;
-
+        props.userExercise ? updateUserExercise(props.userExercise, finishTime, startTime, correctWordsCt, accuracy):insertUserExercise(props.exerciseID, finishTime, startTime, correctWordsCt, accuracy);
     }
 
     const onReset = () =>{
@@ -132,7 +99,7 @@ const ExcersiseWrapper = (props:props) => {
                 :
 
                 <TypingTextStats 
-                    stars={onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt)}
+                    stars={props.userExercise ? (props.userExercise.stars + 1 > 3 ? 3 : props.userExercise.stars) : 0}
                     startTime={startTime} 
                     finishTime={finishTime} 
                     correctWordsCt={correctWordsCt} 
@@ -143,7 +110,7 @@ const ExcersiseWrapper = (props:props) => {
                     unfinishedWords={unfinishedWords} 
                     wordCount={props.data?.exercises?.content.split(" ").length}
                     onReset={onReset}
-                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 2 || ( props.userExercise && props.userExercise.stars >= 2) || onCompletionStars(accuracy,mistakes,finishTime,startTime,correctWordsCt) >= 2 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
+                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 1 || ( props.userExercise && props.userExercise.stars >= 1) || unfinishedWords === 0 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
                 />
                 }
             </div>:null}

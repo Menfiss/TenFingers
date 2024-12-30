@@ -62,7 +62,7 @@ const TypingText = (props:props) => {
       let mistakesCounter = 0;
 
       for(let i = 0; i < letterArray.length; i++){
-        if(letterClasses[i] != correctClass && letterArray[i] !== " "){
+        if(letterClasses[i] != correctClass){
           mistakesCounter++;
         }
         if((letterArray[i] === " " || i === letterArray.length -1) && mistakesCounter === 0){

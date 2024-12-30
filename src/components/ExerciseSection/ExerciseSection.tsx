@@ -17,11 +17,11 @@ interface props{
 }
 
 const ExerciseSection = (props:props) => {
-    let unlocked = props.firstExerciseUnlocked;
+    let unlocked = props.firstExerciseUnlocked; // should the first exercise be unlocked
 
     function checkIfUnlocked(stars:number){
         if(stars > 0){
-            unlocked = stars > 1 ? true:false;
+            unlocked = stars > 0 ? true:false;
             return true;
         }
         else if(unlocked){
@@ -34,6 +34,7 @@ const ExerciseSection = (props:props) => {
         
     }
 
+    // calculates amount of completed stars in the section
     function calculateStars(){
         let stars = 0;
         if(props.userExercises){
@@ -44,10 +45,12 @@ const ExerciseSection = (props:props) => {
         return stars
     }
 
+    // returns indexes of exercises in the order they should be displayed
     function getOrderedExercises(){
         
         let nextExeId:any = "";
         let orderedExercises:number[] = [];
+        // first for loop finds the first exercise
         for(let i = 0; i < props.section.exercises.length; i++){
             if(props.section.exercises[i].prev_exercise === null){
                 nextExeId = props.section.exercises[i].next_exercise;
@@ -55,7 +58,7 @@ const ExerciseSection = (props:props) => {
                 break;
             }
         } 
-
+        // second for loop finds the rest of the exercises
         for(let i = 0; i < props.section.exercises.length; i++){
             if(props.section.exercises[i].id === nextExeId){
                 orderedExercises.push(i);

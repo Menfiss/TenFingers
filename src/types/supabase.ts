@@ -34,21 +34,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      accuracy_criteria_exe: {
-        Row: {
-          accuracy_percentage: number
-          id: string
-        }
-        Insert: {
-          accuracy_percentage: number
-          id?: string
-        }
-        Update: {
-          accuracy_percentage?: number
-          id?: string
-        }
-        Relationships: []
-      }
       backspace_type_exe: {
         Row: {
           backspace: boolean
@@ -78,69 +63,6 @@ export type Database = {
           id?: string
         }
         Relationships: []
-      }
-      exercise_criteria: {
-        Row: {
-          accuracy_criteria_id: string | null
-          exercise_id: string
-          id: string
-          mistakes_criteria_id: string | null
-          time_criteria_id: string | null
-          wpm_criteria_id: string | null
-        }
-        Insert: {
-          accuracy_criteria_id?: string | null
-          exercise_id: string
-          id?: string
-          mistakes_criteria_id?: string | null
-          time_criteria_id?: string | null
-          wpm_criteria_id?: string | null
-        }
-        Update: {
-          accuracy_criteria_id?: string | null
-          exercise_id?: string
-          id?: string
-          mistakes_criteria_id?: string | null
-          time_criteria_id?: string | null
-          wpm_criteria_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "exercise_criteria_accuracy_criteria_id_fkey"
-            columns: ["accuracy_criteria_id"]
-            isOneToOne: false
-            referencedRelation: "accuracy_criteria_exe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "exercise_criteria_exercise_id_fkey"
-            columns: ["exercise_id"]
-            isOneToOne: false
-            referencedRelation: "exercises"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "exercise_criteria_mistakes_criteria_id_fkey"
-            columns: ["mistakes_criteria_id"]
-            isOneToOne: false
-            referencedRelation: "mistake_criteria_exe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "exercise_criteria_time_criteria_id_fkey"
-            columns: ["time_criteria_id"]
-            isOneToOne: false
-            referencedRelation: "time_criteria_exe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "exercise_criteria_wpm_criteria_id_fkey"
-            columns: ["wpm_criteria_id"]
-            isOneToOne: false
-            referencedRelation: "wpm_criteria_exe"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       exercise_types: {
         Row: {
@@ -280,21 +202,6 @@ export type Database = {
           },
         ]
       }
-      mistake_criteria_exe: {
-        Row: {
-          id: string
-          mistakes_allowed: number
-        }
-        Insert: {
-          id?: string
-          mistakes_allowed: number
-        }
-        Update: {
-          id?: string
-          mistakes_allowed?: number
-        }
-        Relationships: []
-      }
       sections: {
         Row: {
           id: string
@@ -343,21 +250,6 @@ export type Database = {
         Update: {
           health?: number
           id?: string
-        }
-        Relationships: []
-      }
-      time_criteria_exe: {
-        Row: {
-          id: string
-          time_sec: number
-        }
-        Insert: {
-          id?: string
-          time_sec: number
-        }
-        Update: {
-          id?: string
-          time_sec?: number
         }
         Relationships: []
       }
@@ -439,21 +331,6 @@ export type Database = {
           id?: string
           nickname?: string | null
           role?: string | null
-        }
-        Relationships: []
-      }
-      wpm_criteria_exe: {
-        Row: {
-          id: string
-          wpm: number
-        }
-        Insert: {
-          id?: string
-          wpm: number
-        }
-        Update: {
-          id?: string
-          wpm?: number
         }
         Relationships: []
       }

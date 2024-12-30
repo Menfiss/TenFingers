@@ -43,13 +43,6 @@ export async function GetStars(exercise_id:string){
     return data;
 }
 
-export async function ExerciseCriteriaQuerry(id:string){
-    const supabase = createClient();
-
-    const { data } = await supabase.from('exercise_criteria').select("time_criteria_exe(time_sec), wpm_criteria_exe(wpm), accuracy_criteria_exe(accuracy_percentage), mistake_criteria_exe(mistakes_allowed)").eq("exercise_id",id);
-    
-    return data? data[0]:null;
-}
 
 export async function UpdateUserExercise(exercise_id:string, stars:number, wpm:number, accuracy:number, time:number){
     const supabase = createClient();
