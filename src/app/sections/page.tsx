@@ -15,7 +15,7 @@ export default async function Sections() {
         // gets a array of user completed exercises for a specific section
         function getuserExercisesSubArray(section_id:string){
             if(!userExcersiseData) return [];
-            let subArray:{stars:number, exercise_id:string}[] = [];
+            let subArray:{stars:number,wpm:number, accuracy:number,time:number, exercise_id:string}[] = [];
             for(let i = 0; i < userExcersiseData.length; i++){
                 if(userExcersiseData[i].exercises?.section_id === section_id){
                     subArray.push(userExcersiseData[i]);

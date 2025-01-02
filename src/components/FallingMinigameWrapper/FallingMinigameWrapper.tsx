@@ -69,10 +69,13 @@ const FallingMinigameWrapper = (props:props) => {
             {!isMobile ? <div>
             {!gameStarted ? <div className="flex flex-col items-center h-[calc(100vh-4.5rem)] justify-around">
             <div className="text-2xl flex flex-col items-center"><div>{highscore}</div><div>highscore</div></div>
-            <div className="flex flex-row gap-8">
-                <button className="p-28 border-slate-700 border rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out" onClick={() => {setDifficulty(GameDifficulty.EASY);setGameStarted(true)}}>EASY</button>
-                <button className="p-28 border-slate-700 border rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out" onClick={() => {setDifficulty(GameDifficulty.MEDIUM);setGameStarted(true)}}>MEDIUM</button>
-                <button className="p-28 border-slate-700 border rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out" onClick={() => {setDifficulty(GameDifficulty.HARD);setGameStarted(true)}}>HARD</button>
+            <div>
+                <div className="flex text-xl items-center justify-center mb-4">Select difficulty</div>
+                <div className="flex flex-row gap-8">
+                    <button className="p-28 border-slate-700 border rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out" onClick={() => {setDifficulty(GameDifficulty.EASY);setGameStarted(true)}}>EASY</button>
+                    <button className="p-28 border-slate-700 border rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out" onClick={() => {setDifficulty(GameDifficulty.MEDIUM);setGameStarted(true)}}>MEDIUM</button>
+                    <button className="p-28 border-slate-700 border rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out" onClick={() => {setDifficulty(GameDifficulty.HARD);setGameStarted(true)}}>HARD</button>
+                </div>
             </div>
             <div className="flex flex-col items-center gap-2">
                 <label className="relative inline-flex items-center cursor-pointer">

@@ -12,7 +12,13 @@ interface props{
             id: string;
         }[];
     };
-    userExercises:{stars:number, exercise_id:string}[] | undefined;
+    userExercises:{
+        stars: number;
+        wpm: number;
+        accuracy: number;
+        time: number;
+        exercise_id: string;
+    }[] | undefined
     firstExerciseUnlocked:boolean;
 }
 
@@ -87,16 +93,22 @@ const ExerciseSection = (props:props) => {
             <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
               {orderedExercises.map((exercise_index, index) => {
                 let stars = 0;
+                let wpm = 0;
+                let accuracy = 0;
+                let time = 0;
                 if(props.userExercises){
                      for(let i = 0; i < props.userExercises.length; i++){
                           if(props.userExercises[i].exercise_id === props.section.exercises[orderedExercises[index]]?.id){
                             stars = props.userExercises[i].stars;
+                            wpm = props.userExercises[i].wpm;
+                            accuracy = props.userExercises[i].accuracy;
+                            time = props.userExercises[i].time;
                             break;
                           }
                      }
                 }
                 return(
-                     <ExerciseButton key={index} unlocked={checkIfUnlocked(stars)} stars={stars} id={props.section.exercises[exercise_index].id}></ExerciseButton>
+                     <ExerciseButton key={index} unlocked={checkIfUnlocked(stars)} stars={stars} wpm={wpm} accuracy={accuracy} time={time} id={props.section.exercises[exercise_index].id}></ExerciseButton>
                 )
                 })}
             </div>

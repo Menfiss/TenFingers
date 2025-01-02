@@ -20,7 +20,7 @@ export async function ExerciseContentQuerry(id:string){
 export const GetUserExercises = async () => {
     const supabase = createClient();
 
-    const { data, error } = await supabase.from('user_exercises').select("stars, exercise_id, exercises(section_id)").order('exercises(section_id)');
+    const { data, error } = await supabase.from('user_exercises').select("stars, wpm, accuracy, time, exercise_id, exercises(section_id)").order('exercises(section_id)');
     if(error) return;
     
     return data;

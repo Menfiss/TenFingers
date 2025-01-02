@@ -6,8 +6,8 @@ import { Tables } from "@/types/supabase";
 
 export const updateUserExercise = async(userExercise: Tables<"user_exercises">, finishTime:number, startTime:number, correctWordsCt:number, accuracy:number) =>{
 
-    let wpm = Math.round(correctWordsCt / ((finishTime - startTime) / 60000))
-    let time = Math.round((finishTime-startTime)/1000)
+    let wpm = Math.round(correctWordsCt / ((finishTime - startTime) / 60000));
+    let time = Math.round(((finishTime-startTime)/1000)*100) / 100;
     let stars = userExercise.stars + 1;
     if(userExercise.accuracy > accuracy)
         accuracy = userExercise.accuracy;
@@ -24,5 +24,5 @@ export const updateUserExercise = async(userExercise: Tables<"user_exercises">, 
 
 export const insertUserExercise = async (exercise_id:string, finishTime:number, startTime:number, correctWordsCt:number, accuracy:number) =>{
     revalidatePath('/sections', 'page');
-    const data = await InsertUserExercise(exercise_id, 1, Math.round(correctWordsCt / ((finishTime - startTime) / 60000)), accuracy, Math.round((finishTime-startTime)/1000));
+    const data = await InsertUserExercise(exercise_id, 1, Math.round(correctWordsCt / ((finishTime - startTime) / 60000)), accuracy, Math.round(((finishTime-startTime)/1000)*100)/100);
 }

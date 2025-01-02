@@ -1,10 +1,14 @@
 
 import Link from "next/link";
+import Tooltip from "../Tooltip/Tooltip";
 
 
 interface props{
     unlocked: boolean;
     stars: number;
+    wpm: number;
+    accuracy: number;
+    time: number;
     id:string;
 }
 
@@ -80,9 +84,11 @@ function ExerciseButton (props:props) {
         className={!props.unlocked ? 'pointer-events-none' : ''}
         href={`/exercise/${props.id}`}>
             <div className={props.unlocked ? unlockedStyle:lockedStyle}>
-                <div className="flex">
-                    {renderStars()}
-                </div>
+                <Tooltip wpm={props.wpm} accuracy={props.accuracy} time={props.time}>
+                    <div className="flex">
+                        {renderStars()}
+                    </div>
+                </Tooltip>
                 <div>Exercise</div>
             </div>
         </Link>
