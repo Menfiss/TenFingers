@@ -45,7 +45,6 @@ export async function signup(formData: FormData) {
   }
   
 
-
   const supabase = createClient()
 
   const data = {
@@ -53,7 +52,7 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
     options: {
       data: {
-        nickname: formData.get('nickname') as string,
+        nickname: formData.get('name') as string,
       },
     },
   }
