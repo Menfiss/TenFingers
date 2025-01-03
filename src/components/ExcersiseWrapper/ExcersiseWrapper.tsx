@@ -12,11 +12,12 @@ import NotMobile from "../NotMobile/NotMobile";
 
 
 interface props{
-    data:{
-        exercises: {
-            content: string;
-            next_exercise: string | null;
-        } | null;
+    exerciseData:{
+        content: string;
+        next_exercise: string | null;
+    } | null;
+
+    exerciseTypes: {
         backwards_type_exe: {
             backwards: boolean;
         } | null;
@@ -50,8 +51,6 @@ const ExcersiseWrapper = (props:props) => {
     
     const [isMobile, setIsMobile] = useState(false);
 
-
-
     const onCompletion = (startTime:number, finishTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) =>{
         setFinishTime(finishTime);
         setStartTime(startTime);
@@ -78,8 +77,8 @@ const ExcersiseWrapper = (props:props) => {
     }
     
 
-    if(props.data?.exercises?.content === undefined){
-        return(<>Something went wrong</>);
+    if(props.exerciseData === undefined){
+        return(<>Smething went wrong</>);
     }
 
     return (
@@ -90,11 +89,11 @@ const ExcersiseWrapper = (props:props) => {
             <div>
                 {finishTime === 0 ? 
                 <div className="mt-72">
-                    <TypingText key={resetCt} onCompletion={onCompletion} text={props.data?.exercises?.content} 
-                    backspace={props.data?.backspace_type_exe?.backspace ? props.data?.backspace_type_exe?.backspace:true} 
-                    survival={props.data?.survival_type_exe?.health ? props.data?.survival_type_exe.health:-1} 
-                    timer={props.data?.timer_type_exe?.time_sec ? props.data?.timer_type_exe.time_sec:-1} 
-                    backwards={props.data?.backwards_type_exe?.backwards ? props.data?.backwards_type_exe?.backwards:false}></TypingText>
+                    <TypingText key={resetCt} onCompletion={onCompletion} text={props.exerciseData ? props.exerciseData.content:""} 
+                    backspace={props.exerciseTypes && props.exerciseTypes.backspace_type_exe ? props.exerciseTypes.backspace_type_exe.backspace:true} 
+                    survival={props.exerciseTypes && props.exerciseTypes.survival_type_exe ? props.exerciseTypes.survival_type_exe.health:-1} 
+                    timer={props.exerciseTypes && props.exerciseTypes.timer_type_exe ? props.exerciseTypes.timer_type_exe.time_sec:-1} 
+                    backwards={props.exerciseTypes && props.exerciseTypes.backwards_type_exe ? props.exerciseTypes.backwards_type_exe?.backwards:false}></TypingText>
                 </div>
                 :
 
@@ -108,9 +107,9 @@ const ExcersiseWrapper = (props:props) => {
                     accuracy={accuracy} 
                     mean={mean} 
                     unfinishedWords={unfinishedWords} 
-                    wordCount={props.data?.exercises?.content.split(" ").length}
+                    wordCount={props.exerciseData ? props.exerciseData.content.split(" ").length:0}
                     onReset={onReset}
-                    nextLink={props.data.exercises.next_exercise && ( props.nextExerciseStars >= 1 || ( props.userExercise && props.userExercise.stars >= 1) || unfinishedWords === 0 ) ? `/exercise/${props.data.exercises.next_exercise}`: undefined}
+                    nextLink={props.exerciseData && props.exerciseData.next_exercise && ( props.nextExerciseStars >= 1 || ( props.userExercise && props.userExercise.stars >= 1) || unfinishedWords === 0 ) ? `/exercise/${props.exerciseData.next_exercise}`: undefined}
                 />
                 }
             </div>:null}
