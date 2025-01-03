@@ -53,13 +53,13 @@ const Minigames = () => {
                 </div>
 
                 <div>
-                    <div className="bg-gray-600 h-36 flex justify-center items-center"><Link href={"minigames/unity_minigame"}>Image</Link></div>
+                    <div className="bg-gray-600 h-36 flex justify-center items-center"><Link href={"minigames/shape_strike"}>Image</Link></div>
                     <div className="flex flex-col">
                         <div className="mb-8 mt-2">
-                            <h2>Unity Minigame</h2>
+                            <h2>Shape Strike</h2>
                         </div>
                         <div className="flex justify-end items-end">
-                            <Link href={"minigames/unity_minigame"}><div className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer">Play</div></Link>
+                            <Link href={"minigames/shape_strike"}><div className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer">Play</div></Link>
                         </div>
                     </div>
                 </div>
