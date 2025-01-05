@@ -21,9 +21,10 @@ public class BaseEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        ScoreManager.Instance.TheEnd();
+        SceneManager.LoadScene("GameEnd");
         Destroy(gameObject);
-        ScoreManager.OnGameOver();
-        
+
     }
 
     public void OnDestroy()

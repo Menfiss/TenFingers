@@ -13,8 +13,8 @@ interface props{
 }
 
 function ExerciseButton (props:props) {
-    const unlockedStyle = "flex flex-col items-center justify-center py-14 px-24 bg-[#394f6b] rounded-lg";
-    const lockedStyle = "flex flex-col items-center py-14 px-24 bg-[#394f6b] text-gray-500 rounded-lg";
+    const unlockedStyle = "flex flex-col items-center justify-center border border-slate-600 py-12 px-24 hover:bg-slate-600 transition duration-300 ease-in-out rounded-lg";
+    const lockedStyle = "flex flex-col items-center py-12 px-24 border border-slate-600 text-gray-500 rounded-lg";
 
     const renderStars = () => {
         const bronzeStar = "w-4 h-4 text-yellow-600";

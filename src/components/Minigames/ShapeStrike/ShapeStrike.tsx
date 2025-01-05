@@ -35,6 +35,7 @@ function ShapeStrike() {
         <Unity unityProvider={unityProvider} className="h-[540px] w-[960px]"/>
         <button onClick={() => {requestFullscreen(true)}}>a</button>
         <div>{score}</div>
+        <div>{waveCt}</div>
       </>
     
     );

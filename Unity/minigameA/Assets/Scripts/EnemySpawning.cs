@@ -119,6 +119,7 @@ public class EnemySpawning : MonoBehaviour
         if (currWave.Count != 0 || typingScript.enemies.Count != 0) return;
         
         wave++;
+        ScoreManager.Instance.increaseWave();
 
         GameObject waveTx = Instantiate(waveText, new Vector3(0, 0, 0), Quaternion.identity);
         waveTx.transform.GetChild(0).GetComponent<TMP_Text>().text = "Wave " + wave;

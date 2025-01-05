@@ -25,28 +25,40 @@ public class TypingScript : MonoBehaviour
             return;
         }
 
+        bool isFound = false;   
         for (int i = 0; i < enemies.Count; i++) 
         {
             if (enemies[i].text[0].ToString().ToLower() == letter)
             {
                 currentEnemyIndex = i;
                 TakeDamage(letter);
+                isFound = true;
                 break;
             }
         }
+        if (!isFound)
+        {
+            ScoreManager.Instance.ResetCombo();
+        }
+
+
     }
     private void TakeDamage(string letter)
     {
         string str = enemies[currentEnemyIndex].text;
         if (str[0].ToString().ToLower() == letter)
         {
+            ScoreManager.Instance.IncreaseCombo();
             enemies[currentEnemyIndex].text = str.Substring(1, str.Length - 1);
             enemies[currentEnemyIndex].enemy.transform.Find("Canvas").transform.Find("Text").GetComponent<TMP_Text>().text = enemies[currentEnemyIndex].text.PadLeft(enemies[currentEnemyIndex].defaultText.Length);
-            
-
+        }
+        else
+        {
+            ScoreManager.Instance.ResetCombo();
         }
         if (enemies[currentEnemyIndex].text == "")
         {
+            ScoreManager.Instance.AddScore(enemies[currentEnemyIndex].defaultText.Length);
             Destroy(enemies[currentEnemyIndex].enemy);
             enemies.RemoveAt(currentEnemyIndex);
             currentEnemyIndex = -1;
