@@ -202,6 +202,38 @@ export type Database = {
           },
         ]
       }
+      minigame_shape_strike: {
+        Row: {
+          created_at: string
+          highscore: number
+          id: number
+          user_id: string | null
+          wave_count: number
+        }
+        Insert: {
+          created_at?: string
+          highscore: number
+          id?: number
+          user_id?: string | null
+          wave_count: number
+        }
+        Update: {
+          created_at?: string
+          highscore?: number
+          id?: number
+          user_id?: string | null
+          wave_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minigame_shape_strike_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sections: {
         Row: {
           id: string
