@@ -225,8 +225,8 @@ const FallingMinigame = (props:props) => {
              <Column tiles={tiles} index={7}/>
              <Column tiles={tiles} index={8}/>
             
-             <div className="absolute border-red-600 border-[1px] top-[80vh] w-[80vw]"></div>
-             <div className="absolute top-[70vh] w-[80vw] h-[20vh] border-white border-y-[1px]"></div>
+             <div className="absolute border-red-500 border-[1px] top-[80vh] w-[80vw]"></div>
+             <div className="absolute -z-10 top-[70vh] w-[80vw] h-[20vh] border-white border-y-[1px]"></div>
         </div>
       </div>
     );

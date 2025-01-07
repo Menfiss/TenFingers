@@ -25,10 +25,12 @@ const QuotesMinigame = () => {
     const [finishTime, setFinishTime] = useState(0);
     const [correctWordsCt, setCorrectWordsCt] = useState(0);
     const [mistakes, setMistakes] = useState(0);
+    const [totalMistakes, setTotalMistakes] = useState(0);
     const [consistencyArray, setConsistencyArray] = useState<number[]>([]);
     const [accuracy, setAccuracy] = useState(0);
     const [mean, setMean] = useState(0);
     const [unfinishedWords, setUnfinishedWords] = useState(0);
+
 
     const [rerender, setRerender] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
@@ -56,7 +58,7 @@ const QuotesMinigame = () => {
         getNewQuote();
     }, [quotes]);
 
-    const onCompletion = (startTime:number, fininshTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) =>{
+    const onCompletion = (startTime:number, fininshTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number, totalMistakes:number) =>{
         setStartTime(startTime);
         setFinishTime(fininshTime);
         setCorrectWordsCt(correctWordsCt);
@@ -65,6 +67,7 @@ const QuotesMinigame = () => {
         setAccuracy(accuracy);
         setMean(mean);
         setUnfinishedWords(unfinishedWords);
+        setTotalMistakes(totalMistakes);
     }
       
     return (
@@ -82,7 +85,7 @@ const QuotesMinigame = () => {
                         </div>
                         <div className="text-xl">By: {source}</div>
                     </div>
-                    <TypingText key={rerender} text={text} backspace={true} backwards={false} survival={0} timer={0} onCompletion={onCompletion} />
+                    <TypingText key={rerender} text={text} backspace={true} backwards={false} survival={0} timer={0} onCompletion={onCompletion}/>
                 </>
                 :
                 <TypingTextStats
@@ -96,6 +99,7 @@ const QuotesMinigame = () => {
                     unfinishedWords={unfinishedWords}
                     wordCount={text.split(' ').length}
                     onReset={onReset}
+                    totalMistakes={totalMistakes}
                 />}
             </div> : null}
 

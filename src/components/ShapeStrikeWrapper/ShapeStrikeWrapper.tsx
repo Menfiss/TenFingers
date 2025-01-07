@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShapeStrike from "../Minigames/ShapeStrike/ShapeStrike";
 import NotMobile from "../NotMobile/NotMobile";
 import { updateHighScore,insertHighScore } from "../../../database/querries/shape_strike";
@@ -30,11 +30,13 @@ const ShapeStrikeWrapper = (props:props) => {
         }
     }
 
+    useEffect(() => {setIsStarted(false)}, [isMobile]);
+
     return (
     <div>
         <NotMobile setIsMobile={setIsMobile}/>
 
-        {!isMobile && <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-11">
+        {!isMobile && <div className="mx-auto max-w-[960px] px-4 md:px-0 mt-11">
             <div className="flex flex-col justify-center items-center">
                 {isStarted ? <ShapeStrike onCompleted={onCompleted}></ShapeStrike>:
             
@@ -42,7 +44,13 @@ const ShapeStrikeWrapper = (props:props) => {
                     <button onClick={()=>setIsStarted(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl">Play</button>
                         
                 </div>}
+                
             </div>
+            <div className="flex flex-col">
+                    <div className="my-4 text-2xl">Shape Strike</div>
+                    <div>High Score: {highScore}</div>
+                    <div>Wave Count: {waveCt}</div>
+                </div>
         </div>}
     </div>
     );

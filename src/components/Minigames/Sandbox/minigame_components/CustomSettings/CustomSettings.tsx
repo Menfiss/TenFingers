@@ -30,9 +30,9 @@ const CustomSettings = (props:props) => {
         <div>
             <button className="pr-3" onClick={() => setCustomData([])}>Clear</button>
             <button className="pr-3" onClick={() => props.setAction(false)}>Ok</button>
-            {customData.length > 0 ? customData.map((letter, index) => {
+            [ {customData.length > 0 ? customData.map((letter, index) => {
                 return <span key={index}>{letter +" "}</span>
-            }): <span> Press any key</span>}
+            }): <span className="opacity-60"> Press any key</span>} ]
         </div>
     );
 };

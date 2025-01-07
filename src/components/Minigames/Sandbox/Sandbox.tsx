@@ -20,6 +20,7 @@ const Sandbox = () => {
     const [finishTime, setFinishTime] = useState(0);
     const [startTime, setStartTime] = useState(0);
     const [mistakes, setMistakes] = useState(0);
+    const [totalMistakes, setTotalMistakes] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [correctWordsCt, setCorrectWordsCt] = useState(0);
     const [consistencyArray, setConsistencyArray] = useState<number[]>([]);
@@ -36,7 +37,7 @@ const Sandbox = () => {
         
     };
 
-    const onCompletion = (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) => {
+    const onCompletion = (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number, totalMistakes:number) => {
         setFinishTime(fininshTime);
         setStartTime(startTime);
         setCorrectWordsCt(completeWordsCt);  
@@ -45,6 +46,7 @@ const Sandbox = () => {
         setAccuracy(Math.ceil(accuracy));
         setMean(mean);
         setUnfinishedWords(unfinishedWords);
+        setTotalMistakes(totalMistakes);
     }
 
     const onReset = () => {
@@ -75,6 +77,7 @@ const Sandbox = () => {
                     mean={mean}
                     unfinishedWords={unfinishedWords}
                     wordCount={text.split(" ").length}
+                    totalMistakes={totalMistakes}
                 />}
             </div> :null}
         </div>

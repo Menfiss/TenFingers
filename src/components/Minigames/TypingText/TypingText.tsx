@@ -7,7 +7,7 @@ import Health from "@/components/Minigames/TypingText/minigame_components/Health
 
 interface props{
     text:string
-    onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) => void
+    onCompletion: (startTime:number, fininshTime:number, completeWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number, totalMistakes:number) => void
     backspace:boolean
     survival:number // health counter
     timer:number //in seconds
@@ -215,7 +215,7 @@ const TypingText = (props:props) => {
         let unfinishedLetters = props.backwards ? currentIndex + 1 : letterArray.length - currentIndex;
         let unfinishedWords = unfinishedLetters > 0 ? props.text.substring(0, unfinishedLetters).split(" ").length : 0;
         let accuracy = totalMistakes > letterArray.length ? 0 : Math.round(((letterArray.length - (totalMistakes + unfinishedLetters))/ letterArray.length) *100);
-        props.onCompletion(startTime,new Date().getTime(),correctWords,currMistakes,consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords);
+        props.onCompletion(startTime,new Date().getTime(),correctWords,currMistakes,consistencyArray, accuracy, totalTime/consistencyArray.length, unfinishedWords, totalMistakes);
       }
     },[isFinished]);
   

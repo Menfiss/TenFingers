@@ -10,6 +10,7 @@ interface props{
     finishTime: number;
     correctWordsCt: number;
     mistakes: number;
+    totalMistakes: number;
     consistencyArray: number[];
     accuracy: number;
     mean: number;
@@ -125,7 +126,7 @@ const TypingTextStats = (props:props) => {
                         <div>Accuracy</div>
                     </div>
                     <div className="flex flex-col items-center text-lg">
-                        <div>{props.mistakes}</div>
+                        <div>{props.totalMistakes}</div>
                         <div>Mistakes</div>
                     </div>
                 </div>

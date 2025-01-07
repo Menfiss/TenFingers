@@ -148,10 +148,10 @@ const SandboxConfigurator = (props:props) => {
 
 
     return (
-        <div onClick={(e) => e.currentTarget.blur()} className="mt-6">
+        <div onClick={(e) => e.currentTarget.blur()} className="mt-10">
             <div>
                 <div className="flex flex-col items-center">
-                    <div className="flex gap-8 px-4 py-1 bg-gray-700 rounded-full">
+                    <div className="flex gap-8 px-4 py-2 border-[2px] border-gray-700 rounded-md">
                         <button className={settingsMode === settings.wordsMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.wordsMode); e.currentTarget.blur()}}>Words</button>
                         <button className={settingsMode === settings.timeMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.timeMode); e.currentTarget.blur()}}>Time</button>
                         <button className={settingsMode === settings.survivalMode ? "text-orange-500": ""} onClick={(e) => {setSettingsMode(settings.survivalMode); e.currentTarget.blur()}}>Survival</button>
@@ -162,7 +162,7 @@ const SandboxConfigurator = (props:props) => {
                             {settingsMode === settings.survivalMode ? SurvivalSettings() : null}
                             {settingsMode === settings.customMode && activeCustomSettings ? <CustomSettings setAction={setActiveCustomSettings} customData={customData} setCustomData={handleCustomData}/> : null}
                         </div>
-                        <div className="bg-gray-700">|</div>
+                        <div>|</div>
                         <button className= {!backspace ? "text-orange-500":""} onClick={(e) => {setBackspace(!backspace); e.currentTarget.blur()}}>No Backspace</button>
                         <button className= {backwards ? "text-orange-500":""} onClick={(e) => {setBackwards(!backwards); e.currentTarget.blur()}}>Backwards</button>
                         <button className= {punctuation ? "text-orange-500":""} onClick={(e) => {setPunctuation(!punctuation); e.currentTarget.blur()}}>Punctuation</button>

@@ -43,6 +43,7 @@ const ExcersiseWrapper = (props:props) => {
     const [finishTime, setFinishTime] = useState(0);
     const [startTime, setStartTime] = useState(0);
     const [mistakes, setMistakes] = useState(0);
+    const [totalMistakes, setTotalMistakes] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [correctWordsCt, setCorrectWordsCt] = useState(0);
     const [consistencyArray, setConsistencyArray] = useState<number[]>([]);
@@ -51,7 +52,7 @@ const ExcersiseWrapper = (props:props) => {
     
     const [isMobile, setIsMobile] = useState(false);
 
-    const onCompletion = (startTime:number, finishTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number) =>{
+    const onCompletion = (startTime:number, finishTime:number, correctWordsCt:number, mistakes:number, consistencyArray:number[], accuracy:number, mean:number, unfinishedWords:number,totalMistakes:number) =>{
         setFinishTime(finishTime);
         setStartTime(startTime);
         setCorrectWordsCt(correctWordsCt);  
@@ -60,6 +61,7 @@ const ExcersiseWrapper = (props:props) => {
         setAccuracy(Math.ceil(accuracy));
         setMean(mean);
         setUnfinishedWords(unfinishedWords);
+        setTotalMistakes(totalMistakes);
         
         if (unfinishedWords !== 0) return;
 
@@ -110,6 +112,7 @@ const ExcersiseWrapper = (props:props) => {
                     wordCount={props.exerciseData ? props.exerciseData.content.split(" ").length:0}
                     onReset={onReset}
                     nextLink={props.exerciseData && props.exerciseData.next_exercise && ( props.nextExerciseStars >= 1 || ( props.userExercise && props.userExercise.stars >= 1) || unfinishedWords === 0 ) ? `/exercise/${props.exerciseData.next_exercise}`: undefined}
+                    totalMistakes={totalMistakes}
                 />
                 }
             </div>:null}
