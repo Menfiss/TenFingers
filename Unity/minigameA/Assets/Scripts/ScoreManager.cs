@@ -13,9 +13,9 @@ public class ScoreManager : MonoBehaviour
 
     public static ScoreManager Instance;
 
-    [SerializeField] private Slider slider;
-    [SerializeField] private TMP_Text scoreText;
-    [SerializeField] private TMP_Text comboText;
+    public Slider slider;
+    public TMP_Text scoreText;
+    public TMP_Text comboText;
 
     private void Awake()
     {
@@ -42,7 +42,31 @@ public class ScoreManager : MonoBehaviour
     private int score = 0;
     private int waveCt = 0;
     private int combo = 1;
+    private Dictionary<EnemySO,int> killedEnemies = new Dictionary<EnemySO, int>();
 
+    public int GetWaveCt()
+    {
+        return waveCt;
+    }
+    public int GetKillCt(EnemySO enemy)
+    {
+        if (killedEnemies.ContainsKey(enemy))
+        {
+            return killedEnemies[enemy];
+        }
+        return 0;
+    }
+    public void AddEnemyToDict(EnemySO enemy)
+    {
+        if (killedEnemies.ContainsKey(enemy))
+        {
+            killedEnemies[enemy]++;
+        }
+        else
+        {
+            killedEnemies.Add(enemy, 1);
+        }
+    }
     public void increaseWave()
     {
         waveCt++;
@@ -79,6 +103,11 @@ public class ScoreManager : MonoBehaviour
         comboText.text = "1x";
         slider.maxValue = comboPoints[0];
         slider.value = 0;
+    }
+
+    public void SelfDestruct()
+    {
+        Destroy(this.gameObject);
     }
 
     public void TheEnd()

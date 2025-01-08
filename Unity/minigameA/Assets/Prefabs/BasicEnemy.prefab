@@ -148,6 +148,7 @@ MonoBehaviour:
   enemySpawning: {fileID: 0}
   CanvasPrefab: {fileID: 4276536799826255046}
   canMove: 1
+  text: 
 --- !u!1001 &797982131619349209
 PrefabInstance:
   m_ObjectHideFlags: 0

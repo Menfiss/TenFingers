@@ -59,6 +59,7 @@ public class TypingScript : MonoBehaviour
         if (enemies[currentEnemyIndex].text == "")
         {
             ScoreManager.Instance.AddScore(enemies[currentEnemyIndex].defaultText.Length);
+            ScoreManager.Instance.AddEnemyToDict(enemies[currentEnemyIndex].enemy.GetComponent<BaseEnemy>().enemySO);
             Destroy(enemies[currentEnemyIndex].enemy);
             enemies.RemoveAt(currentEnemyIndex);
             currentEnemyIndex = -1;
