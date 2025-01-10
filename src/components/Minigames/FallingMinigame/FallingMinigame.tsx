@@ -134,7 +134,7 @@ const FallingMinigame = (props:props) => {
     },[spawnRate,speed]);
     
     const handleScore = (position:number) => {
-      if (position >= 60 && position <= 71) {
+      if (position >= 70 && position <= 80) {
         //perfect
         setCombo((combo) => combo + 1);
         setScore((score) => score + 100 * combo * props.difficulty);
@@ -142,7 +142,7 @@ const FallingMinigame = (props:props) => {
         setRerenderPopUp((rerenderPopUp) => !rerenderPopUp);
         
       }
-      else if (position >= 50 && position <= 80){
+      else if (position >= 60 && position <= 90){
         //good
         setCombo((combo) => combo + 1);
         setScore((score) => score + 50 * combo * props.difficulty);
