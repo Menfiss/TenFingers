@@ -897,6 +897,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4bbfe1ed590074498208a7fdfb40a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplodingEnemy: {fileID: 11400000, guid: d9557c392e32e3f48b62d2efcbeb7fd1, type: 2}
+  Explosion: {fileID: 1066694112377719668, guid: 1597b093168cbd641a3bb200ed819bf8, type: 3}
 --- !u!114 &908576425
 MonoBehaviour:
   m_ObjectHideFlags: 0

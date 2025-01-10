@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6547828421318617230}
   m_Layer: 3
   m_Name: ExplodingEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,6 +148,8 @@ MonoBehaviour:
   enemySpawning: {fileID: 0}
   CanvasPrefab: {fileID: 4276536799826255046}
   canMove: 1
+  text: 
+  explosion: {fileID: 1066694112377719668, guid: 1597b093168cbd641a3bb200ed819bf8, type: 3}
 --- !u!1001 &797982131619349209
 PrefabInstance:
   m_ObjectHideFlags: 0

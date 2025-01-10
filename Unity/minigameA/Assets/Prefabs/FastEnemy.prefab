@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6343505431239080885}
   m_Layer: 3
   m_Name: FastEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   enemySpawning: {fileID: 0}
   CanvasPrefab: {fileID: 4276536799826255046}
   canMove: 1
+  text: 
 --- !u!1001 &797982131619349209
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,8 +7,10 @@ using TMPro;
 
 public class TypingScript : MonoBehaviour
 {
-    
-    
+    // just boom boom stuff lazy to make it cleaner
+    public EnemySO ExplodingEnemy;
+    public GameObject Explosion;
+
 
     public List<Enemy> enemies = new List<Enemy>();
     private int currentEnemyIndex = -1;
@@ -60,6 +62,7 @@ public class TypingScript : MonoBehaviour
         {
             ScoreManager.Instance.AddScore(enemies[currentEnemyIndex].defaultText.Length);
             ScoreManager.Instance.AddEnemyToDict(enemies[currentEnemyIndex].enemy.GetComponent<BaseEnemy>().enemySO);
+            if (enemies[currentEnemyIndex].enemy.GetComponent<BaseEnemy>().enemySO == ExplodingEnemy) Instantiate(Explosion, enemies[currentEnemyIndex].enemy.transform.position, Quaternion.identity);
             Destroy(enemies[currentEnemyIndex].enemy);
             enemies.RemoveAt(currentEnemyIndex);
             currentEnemyIndex = -1;

@@ -40,6 +40,26 @@ public class EnemySpawning : MonoBehaviour
     float time = 0;
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SpawnEnemy(enemySO[0]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SpawnEnemy(enemySO[1]);
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SpawnEnemy(enemySO[2]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SpawnEnemy(enemySO[3]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SpawnEnemy(enemySO[4]);
+        }
         getWave();
 
         if(time >= spawnTimer && currWave.Count != 0 && textLoaded)
