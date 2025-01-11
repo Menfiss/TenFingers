@@ -1,5 +1,11 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import FallingMinigamePick from "@/../public/img/FallingMinigamePick.png";
+import SandboxMinigamePick from "@/../public/img/SandboxMinigamePick.png";
+import QuotesMinigamePick from "@/../public/img/QuotesMinigamePick.png";
+import ShapeStrikeMinigamePick from "@/../public/img/ShapeStrikeMinigamePick.png";
+
 
 const Minigames = () => {
 
@@ -17,7 +23,7 @@ const Minigames = () => {
             </div>
             <div className="mt-16 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 gap-6 lg:grid-cols-4">
                 <div>
-                    <div className="bg-gray-600 h-36 flex justify-center items-center"><Link href={"minigames/drop_tiles"}>Image</Link></div>
+                    <div className="flex justify-center items-center"><Link  href={"minigames/drop_tiles"}><Image  className="border border-slate-600 hover:scale-150 duration-300 hover:z-50" src={FallingMinigamePick} alt=""></Image></Link></div>
                     <div className="flex flex-col">
                         <div className="mb-8 mt-2">
                             <h2>Drop Tiles</h2>
@@ -29,7 +35,7 @@ const Minigames = () => {
                 </div>
 
                 <div>
-                    <div className="bg-gray-600 h-36 flex justify-center items-center"><Link href={"minigames/sandbox"}>Image</Link></div>
+                    <div className="flex justify-center items-center"><Link href={"minigames/sandbox"}><Image className="border border-slate-600 hover:scale-150 duration-300 hover:z-50" src={SandboxMinigamePick} alt=""></Image></Link></div>
                     <div className="flex flex-col">
                         <div className="mb-8 mt-2">
                             <h2>Sandbox</h2>
@@ -41,7 +47,7 @@ const Minigames = () => {
                 </div>
 
                 <div>
-                    <div className="bg-gray-600 h-36 flex justify-center items-center"><Link href={"minigames/quotes"}>Image</Link></div>
+                    <div className="flex justify-center items-center"><Link href={"minigames/quotes"}><Image className="border border-slate-600 hover:scale-150 duration-300 hover:z-50" src={QuotesMinigamePick} alt=""></Image></Link></div>
                     <div className="flex flex-col">
                         <div className="mb-8 mt-2">
                             <h2>Quotes</h2>
@@ -53,7 +59,7 @@ const Minigames = () => {
                 </div>
 
                 <div>
-                    <div className="bg-gray-600 h-36 flex justify-center items-center"><Link href={"minigames/shape_strike"}>Image</Link></div>
+                    <div className="flex justify-center items-center"><Link href={"minigames/shape_strike"}><Image className="border border-slate-600 hover:scale-150 duration-300 hover:z-50" src={ShapeStrikeMinigamePick} alt=""></Image></Link></div>
                     <div className="flex flex-col">
                         <div className="mb-8 mt-2">
                             <h2>Shape Strike</h2>
