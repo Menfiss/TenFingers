@@ -37,7 +37,7 @@ export default function Home() {
       <div className="flex flex-row justify-between mb-40">
         <div>
           <h1 className="text-4xl font-bold pb-3">Scared of finishing all the exercises?</h1>
-          <h1 className="text-4xl font-bold pb-3 mb-3">Practice with the minigames.</h1>
+          <h1 className="text-4xl font-bold pb-3 mb-3 ">Practice with the minigames.</h1>
           <p className="text-xl pb-3">Minigames range from typing random text</p>
           <p className="text-xl pb-3">to slaying different shapes with your typing skills. 🤯</p>
         </div>
