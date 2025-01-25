@@ -23,11 +23,15 @@ export default async function RootLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+  let role;
+  if(user){
+    role = await supabase.from('users').select('role').eq('id', user.id)
+  }
   return (
     <html lang="en">
       
       <body className={inter.className}>
-        <Navbar user={user} />
+        <Navbar user={user} role={role && role.data ? role.data[0].role:""} />
         {children}
         </body>
     </html>

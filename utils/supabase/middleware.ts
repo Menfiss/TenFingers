@@ -32,12 +32,24 @@ async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  if (user) {
+    const data = await supabase.from('users').select('role').eq('id', user.id)
+    if(request.nextUrl.pathname.startsWith('/admin') && data.data && data.data[0].role !== 'admin'){
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
+  }
+  
   
   if (
-    !user &&
+    !user &&(
     request.nextUrl.pathname.startsWith('/sections') ||
-    request.nextUrl.pathname.startsWith('/exercise/*')
-
+    request.nextUrl.pathname.startsWith('/profile')||
+    request.nextUrl.pathname.startsWith('/exercise/*')||
+    request.nextUrl.pathname.startsWith('/admin')
+    )
   ) {
     // redirect user for login
     const url = request.nextUrl.clone()
