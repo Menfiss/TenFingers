@@ -37,6 +37,7 @@ const profile = async () => {
           <div className="flex justify-center items-center text-5xl">Hello <div className="text-[#47bac0] ml-2 font-bold text-center ">{user?.nickname}</div>!</div>
         </div>
 
+        <div className="flex justify-center items-center text-2xl my-6">Exercises</div>
         <div className="flex justify-center gap-8 text-center items-center text-1xl">
 
           <div className="flex justify-center flex-col text-center items-center text-1xl">
@@ -80,7 +81,8 @@ const profile = async () => {
 
       </div>
 
-      <div className="mt-16">
+    <div className="text-2xl mt-16 mb-4">Information</div>
+      <div>
         <div className="flex">Email: <div className="text-[#47bac0] ml-4">{user?.email}</div></div>
       </div>
     </div>
@@ -93,5 +95,7 @@ export default profile;
 TODO
 
 password change
+email change
+nickname change
 
 */
