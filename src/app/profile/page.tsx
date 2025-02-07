@@ -83,7 +83,9 @@ const profile = async () => {
 
     <div className="text-2xl mt-16 mb-4">Information</div>
       <div>
+        <div className="flex">Nickname: <div className="text-[#47bac0] ml-4">{user?.nickname}</div></div>
         <div className="flex">Email: <div className="text-[#47bac0] ml-4">{user?.email}</div></div>
+        <div className="flex">Password: </div>
       </div>
     </div>
   );

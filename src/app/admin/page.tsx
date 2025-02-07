@@ -1,20 +1,15 @@
-
+import ServerLink from "@/components/ServerLink/ServerLink";
 
 
 const admin = () => {
+
     return (
         <div>
-            <h1>Admin Page</h1>
+            <div>
+                <ServerLink URL="/admin/exercise_editor" text="Exercise Editor"/>
+            </div>
         </div>
     )
 }
 
 export default admin;
-
-
-/*
-TODO
-
-exercise editor
-
-*/
