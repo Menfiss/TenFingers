@@ -8,6 +8,7 @@ declare global{
             prev_exercise: string | null;
             next_exercise: string | null;
             id: string;
+            content: string;
         }[];
     }[] | undefined;
 
@@ -30,6 +31,22 @@ declare global{
         id: string;
         health: number;
     }[] | null
+
+    type ExerciseTypes = {
+        exercise_id: string;
+        backwards_id: string | null;
+        timer_id: string | null;
+        survival_id: string | null;
+        backspace_id: string | null;
+    }[] | null
+
+    type ExerciseType = {
+        exercise_id: string;
+        backwards_id: string | null;
+        timer_id: string | null;
+        survival_id: string | null;
+        backspace_id: string | null;
+    } | null
 }
 
 export {};

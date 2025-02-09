@@ -2,12 +2,29 @@
 import { createClient } from "../../utils/supabase/server";
 
 
+
+export async function ExercisesQuerryWithContent(){
+    const supabase = createClient();
+
+    const { data, error } = await supabase.from('sections').select('id, name, prev_section, next_section, exercises( prev_exercise, next_exercise, id, content)')
+
+    if(error) return;
+    return data;
+}
+
 export async function ExercisesQuerry(){
     const supabase = createClient();
 
     const { data, error } = await supabase.from('sections').select('id, name, prev_section, next_section, exercises( prev_exercise, next_exercise, id)')
 
     if(error) return;
+    return data;
+}
+
+export async function AllExerciseTypesQuerry(){
+    const supabase = createClient();
+    
+    const {data} = await supabase.from('exercise_types').select("exercise_id, backwards_id, timer_id, survival_id, backspace_id");
     return data;
 }
 

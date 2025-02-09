@@ -1,13 +1,14 @@
 "use server";
 import ExerciseEditor from "@/components/ExerciseEditor/ExerciseEditor"
-import { AllTypesQuerry, ExercisesQuerry } from "../../../../database/querries/exercises";
+import { AllExerciseTypesQuerry, AllTypesQuerry, ExercisesQuerryWithContent } from "../../../../database/querries/exercises";
 
 
 
 const exercise_editor = async () => {
     //fetch data
-    const SectionData = await ExercisesQuerry();
+    const SectionData = await ExercisesQuerryWithContent();
     const  {backspace, backwards, timer, survival} = await AllTypesQuerry();
+    const ExerciseTypes = await AllExerciseTypesQuerry();
 
     
     
@@ -36,6 +37,7 @@ const exercise_editor = async () => {
             prev_exercise: string | null;
             next_exercise: string | null;
             id: string;
+            content : string;
         }[] = [];
 
           plData[i].exercises.forEach(exercise => {
@@ -66,7 +68,7 @@ const exercise_editor = async () => {
     
     return(
         <div>
-            <ExerciseEditor data={sortedData} backspaceType={backspace} backwardsType={backwards} timerType={timer} survivalType={survival}/>
+            <ExerciseEditor data={sortedData} backspaceType={backspace} backwardsType={backwards} timerType={timer} survivalType={survival} exerciseTypes={ExerciseTypes}/>
         </div>
     )
    

@@ -253,3 +253,103 @@ export async function DeleteExerciseFunc(currentExerciseId: string | null, curre
 
     revalidatePath("/admin");
 }
+
+export async function MoveExerciseFunc(mode:string, data:Section, currentExerciseId:string, currentSectionId:string | null){
+
+    if(currentExerciseId === null || currentSectionId === null || data === undefined) return;
+
+    const supabase = createClient();
+
+    const sectionIndex = data.findIndex(section => section.id === currentSectionId);
+
+    if(mode === "up" && currentExerciseId !== data[sectionIndex].exercises[0].id){
+        console.log("up");
+
+        if(currentExerciseId === data[sectionIndex].exercises[1].id){
+            await supabase.from("exercises").update({prev_exercise: null, next_exercise: data[sectionIndex].exercises[0].id}).eq("id",currentExerciseId);
+            await supabase.from("exercises").update({prev_exercise: currentExerciseId, next_exercise: data[sectionIndex].exercises.length >= 3 ? data[sectionIndex].exercises[2].id:null}).eq("id",data[sectionIndex].exercises[0].id);
+            data[sectionIndex].exercises.length >= 3 ? await supabase.from("exercises").update({prev_exercise: data[sectionIndex].exercises[0].id}).eq("id",data[sectionIndex].exercises[2].id):null;
+        }
+        else if(currentExerciseId === data[sectionIndex].exercises[data[sectionIndex].exercises.length-1].id){
+            await supabase.from("exercises").update({next_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.length-2].id, prev_exercise: data[sectionIndex].exercises.length >= 3 ? data[sectionIndex].exercises[data[sectionIndex].exercises.length-3].id:null}).eq("id",currentExerciseId);
+            await supabase.from("exercises").update({next_exercise: null, prev_exercise: currentExerciseId}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.length-2].id);
+            data[sectionIndex].exercises.length >= 3 ? await supabase.from("exercises").update({next_exercise: currentExerciseId}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.length-3].id):null;
+        }
+        else{
+            await supabase.from("exercises").update({next_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-1].id, prev_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-2].id}).eq("id",currentExerciseId);
+            await supabase.from("exercises").update({prev_exercise: currentExerciseId, next_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+1].id}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-1].id);
+            await supabase.from("exercises").update({next_exercise: currentExerciseId}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-2].id);
+            await supabase.from("exercises").update({prev_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-1].id}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+1].id);
+        }
+        revalidatePath("/admin");
+
+    }
+    else if(mode === "down" && currentExerciseId !== data[sectionIndex].exercises[data[sectionIndex].exercises.length-1].id){
+        console.log("down");
+
+        if(currentExerciseId === data[sectionIndex].exercises[data[sectionIndex].exercises.length-2].id){
+            await supabase.from("exercises").update({next_exercise: null, prev_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.length-1].id}).eq("id",currentExerciseId);
+            await supabase.from("exercises").update({next_exercise: currentExerciseId, prev_exercise: data[sectionIndex].exercises.length >= 3 ? data[sectionIndex].exercises[data[sectionIndex].exercises.length-3].id:null}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.length-1].id);
+            data[sectionIndex].exercises.length >= 3 ? await supabase.from("exercises").update({next_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.length-1].id}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.length-3].id):null;
+        }
+        else if(currentExerciseId === data[sectionIndex].exercises[0].id){
+            await supabase.from("exercises").update({prev_exercise: data[sectionIndex].exercises[1].id, next_exercise: data[sectionIndex].exercises.length >= 3 ? data[sectionIndex].exercises[2].id:null}).eq("id",currentExerciseId);
+            await supabase.from("exercises").update({prev_exercise: null, next_exercise: currentExerciseId}).eq("id",data[sectionIndex].exercises[1].id);
+            data[sectionIndex].exercises.length >= 3 ? await supabase.from("exercises").update({prev_exercise: currentExerciseId}).eq("id",data[sectionIndex].exercises[2].id):null;
+        }
+        else{
+            await supabase.from("exercises").update({prev_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+1].id, next_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+2].id}).eq("id",currentExerciseId);
+            await supabase.from("exercises").update({next_exercise: currentExerciseId, prev_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-1].id}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+1].id);
+            await supabase.from("exercises").update({prev_exercise: currentExerciseId}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+2].id);
+            await supabase.from("exercises").update({next_exercise: data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)+1].id}).eq("id",data[sectionIndex].exercises[data[sectionIndex].exercises.findIndex(exercise => exercise.id === currentExerciseId)-1].id);
+        }
+        revalidatePath("/admin");
+    }
+
+}
+
+export async function EditExerciseFunc(formData: FormData, currentExerciseId: string | null, oldExerciseType: ExerciseType | undefined){
+    if(currentExerciseId === null) return;
+
+    const exerciseContent = formData.get("content")?.toString();
+    if(exerciseContent === "" || exerciseContent === undefined) return;
+
+    const backspace = formData.get("backspace")?.toString();
+    const backwards = formData.get("backwards")?.toString();
+    let time = formData.get("time")?.toString();
+    const health = formData.get("health")?.toString();
+
+    let generateType = true;
+
+
+    const supabase = createClient();
+
+    if(backspace === "" && backwards === "" && time === "" && health === "") generateType = false;
+    if(backspace === "" && backwards === "" && time === "" && health === "" && oldExerciseType !== null || oldExerciseType !== undefined){
+        await supabase.from("exercise_types").delete().eq("exercise_id",currentExerciseId);
+    };
+
+    await supabase.from("exercises").update({content: exerciseContent}).eq("id",currentExerciseId);
+
+    if(generateType && (oldExerciseType === null || oldExerciseType === undefined)){
+        let backspace_id = backspace === "" || backspace === undefined ? null : backspace;
+        let backwards_id = backwards === "" || backwards === undefined ? null : backwards;
+        let time_id = time === "" || time === undefined ? null : time;
+        let health_id = health === "" || health === undefined ? null : health;
+
+        const {error} = await supabase.from("exercise_types").insert({exercise_id: currentExerciseId, backspace_id: backspace_id, backwards_id: backwards_id, timer_id: time_id, survival_id: health_id});
+
+    }
+    else if(generateType && (oldExerciseType !== null || oldExerciseType !== undefined)){
+        let backspace_id = backspace === "" || backspace === undefined ? null : backspace;
+        let backwards_id = backwards === "" || backwards === undefined ? null : backwards;
+        let time_id = time === "" || time === undefined ? null : time;
+        let health_id = health === "" || health === undefined ? null : health;
+
+        const {error} = await supabase.from("exercise_types").update({backspace_id: backspace_id, backwards_id: backwards_id, timer_id: time_id, survival_id: health_id}).eq("exercise_id",currentExerciseId);
+    }
+
+    
+
+    revalidatePath("/admin");
+}
