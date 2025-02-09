@@ -10,6 +10,26 @@ declare global{
             id: string;
         }[];
     }[] | undefined;
+
+    type backspaceType = {
+        id: string;
+        backspace: boolean;
+    }[] | null
+
+    type backwardsType = {
+        id: string;
+        backwards: boolean;
+    }[] | null
+
+    type timerType = {
+        id: string;
+        time_sec: number;
+    }[] | null
+
+    type survivalType = {
+        id: string;
+        health: number;
+    }[] | null
 }
 
 export {};

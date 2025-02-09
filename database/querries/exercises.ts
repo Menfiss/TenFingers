@@ -11,6 +11,18 @@ export async function ExercisesQuerry(){
     return data;
 }
 
+export async function AllTypesQuerry(){
+    const supabase = createClient();
+
+    let backspace = (await supabase.from('backspace_type_exe').select("id,backspace")).data;
+    let backwards = (await supabase.from('backwards_type_exe').select("id,backwards")).data;
+    let timer = (await supabase.from('timer_type_exe').select("id,time_sec")).data;
+    let survival = (await supabase.from('survival_type_exe').select("id,health")).data;
+
+    return {backspace, backwards, timer, survival};
+    
+}
+
 export async function ExerciseTypeQuerry(id:string){
     const supabase = createClient();
     const { data, error } = await supabase.from('exercise_types').select("backwards_type_exe(backwards), timer_type_exe(time_sec), survival_type_exe(health), backspace_type_exe(backspace)").eq("exercise_id",id);

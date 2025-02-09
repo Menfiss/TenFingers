@@ -20,7 +20,7 @@ const AddSection = (props:props) => {
             {showForm && <form action="#" method="post">
                 <input className="text-black" type="text" placeholder="Section Name" id="sectionName" name="sectionName"/>
                 <button onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" formAction={(e) => AddSectionFunc(e,props.data, props.currentSectionId, props.mode)}>Submit</button>
+                <button type="submit" formAction={(e) => {AddSectionFunc(e,props.data, props.currentSectionId, props.mode); setShowForm(false)}}>Submit</button>
             </form>}
         </div>
     )

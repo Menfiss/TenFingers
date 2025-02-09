@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import AddSection from "./components/AddSection";
-import { DeleteSectionFunc, MoveSectionFunc } from "../../../server-actions/admin-actions/actions";
+import { DeleteExerciseFunc, DeleteSectionFunc, MoveSectionFunc } from "../../../server-actions/admin-actions/actions";
 import EditSection from "./components/EditSection";
+import AddExercise from "./components/AddExercise";
 
 interface props{
     data: Section;
+    backspaceType : backspaceType;
+    backwardsType : backwardsType;
+    timerType : timerType;
+    survivalType : survivalType;
 }
 
 
@@ -72,18 +77,18 @@ const ExerciseEditor = (props:props) => {
                         <button onClick={() => MoveSectionFunc("up",currentSectionId,props.data)}>Move Up</button>
                         <button onClick={() => MoveSectionFunc("down",currentSectionId,props.data)}>Move Down</button>
                         <EditSection SectionName={props.data?.find(section => section.id === currentSectionId)?.name} currentSectionId={currentSectionId} />
-                        <button onClick={() => DeleteSectionFunc(currentSectionId,props.data)}>Delete Section</button>
-                        <button>Add Exercise</button>
+                        <button onClick={() => {DeleteSectionFunc(currentSectionId,props.data);setCurrentSectionId(null);setCurrentExerciseId(null)}}>Delete Section</button>
+                        <AddExercise btnText="Add Exercise" mode={null} currentExerciseId={currentExerciseId} currentSectionId={currentSectionId} backspaceType={props.backspaceType} backwardsType={props.backwardsType} timerType={props.timerType} survivalType={props.survivalType} data={props.data}></AddExercise>
                     </div>}</div>
                 <div>
                     {currentExerciseId !== null && 
                     <div>
-                        <button>Add Up</button>
-                        <button>Add Down</button>
+                        <AddExercise btnText="Add Up" mode={"up"} currentExerciseId={currentExerciseId} currentSectionId={currentSectionId} backspaceType={props.backspaceType} backwardsType={props.backwardsType} timerType={props.timerType} survivalType={props.survivalType} data={props.data} />
+                        <AddExercise btnText="Add Down" mode={"down"} currentExerciseId={currentExerciseId} currentSectionId={currentSectionId} backspaceType={props.backspaceType} backwardsType={props.backwardsType} timerType={props.timerType} survivalType={props.survivalType} data={props.data} />
                         <button>Move Up</button>
                         <button>Move Down</button>
                         <button>Edit Exercise</button>
-                        <button>Delete Exercise</button>
+                        <button onClick={() => {DeleteExerciseFunc(currentExerciseId,currentSectionId,props.data); setCurrentExerciseId(null)}}>Delete Exercise</button>
                     </div>
                     }</div> 
             </div>
