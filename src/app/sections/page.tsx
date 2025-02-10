@@ -83,7 +83,7 @@ export default async function Sections() {
                     subArray.push(getuserExercisesSubArray(data[section_index].id));
                     return(
                         <div key={index}>
-                            <ExerciseSection section={data[section_index]} userExercises={subArray[index]} firstExerciseUnlocked={section_index === 0 ? true : checkIfLastExerciseCompleted(orderedSections[index-1],subArray[index-1])}></ExerciseSection>
+                            <ExerciseSection section={data[section_index]} userExercises={subArray[index]} firstExerciseUnlocked={index === 0 ? true : checkIfLastExerciseCompleted(orderedSections[index-1],subArray[index-1])}></ExerciseSection>
                         </div>
                     );
                 })}

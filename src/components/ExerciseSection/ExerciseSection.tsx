@@ -88,9 +88,9 @@ const ExerciseSection = (props:props) => {
     
     return (
         <div>
-            <button onClick={() => setLoadExercises(!loadExercises)} className="w-full mb-4 mt-16">
+            <button onClick={() => setLoadExercises(!loadExercises)} className="w-full mb-4 mt-4">
                 <div className="flex  justify-between border-slate-600 border-[1px] px-6 py-3 rounded-2xl hover:bg-slate-600 transition duration-300 ease-in-out">
-                    <div className="flex gap-8">
+                    <div className="flex">
                         <h2 className="text-xl">{props.section.name}</h2>
                         <div className="flex">
                             <h2 className="text-xl leading-8 ml-4">{" " + calculateStars() + "/"+ props.section.exercises.length}</h2>

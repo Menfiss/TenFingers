@@ -17,11 +17,14 @@ const AddSection = (props:props) => {
     return(
         <div>
             {!showForm && <button onClick={() => setShowForm(true)}>{props.btnText}</button>}
-            {showForm && <form action="#" method="post">
+            {showForm && 
+            
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-700 w-2/3 h-2/3 rounded-xl">
+            <form action="#" method="post">
                 <input className="text-black" type="text" placeholder="Section Name" id="sectionName" name="sectionName"/>
                 <button onClick={() => setShowForm(false)}>Cancel</button>
                 <button type="submit" formAction={(e) => {AddSectionFunc(e,props.data, props.currentSectionId, props.mode); setShowForm(false)}}>Submit</button>
-            </form>}
+            </form></div>}
         </div>
     )
 }
