@@ -20,8 +20,6 @@ interface props{
 const AddExercise = (props:props) => {
     const [showForm, setShowForm] = useState<boolean>(false);
 
-    
-
     return (
         <div>
 
@@ -31,13 +29,11 @@ const AddExercise = (props:props) => {
             
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-700 w-2/3 h-2/3 rounded-xl">
                 <form action="#" method="post">
-                    <div>
-                        <div>
-                            <textarea className="text-black w-1/2" placeholder="Content" id="content" name="content"/>
-                        </div>
+                    <div className="flex gap-4 pt-4 px-4 pb-2">
+                        <textarea className="text-black w-1/2 p-2" placeholder="Content" id="content" name="content"/>
                         <div>
                             <div>
-                                <label htmlFor="backspace">Backspace</label>
+                                <label className="p-2" htmlFor="backspace">Backspace</label>
                                 <select className="text-black" id="backspace" name="backspace" defaultValue="">
                                     <option value="">True</option>
                                     <option value={props.backspaceType ? props.backspaceType[0].id:""}>False</option>
@@ -45,7 +41,7 @@ const AddExercise = (props:props) => {
                             </div>
 
                             <div>
-                                <label htmlFor="backwards">Backwards</label>
+                                <label className="p-2" htmlFor="backwards">Backwards</label>
                                 <select className="text-black" id="backwards" name="backwards" defaultValue="">
                                     <option value={props.backwardsType ? props.backwardsType[0].id:""}>True</option>
                                     <option value="">False</option>
@@ -53,7 +49,7 @@ const AddExercise = (props:props) => {
                             </div>
 
                             <div>
-                                <label htmlFor="time">Time</label>
+                                <label className="p-2" htmlFor="time">Time</label>
                                 <select className="text-black" id="time" name="time" defaultValue="">
                                     <option value="">off</option>
                                     {props.timerType?.map((timer,index) => {
@@ -64,7 +60,7 @@ const AddExercise = (props:props) => {
                             </div>
 
                             <div>
-                                <label htmlFor="health">Health</label>
+                                <label className="p-2" htmlFor="health">Health</label>
                                 <select className="text-black" id="health" name="health" defaultValue="">
                                     <option value="">off</option>
                                     {props.survivalType?.map((survival, index) => {
@@ -75,11 +71,15 @@ const AddExercise = (props:props) => {
                             </div>
                         </div>
                     </div>
-                    <button onClick={() => setShowForm(false)}>Cancel</button>
-                    <button type="submit" formAction={(e) => {AddExerciseFunc(e,props.currentSectionId,props.mode,props.currentExerciseId, props.data); setShowForm(false)}}>Submit</button>
+                    <div className="flex gap-8 ml-8">
+                        <button onClick={() => setShowForm(false)}>Cancel</button>
+                        <button type="submit" formAction={(e) => {AddExerciseFunc(e,props.currentSectionId,props.mode,props.currentExerciseId, props.data); setShowForm(false)}}>Submit</button>
+                    </div>
                 </form>
-                <AddType plholder="Health" typeName="survival" btnName="Add Health Type"/>
-                <AddType plholder="Time in seconds" typeName="timer" btnName="Add Timer Type"/>
+                <div className="mt-10 ml-4 flex flex-col gap-2">
+                    <AddType plholder="Health" typeName="survival" btnName="Add Health Type"/>
+                    <AddType plholder="Time in seconds" typeName="timer" btnName="Add Timer Type"/>
+                </div>
             </div>
             
             }

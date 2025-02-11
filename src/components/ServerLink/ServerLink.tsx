@@ -10,6 +10,8 @@ interface props{
 export default function ServerLink(props: props){
 
     return (
-        <Link href={props.URL}>{props.text}</Link>
+        <div>
+            <Link href={props.URL}>{props.text}</Link>
+        </div>
     )
 }

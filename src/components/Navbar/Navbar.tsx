@@ -67,11 +67,11 @@ const Navbar = (props:props) => {
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex shrink-0 items-center">
                 <a href="/">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
-                  alt="Your Logo"
-                />
+                <svg className="w-12 h-12" data-name="Vrstva 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.744 194.887"> 
+                  <polygon className="fill-none" points="193.744 49.925 186.901 43.082 117.556 43.082 117.556 100.525 165.359 100.525 154.252 89.417 193.744 49.925"/>
+                  <polygon className="fill-[#6dffe7]" points="183.31 118.476 165.359 100.525 117.556 100.525 117.556 43.082 186.901 43.082 165.359 21.541 149.867 21.541 128.326 21.541 117.556 21.541 96.014 21.541 96.014 43.082 96.014 173.346 117.556 194.887 117.556 118.476 183.31 118.476"/>
+                  <polygon className="fill-[#47bac0]" points="96.014 43.082 96.014 21.541 117.556 21.541 128.326 21.541 149.867 21.541 165.359 21.541 143.818 0 128.326 0 24.211 0 20.621 0 0 0 21.541 21.541 24.211 21.541 74.473 21.541 74.473 151.805 96.014 173.346 96.014 43.082"/>
+                </svg>
                 </a>
               </div>
               <div className="hidden md:ml-6 md:block">

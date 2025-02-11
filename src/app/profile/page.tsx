@@ -85,19 +85,10 @@ const profile = async () => {
       <div>
         <div className="flex">Nickname: <div className="text-[#47bac0] ml-4">{user?.nickname}</div></div>
         <div className="flex">Email: <div className="text-[#47bac0] ml-4">{user?.email}</div></div>
-        <div className="flex">Password: </div>
       </div>
     </div>
+    
   );
 }
 
 export default profile;
-
-/*
-TODO
-
-password change
-email change
-nickname change
-
-*/

@@ -83,10 +83,10 @@ const ExerciseEditor = (props:props) => {
         else{
             return(
                 <div>
-                    <div>{exercise.backspace_id !== null ? "Backspace: OFF":"Backspace: ON"}</div>
-                    <div>{exercise.backwards_id !== null ? "Backwards: ON":"Backwards: OFF"}</div>
-                    <div>{exercise.timer_id !== null ? "Time(s): " + props.timerType?.find((type) => type.id === exercise.timer_id)?.time_sec.toString() : "Timer: OFF"}</div>
-                    <div>{exercise.survival_id !== null ? "Health: " + props.survivalType?.find((type) => type.id === exercise.survival_id)?.health.toString():"Survival: OFF"}</div>
+                    <div>{exercise.backspace_id !== null ? "Backspace: OFF":null}</div>
+                    <div>{exercise.backwards_id !== null ? "Backwards: ON":null}</div>
+                    <div>{exercise.timer_id !== null ? "Time(s): " + props.timerType?.find((type) => type.id === exercise.timer_id)?.time_sec.toString() : null}</div>
+                    <div>{exercise.survival_id !== null ? "Health: " + props.survivalType?.find((type) => type.id === exercise.survival_id)?.health.toString():null}</div>
                 </div>
             )
         }
