@@ -63,7 +63,7 @@ const ExcersiseWrapper = (props:props) => {
         setUnfinishedWords(unfinishedWords);
         setTotalMistakes(totalMistakes);
         
-        if (unfinishedWords !== 0) return;
+        if (unfinishedWords !== 0 || accuracy < 80) return;
 
         props.userExercise ? updateUserExercise(props.userExercise, finishTime, startTime, correctWordsCt, accuracy):insertUserExercise(props.exerciseID, finishTime, startTime, correctWordsCt, accuracy);
     }
