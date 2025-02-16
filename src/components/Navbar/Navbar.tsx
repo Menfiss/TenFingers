@@ -18,7 +18,7 @@ const Navbar = (props:props) => {
       <nav className="bg-[#171725]">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-[4.5rem] items-center justify-between">
-            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
               <button
                 type="button"
                 className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -64,7 +64,7 @@ const Navbar = (props:props) => {
                 </svg>
               </button>
             </div>
-            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
               <div className="flex shrink-0 items-center">
                 <a href="/">
                 <svg className="w-12 h-12" data-name="Vrstva 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.744 194.887"> 
@@ -112,7 +112,7 @@ const Navbar = (props:props) => {
 
               <div className="relative ml-3">
                 {props.user ? 
-                <div className="flex">
+                <div className="flex items-center">
                   <div className="hidden md:ml-6 md:block">
                   <a href="/profile" ><div className="px-4 mb-1 py-2 uppercase font-mono font-semibold text-black rounded-xl shadow-[0px_8px_0px_0px_rgba(190,190,190,1),0px_7px_0px_3px_#6dffe7] bg-white duration-300 hover:translate-y-1 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3px_0px_3px_#6dffe7] cursor-pointer">Profile</div></a>
                   </div>
