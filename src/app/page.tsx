@@ -12,9 +12,9 @@ export default function Home() {
         </div>
         <div className="flex flex-row">
           
-            <Link href="/minigames"><div className="md:text-lg mx-6 px-12 py-6 uppercase font-mono font-semibold text-sm text-black rounded-2xl shadow-[0px_12px_0px_0px_rgba(190,190,190,1),0px_11.5px_0px_3.5px_#6dffe7] bg-white duration-300 hover:translate-y-2 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3.5px_0px_3.5px_#6dffe7] cursor-pointer">Minigames</div></Link>
+            <Link href="/minigames"><div className="md:text-lg md:px-12 md:py-6 mx-6 px-6 py-3 uppercase font-mono font-semibold text-sm text-black rounded-2xl shadow-[0px_12px_0px_0px_rgba(190,190,190,1),0px_11.5px_0px_3.5px_#6dffe7] bg-white duration-300 hover:translate-y-2 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3.5px_0px_3.5px_#6dffe7] cursor-pointer">Minigames</div></Link>
                    
-            <Link href="/sections"><div className="md:text-lg mx-6 px-12 py-6 uppercase font-mono font-semibold text-sm text-black rounded-2xl shadow-[0px_12px_0px_0px_rgba(190,190,190,1),0px_11.5px_0px_3.5px_#6dffe7] bg-white duration-300 hover:translate-y-2 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3.5px_0px_3.5px_#6dffe7] cursor-pointer">Exercises</div></Link>
+            <Link href="/sections"><div className="md:text-lg md:px-12 md:py-6 mx-6 px-6 py-3 uppercase font-mono font-semibold text-sm text-black rounded-2xl shadow-[0px_12px_0px_0px_rgba(190,190,190,1),0px_11.5px_0px_3.5px_#6dffe7] bg-white duration-300 hover:translate-y-2 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3.5px_0px_3.5px_#6dffe7] cursor-pointer">Exercises</div></Link>
           
         </div>
       </div>
