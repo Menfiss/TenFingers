@@ -6,11 +6,11 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="flex justify-center items-center flex-col h-[calc(100vh-4.5rem)] font-mono">
-        <div className="text-7xl mb-6 text-[#47bac0] text-center">Type with ten fingers</div>
-        <div className="text-3xl mb-24 text-[#47bac0] text-center">
+        <div className="md:text-7xl text-4xl mb-6 text-[#47bac0] text-center">Type with ten fingers</div>
+        <div className="md:text-3xl text-base mb-24 text-[#47bac0] text-center">
           Type faster, more consistently and improve your workflow 🚀
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row mb-12">
           
             <Link href="/minigames"><div className="md:text-lg md:px-12 md:py-6 mx-6 px-6 py-3 uppercase font-mono font-semibold text-sm text-black rounded-2xl shadow-[0px_12px_0px_0px_rgba(190,190,190,1),0px_11.5px_0px_3.5px_#6dffe7] bg-white duration-300 hover:translate-y-2 hover:shadow-[0px_4px_0px_0px_rgba(190,190,190,1),0px_3.5px_0px_3.5px_#6dffe7] cursor-pointer">Minigames</div></Link>
                    
