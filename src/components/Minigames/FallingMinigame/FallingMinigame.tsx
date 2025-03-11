@@ -97,7 +97,7 @@ const FallingMinigame = (props:props) => {
     // spawns a new tile every spawnRate ms
     const spawnInterval = () => {
       let rand = Math.floor(Math.random() * 8) + 1;
-      let randChar = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+      let randChar = String.fromCharCode(Math.floor(Math.random() * 26) + 97).toUpperCase();
 
       setTiles(prevTiles => {
           const newTiles = [...prevTiles];
@@ -165,7 +165,7 @@ const FallingMinigame = (props:props) => {
     const handleKeyDown = (event: KeyboardEvent) => {
       let found = false;
         tilesRef.current.forEach((tile, index) => {
-          if (tile.char === event.key && found === false) {
+          if (tile.char === event.key.toUpperCase() && found === false) {
             found = true;
             handleScore(tile.pos);
             setTiles(prevTiles => {
