@@ -21,7 +21,7 @@ const FallingMinigame = (props:props) => {
     const [tiles, setTiles] = useState<ITile[]>([]);
     const tilesRef = useRef(tiles);
     const [speed, setSpeed] = useState<number>(10 * props.difficulty);
-    const [speedIncrease, setSpeedIncrease] = useState<number>(10000); //time after which the speed increases
+    const [speedIncrease, setSpeedIncrease] = useState<number>(2000); //time after which the speed increases
     const [spawnRate, setSpawnRate] = useState<number>(1000);
     const [gameEnded, setGameEnded] = useState<boolean>(false);
     const [score, setScore] = useState<number>(0);
@@ -76,7 +76,6 @@ const FallingMinigame = (props:props) => {
                 tile.pos += (speed * deltaTime);
                 if (tile.pos >= 100) {
                     newTiles.splice(index, 1);
-                    console.log(tile.char);
                     setGameEnded(true);
                 }
             });
@@ -89,7 +88,7 @@ const FallingMinigame = (props:props) => {
         return () => cancelAnimationFrame(requestRef.current!);
       }, [speed]);
 
-    //increases the speed every 10 seconds
+    //increases the speed
     const speedInterval =() => {
       setSpeed((prevSpeed) => prevSpeed + 0.1);
     }; 
@@ -101,7 +100,7 @@ const FallingMinigame = (props:props) => {
 
       setTiles(prevTiles => {
           const newTiles = [...prevTiles];
-          newTiles.push({char: randChar, coll: getCollNum(randChar), pos: -10});
+          newTiles.push({char: randChar, coll: getCollNum(randChar.toLowerCase()), pos: -10});
           return newTiles;
       });
     }

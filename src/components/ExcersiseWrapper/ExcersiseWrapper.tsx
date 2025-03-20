@@ -3,7 +3,6 @@
 import { useState} from "react";
 import { Tables } from "@/types/supabase";
 import TypingText from "../Minigames/TypingText/TypingText";
-import ConsistencyCalculator from "../ConsistencyCalculator/ConsistencyCalculator";
 import { GetUserExercise } from "../../../database/querries/exercises";
 import { updateUserExercise, insertUserExercise } from "../../../server-actions/exercise-actions/actions";
 import TypingTextStats from "../TypingTextStats/TypingTextStats";

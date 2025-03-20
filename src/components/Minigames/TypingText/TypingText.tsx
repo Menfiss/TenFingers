@@ -15,7 +15,6 @@ interface props{
     onStart?: () => void
 }
 
-//Sphegetti code READ AT YOUR OWN RISK !!!!!!!!! I dont take responsibility for any mental or physical damage caused by this code.
 
 const TypingText = (props:props) => {
     const [letterClasses, setLetterClasses] = useState<string[]>(Array(props.text.length).fill('undiscovered')); //array of classes for each letter
