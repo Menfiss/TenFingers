@@ -59,16 +59,14 @@ const EditExercise = (props:props) => {
                 text += word + " ";
             }
     
-            console.log(possibleWords);
             return text.trimEnd();
         }
-    
-
+        
         let exerciseType : ExerciseType|undefined = props.exerciseTypes ? props.exerciseTypes.find((exercise) => exercise.exercise_id === props.currentExerciseId):null;
     
     return (
         <div>
-            {!showForm && <button onClick={() => setShowForm(true)}>Edit Exercise</button>}
+            {!showForm && <button onClick={() => {setShowForm(true);setText(props.data ? props.data[props.data?.findIndex((x) => x.id === props.currentSectionId)].exercises[props.data[props.data.findIndex((x) => x.id === props.currentSectionId)].exercises.findIndex((x) => x.id === props.currentExerciseId)].content:"");}}>Edit Exercise</button>}
                 
             {showForm &&
             
@@ -118,7 +116,7 @@ const EditExercise = (props:props) => {
                         </div>
                     </div>
                     <div className="flex gap-8 ml-8">
-                        <button onClick={() => setShowForm(false)}>Cancel</button>
+                        <button onClick={() => {setShowForm(false);}}>Cancel</button>
                         <button type="submit" formAction={(e) => {EditExerciseFunc(e,props.currentExerciseId, exerciseType); setShowForm(false)}}>Submit</button>
                     </div>
                 </form>
